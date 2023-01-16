@@ -8,21 +8,27 @@ import pymysql
 
 class DatabaseCall(demo_pb2_grpc.DatabaseCallServicer):
     def DBCall(self, request, context):
-        conn = pymysql.connect(host='153.91.111.212',
-                               user="api",
-                               password="",
-                               database='morboord',
-                               cursorclass=pymysql.cursors.DictCursor)
-        print('hit')
-        with conn.cursor() as db:
-            sql = "SELECT last_name FROM student WHERE first_name = '%s'" % request.firstname
-            db.execute(sql)
-            lastname = db.fetchall()[0]["last_name"]
-            return demo_pb2.DatabaseReply(lastname='The last name is %s' % lastname)
+        try:
+            conn = pymysql.connect(host='153.91.111.212',
+                                   user="api",
+                                   password="",
+                                   database='morboord',
+                                   cursorclass=pymysql.cursors.DictCursor)
+            print('hit')
+            with conn.cursor() as db:
+                sql = "SELECT last_name FROM student WHERE first_name = '%s'" % request.firstname
+                db.execute(sql)
+                lastname = db.fetchall()[0]["last_name"]
+                var = demo_pb2.DatabaseReply(lastname='The last name is %s' % lastname)
+                print(var)
+                return var
+        except Exception as error:
+            return str(error)
 
     def InfoFromID(self, request, context):
-        conn = pymysql.connect(host='153.91.111.212',
+        conn = pymysql.connect(host='69.247.163.204',
                                user="api",
+                               port=3306,
                                password="",
                                database='morboord',
                                cursorclass=pymysql.cursors.DictCursor)
