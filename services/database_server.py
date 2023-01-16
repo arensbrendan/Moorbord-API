@@ -1,20 +1,21 @@
 import grpc
-import grpc_tools
-import demo_pb2_grpc
-import demo_pb2
+from proto_files import demo_pb2_grpc
+from proto_files import demo_pb2
 from concurrent import futures
 import pymysql
+from dotenv import load_dotenv
+import os
+from working_files.decorators import database_connect, block, hit
+
+load_dotenv()
 
 
 class DatabaseCall(demo_pb2_grpc.DatabaseCallServicer):
-    def DBCall(self, request, context):
+    @database_connect
+    @block
+    @hit
+    def DBCall(self, conn, request, context):
         try:
-            conn = pymysql.connect(host='153.91.111.212',
-                                   user="api",
-                                   password="",
-                                   database='morboord',
-                                   cursorclass=pymysql.cursors.DictCursor)
-            print('hit')
             with conn.cursor() as db:
                 sql = "SELECT last_name FROM student WHERE first_name = '%s'" % request.firstname
                 db.execute(sql)
@@ -25,14 +26,10 @@ class DatabaseCall(demo_pb2_grpc.DatabaseCallServicer):
         except Exception as error:
             return str(error)
 
-    def InfoFromID(self, request, context):
-        conn = pymysql.connect(host='69.247.163.204',
-                               user="api",
-                               port=3306,
-                               password="",
-                               database='morboord',
-                               cursorclass=pymysql.cursors.DictCursor)
-        print('hit')
+    @database_connect
+    @block
+    @hit
+    def InfoFromID(self, conn, request, context):
         print(request)
         with conn.cursor() as db:
             sql = "SELECT * FROM student where student_id = %s" % request.id
@@ -44,14 +41,10 @@ class DatabaseCall(demo_pb2_grpc.DatabaseCallServicer):
 
 
 def serve():
-    port = '4'
+    port = '1'
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     demo_pb2_grpc.add_DatabaseCallServicer_to_server(DatabaseCall(), server)
-    server.add_insecure_port('192.168.56.1:' + port)
+    server.add_insecure_port(os.getenv("IP") + ':' + port)
     server.start()
     print("Server started, listening on " + port)
     server.wait_for_termination()
-
-
-if __name__ == '__main__':
-    serve()
