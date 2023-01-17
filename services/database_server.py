@@ -13,7 +13,7 @@ load_dotenv()
 class DatabaseCall(demo_pb2_grpc.DatabaseCallServicer):
     @database_connect
     @block
-    @hit
+    @hit(__file__)
     def DBCall(self, conn, request, context):
         try:
             with conn.cursor() as db:
@@ -28,7 +28,7 @@ class DatabaseCall(demo_pb2_grpc.DatabaseCallServicer):
 
     @database_connect
     @block
-    @hit
+    @hit(__file__)
     def InfoFromID(self, conn, request, context):
         print(request)
         with conn.cursor() as db:

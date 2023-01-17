@@ -9,7 +9,6 @@ app = Flask(__name__)
 
 @app.route("/dbcall", methods=["POST"])
 @cross_origin(origins='*')
-@hit
 def db():
     data = request.get_json()
     name = data['firstname']
@@ -19,7 +18,6 @@ def db():
 
 @app.route("/info", methods=["POST"])
 @cross_origin()
-@hit
 def info():
     data = request.get_json()
     the_id = data['id']
@@ -29,7 +27,6 @@ def info():
 
 @app.route("/check", methods=["GET"])
 @cross_origin()
-@hit
 def check():
     return "check successful"
 

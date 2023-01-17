@@ -29,7 +29,6 @@ def database_connect(func):
 
 def block(func):
     def handler(*args, **kwargs):
-        print("Hit catch block")
         try:
             return func(*args, **kwargs)
         except Exception as error:
@@ -38,11 +37,13 @@ def block(func):
     return handler
 
 
-def hit(func):
-    def handler(*args, **kwargs):
-        print(f"Hit {func.__name__}")
-        to_ret = func(*args, **kwargs)
-        if to_ret is not None:
-            return to_ret
-    return handler
+def hit(file):
+    def upper(func):
+        def handler(*args, **kwargs):
+            print(f"Hit {func.__name__} from file {file}")
+            to_ret = func(*args, **kwargs)
+            if to_ret is not None:
+                return to_ret
 
+        return handler
+    return upper
