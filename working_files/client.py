@@ -4,10 +4,12 @@ from proto_files import demo_pb2
 from proto_files import demo_pb2_grpc
 from dotenv import load_dotenv
 import os
+from decorators import hit
 
 load_dotenv()
 
 
+@hit(__file__)
 def db_call(the_name):
     try:
         print("Will try to call ...")
@@ -19,6 +21,7 @@ def db_call(the_name):
         return str(e)
 
 
+@hit(__file__)
 def info_from_name(the_id):
     print("Will try to call ...")
     with grpc.insecure_channel(os.getenv("IP") + ':1') as channel:
