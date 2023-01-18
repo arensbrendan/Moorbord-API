@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\ndemo.proto\"$\n\x0f\x44\x61tabaseRequest\x12\x11\n\tfirstname\x18\x01 \x01(\t\"!\n\rDatabaseReply\x12\x10\n\x08lastname\x18\x01 \x01(\t\"\x19\n\x0bInfoRequest\x12\n\n\x02id\x18\x01 \x01(\x05\"\x19\n\tInfoReply\x12\x0c\n\x04name\x18\x01 \x01(\t2f\n\x0c\x44\x61tabaseCall\x12,\n\x06\x44\x42\x43\x61ll\x12\x10.DatabaseRequest\x1a\x0e.DatabaseReply\"\x00\x12(\n\nInfoFromID\x12\x0c.InfoRequest\x1a\n.InfoReply\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\ndemo.proto\"$\n\x0f\x44\x61tabaseRequest\x12\x11\n\tfirstname\x18\x01 \x01(\t\"!\n\rDatabaseReply\x12\x10\n\x08lastname\x18\x01 \x01(\t\"\x19\n\x0bInfoRequest\x12\n\n\x02id\x18\x01 \x01(\x05\"\x19\n\tInfoReply\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x1b\n\x0bTestRequest\x12\x0c\n\x04word\x18\x01 \x01(\t\"\x1a\n\tTestReply\x12\r\n\x05reply\x18\x01 \x01(\t2f\n\x0c\x44\x61tabaseCall\x12,\n\x06\x44\x42\x43\x61ll\x12\x10.DatabaseRequest\x1a\x0e.DatabaseReply\"\x00\x12(\n\nInfoFromID\x12\x0c.InfoRequest\x1a\n.InfoReply\"\x00\x32*\n\x04Test\x12\"\n\x04Test\x12\x0c.TestRequest\x1a\n.TestReply\"\x00\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'demo_pb2', globals())
@@ -28,6 +28,12 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _INFOREQUEST._serialized_end=112
   _INFOREPLY._serialized_start=114
   _INFOREPLY._serialized_end=139
-  _DATABASECALL._serialized_start=141
-  _DATABASECALL._serialized_end=243
+  _TESTREQUEST._serialized_start=141
+  _TESTREQUEST._serialized_end=168
+  _TESTREPLY._serialized_start=170
+  _TESTREPLY._serialized_end=196
+  _DATABASECALL._serialized_start=198
+  _DATABASECALL._serialized_end=300
+  _TEST._serialized_start=302
+  _TEST._serialized_end=344
 # @@protoc_insertion_point(module_scope)
