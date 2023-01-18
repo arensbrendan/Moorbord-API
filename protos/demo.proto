@@ -20,3 +20,15 @@ message InfoRequest {
 message InfoReply {
   string name = 1;
 }
+
+service Test {
+  rpc Test(TestRequest) returns (TestReply) {}
+}
+
+message TestRequest {
+  string word = 1;
+}
+
+message TestReply {
+  string reply = 1;
+}

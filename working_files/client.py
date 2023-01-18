@@ -28,3 +28,12 @@ def info_from_name(the_id):
         stub = demo_pb2_grpc.DatabaseCallStub(channel)
         response = stub.InfoFromID(demo_pb2.InfoRequest(id=the_id))
     return response.name
+
+
+@hit(__file__)
+def the_test(word):
+    print("Will try to call ...")
+    with grpc.insecure_channel(os.getenv("IP") + ':2') as channel:
+        stub = demo_pb2_grpc.TestStub(channel)
+        response = stub.Test(demo_pb2.TestRequest(word=word))
+    return response.reply

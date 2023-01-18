@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_cors import cross_origin, CORS
-from client import db_call, info_from_name
+from client import db_call, info_from_name, the_test
 import json
 from decorators import hit
 
@@ -29,6 +29,15 @@ def info():
 @cross_origin()
 def check():
     return "check successful"
+
+
+@app.route("/test", methods=["POST"])
+@cross_origin()
+def test():
+    data = request.get_json()
+    the_word = data['word']
+    the_reply = the_test(the_word)
+    return json.dumps({"message": the_reply})
 
 
 if __name__ == "__main__":

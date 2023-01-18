@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from proto_files import demo_pb2 as demo__pb2
+import proto_files.demo_pb2 as demo__pb2
 
 
 class DatabaseCallStub(object):
@@ -95,5 +95,66 @@ class DatabaseCall(object):
         return grpc.experimental.unary_unary(request, target, '/DatabaseCall/InfoFromID',
             demo__pb2.InfoRequest.SerializeToString,
             demo__pb2.InfoReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+
+class TestStub(object):
+    """Missing associated documentation comment in .proto file."""
+
+    def __init__(self, channel):
+        """Constructor.
+
+        Args:
+            channel: A grpc.Channel.
+        """
+        self.Test = channel.unary_unary(
+                '/Test/Test',
+                request_serializer=demo__pb2.TestRequest.SerializeToString,
+                response_deserializer=demo__pb2.TestReply.FromString,
+                )
+
+
+class TestServicer(object):
+    """Missing associated documentation comment in .proto file."""
+
+    def Test(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+
+def add_TestServicer_to_server(servicer, server):
+    rpc_method_handlers = {
+            'Test': grpc.unary_unary_rpc_method_handler(
+                    servicer.Test,
+                    request_deserializer=demo__pb2.TestRequest.FromString,
+                    response_serializer=demo__pb2.TestReply.SerializeToString,
+            ),
+    }
+    generic_handler = grpc.method_handlers_generic_handler(
+            'Test', rpc_method_handlers)
+    server.add_generic_rpc_handlers((generic_handler,))
+
+
+ # This class is part of an EXPERIMENTAL API.
+class Test(object):
+    """Missing associated documentation comment in .proto file."""
+
+    @staticmethod
+    def Test(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Test/Test',
+            demo__pb2.TestRequest.SerializeToString,
+            demo__pb2.TestReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

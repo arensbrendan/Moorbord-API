@@ -27,3 +27,15 @@ class InfoRequest(_message.Message):
     ID_FIELD_NUMBER: _ClassVar[int]
     id: int
     def __init__(self, id: _Optional[int] = ...) -> None: ...
+
+class TestReply(_message.Message):
+    __slots__ = ["reply"]
+    REPLY_FIELD_NUMBER: _ClassVar[int]
+    reply: str
+    def __init__(self, reply: _Optional[str] = ...) -> None: ...
+
+class TestRequest(_message.Message):
+    __slots__ = ["word"]
+    WORD_FIELD_NUMBER: _ClassVar[int]
+    word: str
+    def __init__(self, word: _Optional[str] = ...) -> None: ...
