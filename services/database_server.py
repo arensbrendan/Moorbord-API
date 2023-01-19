@@ -5,7 +5,7 @@ from concurrent import futures
 import pymysql
 from dotenv import load_dotenv
 import os
-from working_files.decorators import database_connect, block, hit
+from working_files.decorators import database_connect, block, log
 
 load_dotenv()
 
@@ -13,7 +13,7 @@ load_dotenv()
 class DatabaseCall(demo_pb2_grpc.DatabaseCallServicer):
     @database_connect
     @block
-    @hit(__file__)
+    @log(__file__)
     def DBCall(self, conn, request, context):
         try:
             with conn.cursor() as db:
@@ -28,7 +28,7 @@ class DatabaseCall(demo_pb2_grpc.DatabaseCallServicer):
 
     @database_connect
     @block
-    @hit(__file__)
+    @log(__file__)
     def InfoFromID(self, conn, request, context):
         print(request)
         with conn.cursor() as db:
