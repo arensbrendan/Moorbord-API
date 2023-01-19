@@ -37,13 +37,18 @@ def block(func):
     return handler
 
 
-def hit(file):
+@database_connect
+def log(file):
     def upper(func):
-        def handler(*args, **kwargs):
+        def handler(conn, *args, **kwargs):
             print(f"Hit {func.__name__} from file {file}")
             to_ret = func(*args, **kwargs)
             if to_ret is not None:
                 return to_ret
+            with conn.cursor() as db:
+                sql = "INSERT INTO logs(log) VALUES (%s)" % func.__name__
+
 
         return handler
+
     return upper

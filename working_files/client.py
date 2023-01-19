@@ -4,13 +4,13 @@ from proto_files import demo_pb2
 from proto_files import demo_pb2_grpc
 from dotenv import load_dotenv
 import os
-from decorators import hit
+from decorators import log
 
 load_dotenv()
 
 
-@hit(__file__)
-def db_call(the_name):
+@log(__file__)
+def call_database(the_name):
     try:
         print("Will try to call ...")
         with grpc.insecure_channel(os.getenv("IP") + ':1') as channel:
@@ -21,8 +21,8 @@ def db_call(the_name):
         return str(e)
 
 
-@hit(__file__)
-def info_from_name(the_id):
+@log(__file__)
+def get_student_info_from_name(the_id):
     print("Will try to call ...")
     with grpc.insecure_channel(os.getenv("IP") + ':1') as channel:
         stub = demo_pb2_grpc.DatabaseCallStub(channel)
@@ -30,8 +30,8 @@ def info_from_name(the_id):
     return response.name
 
 
-@hit(__file__)
-def the_test(word):
+@log(__file__)
+def test_connection(word):
     print("Will try to call ...")
     with grpc.insecure_channel(os.getenv("IP") + ':2') as channel:
         stub = demo_pb2_grpc.TestStub(channel)
