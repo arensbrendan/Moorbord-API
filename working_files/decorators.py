@@ -14,8 +14,7 @@ def database_connect(func):
                                database='morboord',
                                cursorclass=pymysql.cursors.DictCursor)
         try:
-            with conn.cursor() as db:
-                func_ret = func(conn, *args, **kwargs)
+            func_ret = func(conn, *args, **kwargs)
         except Exception as error:
             raise
         else:
@@ -43,10 +42,13 @@ def log(conn, file):
         def handler(*args, **kwargs):
             print(f"Hit {func.__name__} from file {file}")
             to_ret = func(*args, **kwargs)
-            with conn.cursor() as db:
-                sql = "INSERT INTO logs(log) VALUES (%s)" % str(func.__name__)
-                db.execute(sql)
-                conn.commit()
+            try:
+                with conn.cursor() as db:
+                    sql = "INSERT INTO log(log, user_id) VALUES ('%s', 1)" % str(func.__name__)
+                    db.execute(sql)
+                    conn.commit()
+            except Exception as error:
+                print(str(error))
 
             if to_ret is not None:
                 return to_ret
