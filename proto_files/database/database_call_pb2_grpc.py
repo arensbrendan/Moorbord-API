@@ -14,8 +14,8 @@ class DatabaseCallStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.CheckLogin = channel.unary_unary(
-                '/DatabaseCall/CheckLogin',
+        self.Login = channel.unary_unary(
+                '/DatabaseCall/Login',
                 request_serializer=database__call__pb2.LoginRequest.SerializeToString,
                 response_deserializer=database__call__pb2.LoginReply.FromString,
                 )
@@ -24,7 +24,7 @@ class DatabaseCallStub(object):
 class DatabaseCallServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def CheckLogin(self, request, context):
+    def Login(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -33,8 +33,8 @@ class DatabaseCallServicer(object):
 
 def add_DatabaseCallServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'CheckLogin': grpc.unary_unary_rpc_method_handler(
-                    servicer.CheckLogin,
+            'Login': grpc.unary_unary_rpc_method_handler(
+                    servicer.Login,
                     request_deserializer=database__call__pb2.LoginRequest.FromString,
                     response_serializer=database__call__pb2.LoginReply.SerializeToString,
             ),
@@ -49,7 +49,7 @@ class DatabaseCall(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def CheckLogin(request,
+    def Login(request,
             target,
             options=(),
             channel_credentials=None,
@@ -59,7 +59,7 @@ class DatabaseCall(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/DatabaseCall/CheckLogin',
+        return grpc.experimental.unary_unary(request, target, '/DatabaseCall/Login',
             database__call__pb2.LoginRequest.SerializeToString,
             database__call__pb2.LoginReply.FromString,
             options, channel_credentials,

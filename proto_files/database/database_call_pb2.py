@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x13\x64\x61tabase_call.proto\"2\n\x0cLoginRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"\x1d\n\nLoginReply\x12\x0f\n\x07\x63orrect\x18\x01 \x01(\x08\x32:\n\x0c\x44\x61tabaseCall\x12*\n\nCheckLogin\x12\r.LoginRequest\x1a\x0b.LoginReply\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x13\x64\x61tabase_call.proto\"2\n\x0cLoginRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"\x1d\n\nLoginReply\x12\x0f\n\x07\x63orrect\x18\x01 \x01(\x08\x32\x35\n\x0c\x44\x61tabaseCall\x12%\n\x05Login\x12\r.LoginRequest\x1a\x0b.LoginReply\"\x00\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'database_call_pb2', globals())
@@ -25,5 +25,5 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _LOGINREPLY._serialized_start=75
   _LOGINREPLY._serialized_end=104
   _DATABASECALL._serialized_start=106
-  _DATABASECALL._serialized_end=164
+  _DATABASECALL._serialized_end=159
 # @@protoc_insertion_point(module_scope)

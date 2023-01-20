@@ -14,6 +14,7 @@ def login_api():
     data = login(username, password)
     return {"Correct combination": data.correct}
 
+
 @app.route("/check", methods=["GET"])
 @cross_origin()
 def check():
