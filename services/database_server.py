@@ -39,12 +39,11 @@ class DatabaseCall(demo_pb2_grpc.DatabaseCallServicer):
             lastname = results["last_name"]
             return demo_pb2.InfoReply(name='The name is %s %s' % (firstname, lastname))
 
-
 def serve():
     port = '1'
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     demo_pb2_grpc.add_DatabaseCallServicer_to_server(DatabaseCall(), server)
-    server.add_insecure_port(os.getenv("IP") + ':' + port)
+    server.add_insecure_port(os.getenv("TREY_DESKTOP_IP") + ':' + port)
     server.start()
     print("Server started, listening on " + port)
     server.wait_for_termination()

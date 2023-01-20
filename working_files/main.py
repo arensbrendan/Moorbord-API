@@ -18,11 +18,12 @@ def db():
 
 @app.route("/info", methods=["POST"])
 @cross_origin()
-def info():
+def info(origins='*'):
     data = request.get_json()
     the_id = data['id']
     the_info = info_from_name(the_id)
-    return json.dumps({"message": the_info})
+    #return json.dumps({"message": the_info})
+    return str(the_info)
 
 
 @app.route("/check", methods=["GET"])
