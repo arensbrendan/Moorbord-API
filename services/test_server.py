@@ -17,7 +17,7 @@ def serve():
     port = '2'
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     demo_pb2_grpc.add_TestServicer_to_server(Test(), server)
-    server.add_insecure_port(os.getenv("TREY_LAPTOP_IP") + ':' + port)
+    server.add_insecure_port(os.getenv("TREY_TEMP_IP") + ':' + port)
     server.start()
     print("Server started, listening on " + port)
     server.wait_for_termination()

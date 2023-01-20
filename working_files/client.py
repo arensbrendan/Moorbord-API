@@ -33,7 +33,7 @@ def get_student_info_from_name(the_id):
 @log(__file__)
 def test_connection(word):
     print("Will try to call ...")
-    with grpc.insecure_channel(os.getenv("IP") + ':2') as channel:
+    with grpc.insecure_channel(os.getenv("TREY_TEMP_IP") + ':2') as channel:
         stub = demo_pb2_grpc.TestStub(channel)
         response = stub.Test(demo_pb2.TestRequest(word=word))
     return response.reply

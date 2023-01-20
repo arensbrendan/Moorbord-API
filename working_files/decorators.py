@@ -7,7 +7,7 @@ load_dotenv()
 
 
 def database_connect(func):
-    def connect(ref, *args, **kwargs):
+    def connect(*args, **kwargs):
         conn = pymysql.connect(host='69.247.163.204',
                                user=os.getenv("DB_USER"),
                                password=os.getenv("DB_PASS"),
@@ -15,7 +15,7 @@ def database_connect(func):
                                cursorclass=pymysql.cursors.DictCursor)
         try:
             with conn.cursor() as db:
-                func_ret = func(ref, conn, *args, **kwargs)
+                func_ret = func(conn, *args, **kwargs)
         except Exception as error:
             raise
         else:
@@ -38,17 +38,18 @@ def block(func):
 
 
 @database_connect
-def log(file):
+def log(conn, file):
     def upper(func):
-        def handler(conn, *args, **kwargs):
+        def handler(*args, **kwargs):
             print(f"Hit {func.__name__} from file {file}")
             to_ret = func(*args, **kwargs)
+            with conn.cursor() as db:
+                sql = "INSERT INTO logs(log) VALUES (%s)" % str(func.__name__)
+                db.execute(sql)
+                conn.commit()
+
             if to_ret is not None:
                 return to_ret
-            with conn.cursor() as db:
-                sql = "INSERT INTO logs(log) VALUES (%s)" % func.__name__
-
-
         return handler
 
     return upper
