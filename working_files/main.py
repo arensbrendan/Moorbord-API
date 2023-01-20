@@ -1,38 +1,18 @@
 from flask import Flask, request
 from flask_cors import cross_origin, CORS
-from client import call_database, get_student_info_from_name, test_connection
-import json
+from database_client import login
 from decorators import log
 
 app = Flask(__name__)
 
 
-@app.route("/dbcall", methods=["POST"])
+@app.route("/login", methods=["POST"])
 @cross_origin(origins='*')
-def db_call():
+def login_api():
     data = request.get_json()
-    name = data['firstname']
-    name = call_database(name)
-    return str(name)
-
-
-@app.route("/info", methods=["POST"])
-@cross_origin()
-def get_student_info():
-    data = request.get_json()
-    the_id = data['id']
-    the_info = get_student_info_from_name(the_id)
-    return json.dumps({"message": the_info})
-
-
-@app.route("/test", methods=["POST"])
-@cross_origin()
-def test_conn():
-    data = request.get_json()
-    the_word = data['word']
-    the_reply = test_connection(the_word)
-    return json.dumps({"message": the_reply})
-
+    username, password = data['username'], data['password']
+    data = login(username, password)
+    return {"Correct combination": data.correct}
 
 @app.route("/check", methods=["GET"])
 @cross_origin()
