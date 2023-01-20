@@ -45,11 +45,15 @@ def log(file):
                                    password=os.getenv("DB_PASS"),
                                    database='new',
                                    cursorclass=pymysql.cursors.DictCursor)
+            u_name = args[2].username
             print(f"Hit {func.__name__} from file {file}")
             to_ret = func(*args, **kwargs)
             try:
                 with conn.cursor() as db:
-                    sql = "INSERT INTO log(log, user_id) VALUES ('%s', 1)" % str(func.__name__)
+                    sql = "SELECT user_id FROM user WHERE username = '%s'" % u_name
+                    db.execute(sql)
+                    results = db.fetchone()
+                    sql = "INSERT INTO log(log, user_id) VALUES ('%s', %s)" % (str(func.__name__), results['user_id'])
                     db.execute(sql)
                     conn.commit()
             except Exception as error:

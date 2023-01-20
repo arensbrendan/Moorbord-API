@@ -13,11 +13,11 @@ load_dotenv()
 class DatabaseCall(database_call_pb2_grpc.DatabaseCallServicer):
     @database_connect
     @block
-    # @log(__file__)
-    def CheckLogin(self, db, request, context):
+    @log(__file__)
+    def Login(self, db, request, context):
         password_user = request.username
         password_input = request.password
-        db.callproc("login_test", [password_user])
+        db.callproc("get_passwd_from_username", [password_user])
         results = db.fetchall()[0]
         return database_call_pb2.LoginReply(correct=True if results['password'] == password_input else False)
 
