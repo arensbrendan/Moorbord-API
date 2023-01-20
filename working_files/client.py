@@ -13,7 +13,7 @@ load_dotenv()
 def db_call(the_name):
     try:
         print("Will try to call ...")
-        with grpc.insecure_channel(os.getenv("IP") + ':1') as channel:
+        with grpc.insecure_channel(os.getenv("TREY_DESKTOP_IP") + ':1') as channel:
             stub = demo_pb2_grpc.DatabaseCallStub(channel)
             response = stub.DBCall(demo_pb2.DatabaseRequest(firstname=the_name))
         return str(response.lastname)
@@ -24,7 +24,7 @@ def db_call(the_name):
 @hit(__file__)
 def info_from_name(the_id):
     print("Will try to call ...")
-    with grpc.insecure_channel(os.getenv("IP") + ':1') as channel:
+    with grpc.insecure_channel(os.getenv("TREY_DESKTOP_IP") + ':1') as channel:
         stub = demo_pb2_grpc.DatabaseCallStub(channel)
         response = stub.InfoFromID(demo_pb2.InfoRequest(id=the_id))
     return response.name
@@ -33,7 +33,7 @@ def info_from_name(the_id):
 @hit(__file__)
 def the_test(word):
     print("Will try to call ...")
-    with grpc.insecure_channel(os.getenv("IP") + ':2') as channel:
+    with grpc.insecure_channel(os.getenv("TREY_LAPTOP_IP") + ':2') as channel:
         stub = demo_pb2_grpc.TestStub(channel)
         response = stub.Test(demo_pb2.TestRequest(word=word))
     return response.reply
