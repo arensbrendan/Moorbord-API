@@ -1,20 +1,21 @@
 from flask import Flask, request
 from flask_cors import cross_origin, CORS
 from database_client import login
-from decorators import log
+from decorators import log, block
 
 app = Flask(__name__)
 
 
+@block
 @app.route("/login", methods=["POST"])
 @cross_origin(origins='*')
 def login_api():
     data = request.get_json()
-    username, password = data['username'], data['password']
-    data = login(username, password)
-    return {"Correct combination": data.correct}
+    result = login(data)
+    return "Correct combination: " + str(result.correct)
 
 
+@block
 @app.route("/check", methods=["GET"])
 @cross_origin()
 def check():

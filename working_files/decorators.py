@@ -17,7 +17,7 @@ def database_connect(func):
             with conn.cursor() as db:
                 func_ret = func(ref, db, *args, **kwargs)
         except Exception as error:
-            raise
+            raise error
         else:
             conn.commit()
         finally:
@@ -32,7 +32,7 @@ def block(func):
         try:
             return func(*args, **kwargs)
         except Exception as error:
-            return str(error)
+            raise error
 
     return handler
 
@@ -53,11 +53,11 @@ def log(file):
                     sql = "SELECT user_id FROM user WHERE username = '%s'" % u_name
                     db.execute(sql)
                     results = db.fetchone()
-                    sql = "INSERT INTO log(log, user_id) VALUES ('%s', %s)" % (str(func.__name__), results['user_id'])
+                    sql = "INSERT INTO log(log, user_id) VALUES ('%s', %s)" % (args[2].body, results['user_id'])
                     db.execute(sql)
                     conn.commit()
             except Exception as error:
-                print(str(error))
+                raise error
 
             if to_ret is not None:
                 return to_ret
