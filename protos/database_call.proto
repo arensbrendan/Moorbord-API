@@ -1,4 +1,4 @@
-syntax = "proto3";
+ syntax = "proto3";
 
 service DatabaseCall {
   rpc Login(LoginRequest) returns(LoginReply){}
@@ -7,6 +7,7 @@ service DatabaseCall {
 message LoginRequest {
   string username = 1;
   string password = 2;
+  optional string body = 3;
 }
 
 message LoginReply {

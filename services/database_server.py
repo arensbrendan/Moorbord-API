@@ -15,9 +15,9 @@ class DatabaseCall(database_call_pb2_grpc.DatabaseCallServicer):
     @block
     @log(__file__)
     def Login(self, db, request, context):
-        password_user = request.username
+        user_input = request.username
         password_input = request.password
-        db.callproc("get_passwd_from_username", [password_user])
+        db.callproc("get_passwd_from_username", [user_input])
         results = db.fetchall()[0]
         return database_call_pb2.LoginReply(correct=True if results['password'] == password_input else False)
 
@@ -26,7 +26,7 @@ def serve():
     port = '1'
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     database_call_pb2_grpc.add_DatabaseCallServicer_to_server(DatabaseCall(), server)
-    server.add_insecure_port(os.getenv("TREY_DESKTOP_IP") + ':' + port)
+    server.add_insecure_port(os.getenv("LOCALHOST") + ':' + port)
     server.start()
     print("Server started, listening on " + port)
     server.wait_for_termination()
