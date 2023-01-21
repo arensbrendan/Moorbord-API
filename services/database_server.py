@@ -5,7 +5,7 @@ from concurrent import futures
 import pymysql
 from dotenv import load_dotenv
 import os
-from working_files.decorators import database_connect, block, log
+from working_files.decorators import database_connect, block
 
 load_dotenv()
 
@@ -13,7 +13,6 @@ load_dotenv()
 class DatabaseCall(database_call_pb2_grpc.DatabaseCallServicer):
     @database_connect
     @block
-    @log(__file__)
     def Login(self, db, request, context):
         user_input = request.username
         password_input = request.password
@@ -26,7 +25,7 @@ def serve():
     port = '1'
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     database_call_pb2_grpc.add_DatabaseCallServicer_to_server(DatabaseCall(), server)
-    server.add_insecure_port(os.getenv("LOCALHOST") + ':' + port)
+    server.add_insecure_port(os.getenv("IP") + ':' + port)
     server.start()
     print("Server started, listening on " + port)
     server.wait_for_termination()
