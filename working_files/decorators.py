@@ -32,7 +32,7 @@ def block(func):
         try:
             return func(*args, **kwargs)
         except Exception as error:
-            raise error
+            return str(error)
 
     return handler
 

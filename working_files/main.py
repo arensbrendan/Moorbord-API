@@ -2,6 +2,8 @@ from flask import Flask, request, current_app
 from flask_cors import cross_origin, CORS
 from database_client import login
 from decorators import block
+from schemas.LoginSchema import LoginSchema
+
 
 app = Flask(__name__)
 
@@ -11,6 +13,10 @@ app = Flask(__name__)
 @cross_origin(origins='*')
 def login_api():
     data = request.get_json()
+    try:
+        validate = LoginSchema().load(data)
+    except Exception as e:
+        return str(e)
     result = login(data)
     return "Correct combination: " + str(result.correct)
 
