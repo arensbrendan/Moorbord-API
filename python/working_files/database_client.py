@@ -1,7 +1,7 @@
 from __future__ import print_function
 import grpc
 from proto_files.database import database_call_pb2
-from proto_files.database import database_call_pb2_grpc
+from python.proto_files.database import database_call_pb2_grpc
 from dotenv import load_dotenv
 import os
 from decorators import block

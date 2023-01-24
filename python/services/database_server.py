@@ -1,8 +1,7 @@
 import grpc
 from proto_files.database import database_call_pb2
-from proto_files.database import database_call_pb2_grpc
+from python.proto_files.database import database_call_pb2_grpc
 from concurrent import futures
-import pymysql
 from dotenv import load_dotenv
 import os
 from working_files.decorators import database_connect, block

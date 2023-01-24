@@ -1,24 +1,31 @@
-from flask import Flask, request, current_app
-from flask_cors import cross_origin, CORS
+from flask import Flask, request
+from flask_cors import cross_origin
 from database_client import login
 from decorators import block
-from schemas.LoginSchema import LoginSchema
+from python.schemas.LoginSchema import LoginSchema
 
 
 app = Flask(__name__)
 
 
 @block
-@app.route("/login", methods=["POST"])
+@app.route("/login", methods=["GET"])
 @cross_origin(origins='*')
 def login_api():
-    data = request.get_json()
+    data = {
+        "username": request.args.get('username'),
+        "password": request.args.get('password')
+    }
     try:
         validate = LoginSchema().load(data)
     except Exception as e:
-        return str(e)
+        return {
+            "error": str(e)
+        }
     result = login(data)
-    return "Correct combination: " + str(result.correct)
+    return {
+        "message": result.correct
+    }
 
 
 @block
