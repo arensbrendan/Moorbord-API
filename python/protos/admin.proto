@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+service AdminCall {
+  rpc AddUser(AddRequest) returns (AddReply){}
+}
+
+message AddRequest {
+  string username = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string email = 4;
+  int32 role_id = 5;
+}
+
+message AddReply {
+  string message = 1;
+}

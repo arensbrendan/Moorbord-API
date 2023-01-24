@@ -1,16 +1,22 @@
 from flask import Flask, request
-from flask_cors import cross_origin
+from flask_cors import cross_origin, CORS
 from database_client import login
+from admin_client import add_user
 from decorators import block
 from python.schemas.LoginSchema import LoginSchema
 
 
 app = Flask(__name__)
+api_cors = {
+  "origins": ["*"],
+  "methods": ["OPTIONS", "GET", "POST"],
+  "allow_headers": ["Authorization", "Content-Type"]
+}
 
 
 @block
 @app.route("/login", methods=["GET"])
-@cross_origin(origins='*')
+@cross_origin(**api_cors)
 def login_api():
     data = {
         "username": request.args.get('username'),
@@ -25,6 +31,17 @@ def login_api():
     result = login(data)
     return {
         "message": result.correct
+    }
+
+
+@block
+@app.route("/add_user", methods=["POST"])
+@cross_origin(**api_cors)
+def add_user_api():
+    info = request.get_json()
+    result = add_user(info)
+    return {
+        "message": "result"
     }
 
 

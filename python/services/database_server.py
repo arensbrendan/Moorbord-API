@@ -1,10 +1,10 @@
 import grpc
-from proto_files.database import database_call_pb2
+from python.proto_files.database import database_call_pb2
 from python.proto_files.database import database_call_pb2_grpc
 from concurrent import futures
 from dotenv import load_dotenv
 import os
-from working_files.decorators import database_connect, block
+from python.working_files.decorators import database_connect, block
 
 load_dotenv()
 
@@ -18,6 +18,8 @@ class DatabaseCall(database_call_pb2_grpc.DatabaseCallServicer):
         db.callproc("get_passwd_from_username", [user_input])
         results = db.fetchall()[0]
         return database_call_pb2.LoginReply(correct=True if results['password'] == password_input else False)
+
+
 
 
 def serve():

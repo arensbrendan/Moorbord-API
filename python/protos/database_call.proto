@@ -13,4 +13,3 @@ message LoginRequest {
 message LoginReply {
   bool correct = 1;
 }
-
