@@ -41,7 +41,7 @@ def add_user_api():
     info = request.get_json()
     result = add_user(info)
     return {
-        "message": "result"
+        "message": result.message
     }
 
 

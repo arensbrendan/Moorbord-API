@@ -13,10 +13,11 @@ class AdminCall(admin_pb2_grpc.AdminCallServicer):
     @database_connect
     @block
     def AddUser(self, db, request, context):
-        username, firstname, lastname, email, role_id = request.username, request.firstname, request.lastname, request.email, request.role_id
+        username, firstname, lastname, email, role_id = request.username, request.first_name, request.last_name, request.email, request.role_id
         try:
-            db.callproc("add_user", [username, firstname, lastname, email, role_id])
-            results = db.fetchall()[0]
+            sql = "INSERT INTO new.user(username, first_name, last_name, email, role_id) VALUES('%s', '%s', '%s', " \
+                  "'%s', '%s') as message" % (username, firstname, lastname, email, role_id)
+            db.execute(sql)
             return admin_pb2.AddReply(message="User Added")
         except Exception as e:
             return admin_pb2.AddReply(message=str(e))
