@@ -2,10 +2,10 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from python.proto_files.database import database_call_pb2 as database__call__pb2
+import python.proto_files.admin.admin_pb2 as admin__pb2
 
 
-class DatabaseCallStub(object):
+class AdminCallStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -14,42 +14,42 @@ class DatabaseCallStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.Login = channel.unary_unary(
-                '/DatabaseCall/Login',
-                request_serializer=database__call__pb2.LoginRequest.SerializeToString,
-                response_deserializer=database__call__pb2.LoginReply.FromString,
+        self.AddUser = channel.unary_unary(
+                '/AdminCall/AddUser',
+                request_serializer=admin__pb2.AddRequest.SerializeToString,
+                response_deserializer=admin__pb2.AddReply.FromString,
                 )
 
 
-class DatabaseCallServicer(object):
+class AdminCallServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def Login(self, request, context):
+    def AddUser(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_DatabaseCallServicer_to_server(servicer, server):
+def add_AdminCallServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'Login': grpc.unary_unary_rpc_method_handler(
-                    servicer.Login,
-                    request_deserializer=database__call__pb2.LoginRequest.FromString,
-                    response_serializer=database__call__pb2.LoginReply.SerializeToString,
+            'AddUser': grpc.unary_unary_rpc_method_handler(
+                    servicer.AddUser,
+                    request_deserializer=admin__pb2.AddRequest.FromString,
+                    response_serializer=admin__pb2.AddReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'DatabaseCall', rpc_method_handlers)
+            'AdminCall', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class DatabaseCall(object):
+class AdminCall(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def Login(request,
+    def AddUser(request,
             target,
             options=(),
             channel_credentials=None,
@@ -59,8 +59,8 @@ class DatabaseCall(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/DatabaseCall/Login',
-            database__call__pb2.LoginRequest.SerializeToString,
-            database__call__pb2.LoginReply.FromString,
+        return grpc.experimental.unary_unary(request, target, '/AdminCall/AddUser',
+            admin__pb2.AddRequest.SerializeToString,
+            admin__pb2.AddReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
