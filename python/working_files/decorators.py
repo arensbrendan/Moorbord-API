@@ -6,6 +6,16 @@ import pymysql
 load_dotenv()
 
 
+def block(func):
+    def handler(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as error:
+            return str(error)
+
+    return handler
+
+@block
 def database_connect(func):
     def connect(ref, *args, **kwargs):
         conn = pymysql.connect(host='69.247.163.204',
@@ -25,14 +35,3 @@ def database_connect(func):
         return func_ret
 
     return connect
-
-
-def block(func):
-    def handler(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except Exception as error:
-            return str(error)
-
-    return handler
-
