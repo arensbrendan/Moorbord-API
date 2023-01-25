@@ -53,7 +53,7 @@
 #### Unhealthy Call
 ```json 
 {
-    "error": error message
+    "error": "error message"
 }
 ```
 
