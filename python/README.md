@@ -17,7 +17,7 @@
 #### Unhealthy Call
 ```json 
 {
-    "error": error message
+    "error": "error message"
 }
 ```
 
@@ -26,11 +26,11 @@
 ### Expected Request<br><br>
 ```json
 {
-    "firstname": firstname,
-    "lastname": lastname,
-    "user_password": password,
-    "email": email,
-    "role": role
+    "firstname": "firstname",
+    "lastname": "lastname",
+    "user_password": "password",
+    "email": "email",
+    "role": "role"
 }
 ```
 ### <br>
@@ -61,7 +61,7 @@
 ### Expected Request<br><br>
 ```json
 {
-    "user_id": user id
+    "user_id": "user id"
 }
 ```
 ### <br>
@@ -80,6 +80,6 @@
 #### Unhealthy Call
 ```json 
 {
-    "error": error message
+    "error": "error message"
 }
 ```
