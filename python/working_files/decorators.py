@@ -6,17 +6,12 @@ import pymysql
 load_dotenv()
 
 
-def block(func):
-    def handler(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except Exception as error:
-            return str(error)
-
-    return handler
-
-@block
 def database_connect(func):
+    """
+        This decorator makes it so a connection is opened in the wrapped function
+        As long as you put the first variable in the function as db
+        You can make sql calls without needing to do redundant statements
+    """
     def connect(ref, *args, **kwargs):
         conn = pymysql.connect(host='69.247.163.204',
                                user=os.getenv("DB_USER"),
