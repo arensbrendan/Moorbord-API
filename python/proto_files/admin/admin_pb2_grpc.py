@@ -19,12 +19,23 @@ class AdminCallStub(object):
                 request_serializer=admin__pb2.AddRequest.SerializeToString,
                 response_deserializer=admin__pb2.AddReply.FromString,
                 )
+        self.RemoveUser = channel.unary_unary(
+                '/AdminCall/RemoveUser',
+                request_serializer=admin__pb2.RemoveRequest.SerializeToString,
+                response_deserializer=admin__pb2.RemoveReply.FromString,
+                )
 
 
 class AdminCallServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def AddUser(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RemoveUser(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -37,6 +48,11 @@ def add_AdminCallServicer_to_server(servicer, server):
                     servicer.AddUser,
                     request_deserializer=admin__pb2.AddRequest.FromString,
                     response_serializer=admin__pb2.AddReply.SerializeToString,
+            ),
+            'RemoveUser': grpc.unary_unary_rpc_method_handler(
+                    servicer.RemoveUser,
+                    request_deserializer=admin__pb2.RemoveRequest.FromString,
+                    response_serializer=admin__pb2.RemoveReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -62,5 +78,22 @@ class AdminCall(object):
         return grpc.experimental.unary_unary(request, target, '/AdminCall/AddUser',
             admin__pb2.AddRequest.SerializeToString,
             admin__pb2.AddReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def RemoveUser(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/AdminCall/RemoveUser',
+            admin__pb2.RemoveRequest.SerializeToString,
+            admin__pb2.RemoveReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
