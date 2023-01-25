@@ -1,6 +1,6 @@
  syntax = "proto3";
 
-service DatabaseCall {
+service LoginCall {
   rpc Login(LoginRequest) returns(LoginReply){}
 }
 
@@ -11,5 +11,7 @@ message LoginRequest {
 }
 
 message LoginReply {
-  bool correct = 1;
+  optional bool correct = 1;
+  optional string error = 2;
+  int32 status_code = 3;
 }

@@ -23,5 +23,13 @@ def add_user(request, db):
     username = request["firstname"][0] + request["lastname"][0] + str(max(ids) + 1)
     with grpc.insecure_channel(os.getenv("IP") + ':1') as channel:
         stub = admin_pb2_grpc.AdminCallStub(channel)
-        response = stub.AddUser(admin_pb2.AddRequest(username=username, first_name=request["firstname"], last_name=request["lastname"], email=request["email"], role_id=request["role"]))
+        response = stub.AddUser(admin_pb2.AddRequest(username=username, first_name=request["firstname"], last_name=request["lastname"], user_password=request["user_password"], email=request["email"], role_id=request["role"]))
+    return response
+
+@block
+@database_connect
+def remove_user(request, db):
+    with grpc.insecure_channel(os.getenv("IP") + ':1') as channel:
+        stub = admin_pb2_grpc.AdminCallStub(channel)
+        response = stub.RemoveUser(admin_pb2.RemoveRequest(user_id=request["user_id"]))
     return response

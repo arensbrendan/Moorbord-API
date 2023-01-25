@@ -1,16 +1,18 @@
-from flask import Flask, request
+from flask import Flask, request, Response
 from flask_cors import cross_origin, CORS
-from database_client import login
-from admin_client import add_user
+from login_client import login
+from admin_client import add_user, remove_user
 from decorators import block
 from python.schemas.LoginSchema import LoginSchema
-
+from python.schemas.AddUserSchema import AddUserSchema
+import json
+from marshmallow.exceptions import ValidationError
 
 app = Flask(__name__)
 api_cors = {
-  "origins": ["*"],
-  "methods": ["OPTIONS", "GET", "POST"],
-  "allow_headers": ["Authorization", "Content-Type"]
+    "origins": ["*"],
+    "methods": ["OPTIONS", "GET", "POST", "DELETE"],
+    "allow_headers": ["Authorization", "Content-Type"]
 }
 
 
@@ -25,13 +27,9 @@ def login_api():
     try:
         validate = LoginSchema().load(data)
     except Exception as e:
-        return {
-            "error": str(e)
-        }
+        return Response(json.dumps({"error": str(e)}, status=400))
     result = login(data)
-    return {
-        "message": result.correct
-    }
+    return Response(json.dumps({"valid" if result.correct else "error": result.correct if result.correct else result.error}), status=result.status_code)
 
 
 @block
@@ -39,10 +37,29 @@ def login_api():
 @cross_origin(**api_cors)
 def add_user_api():
     info = request.get_json()
+    try:
+        validate = AddUserSchema().load(info)
+    except ValidationError as v:
+        errors = []
+        for i in v.messages.values():
+            errors.append(i[0])
+        return Response(json.dumps({"errors": errors}), status=400)
+    except Exception as e:
+        return Response(json.dumps({"errors": str(e)}), status=400)
     result = add_user(info)
-    return {
-        "message": result.message
-    }
+    return Response(json.dumps({"message" if result.message else "error": result.message if result.message else result.error}), status=result.status_code)
+
+
+
+@block
+@app.route("/remove_user", methods=["DELETE"])
+@cross_origin(**api_cors)
+def remove_user_api():
+    info = request.get_json()
+    result = remove_user(info)
+    return Response(
+        json.dumps({"message" if result.message else "error": result.message if result.message else result.error}),
+        status=result.status_code)
 
 
 @block

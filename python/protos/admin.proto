@@ -2,16 +2,30 @@ syntax = "proto3";
 
 service AdminCall {
   rpc AddUser(AddRequest) returns (AddReply){}
+  rpc RemoveUser(RemoveRequest) returns (RemoveReply){}
 }
 
 message AddRequest {
   string username = 1;
   string first_name = 2;
   string last_name = 3;
-  string email = 4;
-  int32 role_id = 5;
+  string user_password = 4;
+  string email = 5;
+  int32 role_id = 6;
 }
 
 message AddReply {
-  string message = 1;
+  optional string message = 1;
+  optional string error = 2;
+  int32 status_code = 3;
+}
+
+message RemoveRequest {
+  int32 user_id = 1;
+}
+
+message RemoveReply {
+  optional string message = 1;
+  optional string error = 2;
+  int32 status_code = 3;
 }
