@@ -11,7 +11,7 @@ message LoginRequest {
 }
 
 message LoginReply {
-  optional bool correct = 1;
+  optional string object = 1;
   optional string error = 2;
   int32 status_code = 3;
 }
