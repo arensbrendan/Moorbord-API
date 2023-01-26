@@ -11,15 +11,15 @@ app = Flask(__name__)
 # This cors is essentially stating that they can make GET, POST, or DELETE calls
 # From any origin, and with Authorization and Content-Type headers
 admin_cors = {
-    "origins": ["/api/admin/*"],
+    "origins": ["*"],
     "methods": ["POST", "DELETE"],
     "allow_headers": ["Authorization", "Content-Type"]
 }
 
 generic_cors = {
-    "origins": ["/api/generic/*"],
+    "origins": ["*"],
     "methods": ["GET", "POST"],
-    "allow_headers": ["Authorization", "Content-Type"]
+    "allow_headers": ["Authorization", "Content-Type", "Access-Control-Allow-Origin"]
 }
 
 
@@ -40,9 +40,13 @@ def login_api():
     result = login(data)
     # Message will return "valid": True or "valid": False if it's good, but if it threw an error
     # It will return "error": error_message
-    return Response(
-        json.dumps({"valid" if result.correct else "error": result.correct if result.correct else result.error}),
+    object = ""
+    if result.object != "":
+        json.loads(result.object)
+    response = Response(
+        json.dumps({"user" if result.object else "error": result.error if result.error else object}),
         status=result.status_code)
+    return response
 
 
 @app.route("/api/admin/add_user", methods=["POST"])
