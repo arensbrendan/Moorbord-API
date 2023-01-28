@@ -11,9 +11,13 @@ load_dotenv()
 
 def login(request):
     print("Will try to call ...")
-    with grpc.insecure_channel(os.getenv("IP") + ':1') as channel:
+    with grpc.insecure_channel(os.getenv("IP") + ':2') as channel:
         stub = login_pb2_grpc.LoginCallStub(channel)
         # Sends in a login request with appropriate data
-        response = stub.Login(
-            login_pb2.LoginRequest(username=request['username'], password=request['password'], body=dumps(request)))
+        try:
+            response = stub.Login(
+                login_pb2.LoginRequest(username=request['username'], password=request['password'], body=dumps(request)))
+        except Exception as e:
+            print(str(e))
+            return str(e)
     return response

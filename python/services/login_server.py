@@ -5,13 +5,13 @@ from concurrent import futures
 from dotenv import load_dotenv
 import os
 from python.working_files.decorators import database_connect
+import json
 
 load_dotenv()
 
 
 class LoginCall(login_pb2_grpc.LoginCallServicer):
     @database_connect
-    
     def Login(self, db, request, context):
         # Grab username and password from the request
         user_input, password_input = request.username, request.password
@@ -29,9 +29,15 @@ class LoginCall(login_pb2_grpc.LoginCallServicer):
             db.execute(sql)
             results = db.fetchall()[0]
             # True if the passwords match, otherwise False
-            correct = True if results['password'] == password_input else False
+            object = ""
+            if password_input == results['password']:
+                sql = "SELECT * from user WHERE user_id = '%s'" % uid
+                db.execute(sql)
+                object = db.fetchall()[0]
+            else:
+                raise Exception("The username/password is incorrect")
             # 200 for successful.  Even if they don't match, the code ran successfully
-            return login_pb2.LoginReply(correct=correct, status_code=200)
+            return login_pb2.LoginReply(object=json.dumps(object), status_code=200)
         except Exception as e:
             # Generic answer returns a 400
             return login_pb2.LoginReply(error=str(e), status_code=400)
@@ -39,10 +45,14 @@ class LoginCall(login_pb2_grpc.LoginCallServicer):
 
 def serve():
     # Generic Service Stuff
-    port = '1'
+    port = '2'
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     login_pb2_grpc.add_LoginCallServicer_to_server(LoginCall(), server)
     server.add_insecure_port(os.getenv("IP") + ':' + port)
     server.start()
     print("Server started, listening on " + port)
     server.wait_for_termination()
+
+
+if __name__ == "__main__":
+    serve()

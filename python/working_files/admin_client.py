@@ -9,7 +9,6 @@ from decorators import database_connect
 load_dotenv()
 
 
-
 @database_connect
 def add_user(request, db):
     print("Will try to call ...")
@@ -31,7 +30,6 @@ def add_user(request, db):
                                  user_password=request["user_password"], email=request["email"],
                                  role_id=request["role"]))
     return response
-
 
 
 @database_connect
