@@ -16,6 +16,30 @@ USE `new`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `class`
+--
+
+DROP TABLE IF EXISTS class;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE class (
+  class_id int NOT NULL AUTO_INCREMENT,
+  teacher_id int DEFAULT NULL,
+  class_name char(45) NOT NULL,
+  `hour` tinyint(1) NOT NULL,
+  PRIMARY KEY (class_id),
+  UNIQUE KEY class_id_UNIQUE (class_id),
+  KEY teacher_id_idx (teacher_id),
+  CONSTRAINT teacher_id FOREIGN KEY (teacher_id) REFERENCES `user` (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `class`
+--
+
+
+--
 -- Table structure for table `log`
 --
 
@@ -84,6 +108,28 @@ INSERT INTO role VALUES (2,'Teacher');
 INSERT INTO role VALUES (3,'Admin');
 
 --
+-- Table structure for table `student_classes`
+--
+
+DROP TABLE IF EXISTS student_classes;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE student_classes (
+  student_id int NOT NULL,
+  class_id int NOT NULL,
+  KEY class_id_idx (class_id),
+  KEY student_id_idx (student_id),
+  CONSTRAINT class_id FOREIGN KEY (class_id) REFERENCES class (class_id),
+  CONSTRAINT student_id FOREIGN KEY (student_id) REFERENCES `user` (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `student_classes`
+--
+
+
+--
 -- Table structure for table `user`
 --
 
@@ -102,7 +148,7 @@ CREATE TABLE `user` (
   UNIQUE KEY username_UNIQUE (username),
   KEY role_id_idx (role_id),
   CONSTRAINT role_id FOREIGN KEY (role_id) REFERENCES `role` (role_id)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -110,6 +156,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO user VALUES (1,'TU100001','test','mctest',NULL,3);
+
+--
+-- Dumping events for database 'new'
+--
 
 --
 -- Dumping routines for database 'new'
@@ -124,7 +174,7 @@ INSERT INTO user VALUES (1,'TU100001','test','mctest',NULL,3);
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`admin`@`136.34.239.66` PROCEDURE get_passwd_from_username(IN uName VARCHAR(8))
+CREATE DEFINER=api@`%` PROCEDURE get_passwd_from_username(IN uName VARCHAR(8))
 BEGIN
 	SELECT password FROM new.login WHERE user_id = (SELECT user_id from new.user WHERE username = uName);
 END ;;
@@ -143,7 +193,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`admin`@`136.34.239.66` PROCEDURE get_user_id_from_username(IN uName VARCHAR(8))
+CREATE DEFINER=api@`%` PROCEDURE get_user_id_from_username(IN uName VARCHAR(8))
 BEGIN
 	SELECT password FROM new.login WHERE user_id = (SELECT user_id from new.user WHERE username = uName);
 END ;;
@@ -161,4 +211,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-23 18:33:24
+-- Dump completed on 2023-01-27 19:17:38
