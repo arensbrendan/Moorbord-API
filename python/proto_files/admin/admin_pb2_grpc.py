@@ -16,13 +16,18 @@ class AdminCallStub(object):
         """
         self.AddUser = channel.unary_unary(
                 '/AdminCall/AddUser',
-                request_serializer=admin__pb2.AddRequest.SerializeToString,
-                response_deserializer=admin__pb2.AddReply.FromString,
+                request_serializer=admin__pb2.AddUserRequest.SerializeToString,
+                response_deserializer=admin__pb2.AddUserReply.FromString,
                 )
         self.RemoveUser = channel.unary_unary(
                 '/AdminCall/RemoveUser',
-                request_serializer=admin__pb2.RemoveRequest.SerializeToString,
-                response_deserializer=admin__pb2.RemoveReply.FromString,
+                request_serializer=admin__pb2.RemoveUserRequest.SerializeToString,
+                response_deserializer=admin__pb2.RemoveUserReply.FromString,
+                )
+        self.AddClass = channel.unary_unary(
+                '/AdminCall/AddClass',
+                request_serializer=admin__pb2.AddClassRequest.SerializeToString,
+                response_deserializer=admin__pb2.AddClassReply.FromString,
                 )
 
 
@@ -41,18 +46,29 @@ class AdminCallServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def AddClass(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_AdminCallServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'AddUser': grpc.unary_unary_rpc_method_handler(
                     servicer.AddUser,
-                    request_deserializer=admin__pb2.AddRequest.FromString,
-                    response_serializer=admin__pb2.AddReply.SerializeToString,
+                    request_deserializer=admin__pb2.AddUserRequest.FromString,
+                    response_serializer=admin__pb2.AddUserReply.SerializeToString,
             ),
             'RemoveUser': grpc.unary_unary_rpc_method_handler(
                     servicer.RemoveUser,
-                    request_deserializer=admin__pb2.RemoveRequest.FromString,
-                    response_serializer=admin__pb2.RemoveReply.SerializeToString,
+                    request_deserializer=admin__pb2.RemoveUserRequest.FromString,
+                    response_serializer=admin__pb2.RemoveUserReply.SerializeToString,
+            ),
+            'AddClass': grpc.unary_unary_rpc_method_handler(
+                    servicer.AddClass,
+                    request_deserializer=admin__pb2.AddClassRequest.FromString,
+                    response_serializer=admin__pb2.AddClassReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -76,8 +92,8 @@ class AdminCall(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/AdminCall/AddUser',
-            admin__pb2.AddRequest.SerializeToString,
-            admin__pb2.AddReply.FromString,
+            admin__pb2.AddUserRequest.SerializeToString,
+            admin__pb2.AddUserReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -93,7 +109,24 @@ class AdminCall(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/AdminCall/RemoveUser',
-            admin__pb2.RemoveRequest.SerializeToString,
-            admin__pb2.RemoveReply.FromString,
+            admin__pb2.RemoveUserRequest.SerializeToString,
+            admin__pb2.RemoveUserReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def AddClass(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/AdminCall/AddClass',
+            admin__pb2.AddClassRequest.SerializeToString,
+            admin__pb2.AddClassReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

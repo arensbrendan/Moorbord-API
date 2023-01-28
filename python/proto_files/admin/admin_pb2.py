@@ -13,21 +13,25 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0b\x61\x64min.proto\"|\n\nAddRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x12\n\nfirst_name\x18\x02 \x01(\t\x12\x11\n\tlast_name\x18\x03 \x01(\t\x12\x15\n\ruser_password\x18\x04 \x01(\t\x12\r\n\x05\x65mail\x18\x05 \x01(\t\x12\x0f\n\x07role_id\x18\x06 \x01(\x05\"_\n\x08\x41\x64\x64Reply\x12\x14\n\x07message\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x13\n\x0bstatus_code\x18\x03 \x01(\x05\x42\n\n\x08_messageB\x08\n\x06_error\" \n\rRemoveRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\"b\n\x0bRemoveReply\x12\x14\n\x07message\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x13\n\x0bstatus_code\x18\x03 \x01(\x05\x42\n\n\x08_messageB\x08\n\x06_error2^\n\tAdminCall\x12#\n\x07\x41\x64\x64User\x12\x0b.AddRequest\x1a\t.AddReply\"\x00\x12,\n\nRemoveUser\x12\x0e.RemoveRequest\x1a\x0c.RemoveReply\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0b\x61\x64min.proto\"\x80\x01\n\x0e\x41\x64\x64UserRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x12\n\nfirst_name\x18\x02 \x01(\t\x12\x11\n\tlast_name\x18\x03 \x01(\t\x12\x15\n\ruser_password\x18\x04 \x01(\t\x12\r\n\x05\x65mail\x18\x05 \x01(\t\x12\x0f\n\x07role_id\x18\x06 \x01(\x05\"c\n\x0c\x41\x64\x64UserReply\x12\x14\n\x07message\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x13\n\x0bstatus_code\x18\x03 \x01(\x05\x42\n\n\x08_messageB\x08\n\x06_error\"$\n\x11RemoveUserRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\"f\n\x0fRemoveUserReply\x12\x14\n\x07message\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x13\n\x0bstatus_code\x18\x03 \x01(\x05\x42\n\n\x08_messageB\x08\n\x06_error\"M\n\x0f\x41\x64\x64\x43lassRequest\x12\x18\n\x10teacher_username\x18\x01 \x01(\t\x12\x12\n\nclass_name\x18\x02 \x01(\t\x12\x0c\n\x04hour\x18\x03 \x01(\x05\"d\n\rAddClassReply\x12\x14\n\x07message\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x13\n\x0bstatus_code\x18\x03 \x01(\x05\x42\n\n\x08_messageB\x08\n\x06_error2\x9e\x01\n\tAdminCall\x12+\n\x07\x41\x64\x64User\x12\x0f.AddUserRequest\x1a\r.AddUserReply\"\x00\x12\x34\n\nRemoveUser\x12\x12.RemoveUserRequest\x1a\x10.RemoveUserReply\"\x00\x12.\n\x08\x41\x64\x64\x43lass\x12\x10.AddClassRequest\x1a\x0e.AddClassReply\"\x00\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'admin_pb2', globals())
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _ADDREQUEST._serialized_start=15
-  _ADDREQUEST._serialized_end=139
-  _ADDREPLY._serialized_start=141
-  _ADDREPLY._serialized_end=236
-  _REMOVEREQUEST._serialized_start=238
-  _REMOVEREQUEST._serialized_end=270
-  _REMOVEREPLY._serialized_start=272
-  _REMOVEREPLY._serialized_end=370
-  _ADMINCALL._serialized_start=372
-  _ADMINCALL._serialized_end=466
+  _ADDUSERREQUEST._serialized_start=16
+  _ADDUSERREQUEST._serialized_end=144
+  _ADDUSERREPLY._serialized_start=146
+  _ADDUSERREPLY._serialized_end=245
+  _REMOVEUSERREQUEST._serialized_start=247
+  _REMOVEUSERREQUEST._serialized_end=283
+  _REMOVEUSERREPLY._serialized_start=285
+  _REMOVEUSERREPLY._serialized_end=387
+  _ADDCLASSREQUEST._serialized_start=389
+  _ADDCLASSREQUEST._serialized_end=466
+  _ADDCLASSREPLY._serialized_start=468
+  _ADDCLASSREPLY._serialized_end=568
+  _ADMINCALL._serialized_start=571
+  _ADMINCALL._serialized_end=729
 # @@protoc_insertion_point(module_scope)
