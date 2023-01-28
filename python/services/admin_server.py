@@ -11,7 +11,6 @@ load_dotenv()
 
 class AdminCall(admin_pb2_grpc.AdminCallServicer):
     @database_connect
-    
     def AddUser(self, db, request, context):
         # Populate values sent in the request
         username, firstname, lastname, password, email, role_id = request.username, request.first_name, request.last_name, request.user_password, request.email, request.role_id
@@ -31,10 +30,9 @@ class AdminCall(admin_pb2_grpc.AdminCallServicer):
             return admin_pb2.AddReply(message="User Added", status_code=200)
         except Exception as e:
             # 400 is unsuccessful
-            return admin_pb2.AddReply(error=str(e), status_code = 400)
+            return admin_pb2.AddReply(error=str(e), status_code=400)
 
     @database_connect
-    
     def RemoveUser(self, db, request, context):
         # Grab user id from request data
         user_id = request.user_id
