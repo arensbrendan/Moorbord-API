@@ -1,7 +1,7 @@
 from flask import Flask, request, Response
 from flask_cors import cross_origin, CORS
 from login_client import login
-from admin_client import add_user, remove_user, add_class
+from admin_client import add_user, remove_user, add_class, remove_class
 from python.schemas.LoginSchema import LoginSchema
 from python.schemas.AddUserSchema import AddUserSchema
 import json
@@ -96,11 +96,25 @@ def add_class_api():
     try:
         result = add_class(info)
         return Response(
-            json.dumps({"message" if result.message else "error": result.message if result.message else result.error}), status=result.status_code
+            json.dumps({"message" if result.message else "error": result.message if result.message else result.error}),
+            status=result.status_code
         )
     except Exception as e:
         return Response(json.dumps({"error": str(e)}), status=500)
 
+
+@app.route("/api/admin/remove_class", methods=["DELETE"])
+@cross_origin(**admin_cors)
+def remove_class_api():
+    info = request.get_json()
+    try:
+        result = remove_class(info)
+        return Response(
+            json.dumps({"message" if result.message else "error": result.message if result.message else result.error}),
+            status=result.status_code
+        )
+    except Exception as error:
+        return Response(json.dumps({"error": str(error)}), status=500)
 
 
 @app.route("/api/generic/check", methods=["GET"])
@@ -108,7 +122,6 @@ def add_class_api():
 def check():
     # An easy way to see if the API is visible to others
     return "check successful"
-
 
 
 def main():

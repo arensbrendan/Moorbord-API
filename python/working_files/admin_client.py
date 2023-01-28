@@ -49,3 +49,12 @@ def add_class(request):
             admin_pb2.AddClassRequest(teacher_username=request["teacher_username"], class_name=request["class_name"],
                                       hour=request["hour"]))
     return response
+
+
+def remove_class(request):
+    with grpc.insecure_channel(ip) as channel:
+        stub = admin_pb2_grpc.AdminCallStub(channel)
+        response = stub.RemoveClass(
+            admin_pb2.RemoveClassRequest(class_id=request["class_id"])
+        )
+    return response

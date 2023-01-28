@@ -4,6 +4,7 @@ service AdminCall {
   rpc AddUser(AddUserRequest) returns (AddUserReply){}
   rpc RemoveUser(RemoveUserRequest) returns (RemoveUserReply){}
   rpc AddClass(AddClassRequest) returns (AddClassReply){}
+  rpc RemoveClass(RemoveClassRequest) returns (RemoveClassReply){}
 }
 
 message AddUserRequest {
@@ -42,3 +43,14 @@ message AddClassReply {
   optional string error = 2;
   int32 status_code = 3;
 }
+
+message RemoveClassRequest {
+  int32 class_id = 1;
+}
+
+message RemoveClassReply {
+  optional string message = 1;
+  optional string error = 2;
+  int32 status_code = 3;
+}
+

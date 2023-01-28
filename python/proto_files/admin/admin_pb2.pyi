@@ -50,6 +50,22 @@ class AddUserRequest(_message.Message):
     username: str
     def __init__(self, username: _Optional[str] = ..., first_name: _Optional[str] = ..., last_name: _Optional[str] = ..., user_password: _Optional[str] = ..., email: _Optional[str] = ..., role_id: _Optional[int] = ...) -> None: ...
 
+class RemoveClassReply(_message.Message):
+    __slots__ = ["error", "message", "status_code"]
+    ERROR_FIELD_NUMBER: _ClassVar[int]
+    MESSAGE_FIELD_NUMBER: _ClassVar[int]
+    STATUS_CODE_FIELD_NUMBER: _ClassVar[int]
+    error: str
+    message: str
+    status_code: int
+    def __init__(self, message: _Optional[str] = ..., error: _Optional[str] = ..., status_code: _Optional[int] = ...) -> None: ...
+
+class RemoveClassRequest(_message.Message):
+    __slots__ = ["class_id"]
+    CLASS_ID_FIELD_NUMBER: _ClassVar[int]
+    class_id: int
+    def __init__(self, class_id: _Optional[int] = ...) -> None: ...
+
 class RemoveUserReply(_message.Message):
     __slots__ = ["error", "message", "status_code"]
     ERROR_FIELD_NUMBER: _ClassVar[int]

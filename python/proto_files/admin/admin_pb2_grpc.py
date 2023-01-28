@@ -29,6 +29,11 @@ class AdminCallStub(object):
                 request_serializer=admin__pb2.AddClassRequest.SerializeToString,
                 response_deserializer=admin__pb2.AddClassReply.FromString,
                 )
+        self.RemoveClass = channel.unary_unary(
+                '/AdminCall/RemoveClass',
+                request_serializer=admin__pb2.RemoveClassRequest.SerializeToString,
+                response_deserializer=admin__pb2.RemoveClassReply.FromString,
+                )
 
 
 class AdminCallServicer(object):
@@ -52,6 +57,12 @@ class AdminCallServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def RemoveClass(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_AdminCallServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -69,6 +80,11 @@ def add_AdminCallServicer_to_server(servicer, server):
                     servicer.AddClass,
                     request_deserializer=admin__pb2.AddClassRequest.FromString,
                     response_serializer=admin__pb2.AddClassReply.SerializeToString,
+            ),
+            'RemoveClass': grpc.unary_unary_rpc_method_handler(
+                    servicer.RemoveClass,
+                    request_deserializer=admin__pb2.RemoveClassRequest.FromString,
+                    response_serializer=admin__pb2.RemoveClassReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -128,5 +144,22 @@ class AdminCall(object):
         return grpc.experimental.unary_unary(request, target, '/AdminCall/AddClass',
             admin__pb2.AddClassRequest.SerializeToString,
             admin__pb2.AddClassReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def RemoveClass(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/AdminCall/RemoveClass',
+            admin__pb2.RemoveClassRequest.SerializeToString,
+            admin__pb2.RemoveClassReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
