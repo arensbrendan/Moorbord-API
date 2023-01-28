@@ -37,7 +37,10 @@ def login_api():
     except Exception as e:
         # If it isn't valid, return why and a 400 code
         return Response(json.dumps({"error": str(e)}, status=400))
-    result = login(data)
+    try:
+        result = login(data)
+    except Exception as e:
+        return Response(json.dumps({"error": str(e)}), status=500)
     # Message will return "valid": True or "valid": False if it's good, but if it threw an error
     # It will return "error": error_message
     object = ""
