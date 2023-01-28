@@ -1,7 +1,7 @@
 from __future__ import print_function
 import grpc
-from python.proto_files.admin import admin_pb2
-from python.proto_files.admin import admin_pb2_grpc
+from python.proto_files.user import user_pb2
+from python.proto_files.user import user_pb2_grpc
 from dotenv import load_dotenv
 import os
 from decorators import database_connect
@@ -25,10 +25,10 @@ def add_user(request, db):
     # Now we'll generate a username for the new user based off of their initials, and the next sequential 6 digit number
     username = request["firstname"][0] + request["lastname"][0] + str(max(ids) + 1)
     with grpc.insecure_channel(ip) as channel:
-        stub = admin_pb2_grpc.AdminCallStub(channel)
+        stub = user_pb2_grpc.UserCallStub(channel)
         # Send in request with appropriate data
         response = stub.AddUser(
-            admin_pb2.AddUserRequest(username=username, first_name=request["firstname"], last_name=request["lastname"],
+            user_pb2.AddUserRequest(username=username, first_name=request["firstname"], last_name=request["lastname"],
                                      user_password=request["user_password"], email=request["email"],
                                      role_id=request["role"]))
     return response
@@ -36,25 +36,7 @@ def add_user(request, db):
 
 def remove_user(request):
     with grpc.insecure_channel(ip) as channel:
-        stub = admin_pb2_grpc.AdminCallStub(channel)
+        stub = user_pb2_grpc.UserCallStub(channel)
         # Send remove user request
-        response = stub.RemoveUser(admin_pb2.RemoveUserRequest(user_id=request["user_id"]))
-    return response
-
-
-def add_class(request):
-    with grpc.insecure_channel(ip) as channel:
-        stub = admin_pb2_grpc.AdminCallStub(channel)
-        response = stub.AddClass(
-            admin_pb2.AddClassRequest(teacher_username=request["teacher_username"], class_name=request["class_name"],
-                                      hour=request["hour"]))
-    return response
-
-
-def remove_class(request):
-    with grpc.insecure_channel(ip) as channel:
-        stub = admin_pb2_grpc.AdminCallStub(channel)
-        response = stub.RemoveClass(
-            admin_pb2.RemoveClassRequest(class_id=request["class_id"])
-        )
+        response = stub.RemoveUser(user_pb2.RemoveUserRequest(user_id=request["user_id"]))
     return response

@@ -1,6 +1,6 @@
 import grpc
-from python.proto_files.admin import admin_pb2
-from python.proto_files.admin import admin_pb2_grpc
+from python.proto_files.user import user_pb2
+from python.proto_files.user import user_pb2_grpc
 from concurrent import futures
 from dotenv import load_dotenv
 import os
@@ -9,7 +9,7 @@ from python.working_files.decorators import database_connect
 load_dotenv()
 
 
-class AdminCall(admin_pb2_grpc.AdminCallServicer):
+class UserCall(user_pb2_grpc.UserCallServicer):
     @database_connect
     def AddUser(self, db, request, context):
         # Populate values sent in the request
@@ -27,10 +27,10 @@ class AdminCall(admin_pb2_grpc.AdminCallServicer):
             sql = "INSERT INTO login VALUES('%s', '%s')" % (uid, password)
             db.execute(sql)
             # 200 is a successful error code
-            return admin_pb2.AddUserReply(message="User Added", status_code=200)
+            return user_pb2.AddUserReply(message="User Added", status_code=200)
         except Exception as e:
             # 400 is unsuccessful
-            return admin_pb2.AddUserReply(error=str(e), status_code=400)
+            return user_pb2.AddUserReply(error=str(e), status_code=400)
 
     @database_connect
     def RemoveUser(self, db, request, context):
@@ -52,63 +52,21 @@ class AdminCall(admin_pb2_grpc.AdminCallServicer):
                 sql = "DELETE FROM user WHERE user_id = '%s'" % user_id
                 db.execute(sql)
                 # 200 is successful
-                return admin_pb2.RemoveUserReply(message="User removed", status_code=200)
+                return user_pb2.RemoveUserReply(message="User removed", status_code=200)
             else:
                 raise ValueError("That user_id does not exist in the login")
         except ValueError as v:
             # If the user doesn't exist, return 404 for not found
-            return admin_pb2.RemoveUserReply(error=str(v), status_code=404)
+            return user_pb2.RemoveUserReply(error=str(v), status_code=404)
         except Exception as e:
             # Generic error returns a 400
-            return admin_pb2.RemoveUserReply(error=str(e), status_code=400)
-
-    @database_connect
-    def AddClass(self, db, request, context):
-        teacher_username, class_name, hour = request.teacher_username, request.class_name, request.hour
-        try:
-            sql = "SELECT user_id FROM user WHERE username = '%s'" % teacher_username
-            db.execute(sql)
-            user_id = db.fetchall()[0]
-            if user_id:
-                sql = "SELECT * FROM class WHERE hour = '%s' AND teacher_id = '%s'" % (hour, user_id["user_id"])
-                db.execute(sql)
-                if db.fetchall():
-                    raise ValueError("That teacher is already teaching a class at that hour!")
-                else:
-                    sql = "INSERT INTO class(teacher_id, class_name, hour) VALUES('%s', '%s', '%s')" % (user_id["user_id"], class_name, hour)
-                    db.execute(sql)
-                    return admin_pb2.RemoveUserReply(message="Class Created", status_code=200)
-            else:
-                raise ValueError("The username provided for the teacher does not exist")
-        except ValueError as error:
-            return admin_pb2.RemoveUserReply(error=str(error), status_code=404)
-        except Exception as error:
-            return admin_pb2.RemoveUserReply(error=str(error), status_code=400)
-
-    @database_connect
-    def RemoveClass(self, db, request, context):
-        class_id = request.class_id
-        try:
-            sql = "SELECT * FROM class WHERE class_id = '%s'" % class_id
-            db.execute(sql)
-            if db.fetchall():
-                sql = "DELETE FROM class WHERE class_id = '%s'" % class_id
-                db.execute(sql)
-                return admin_pb2.RemoveUserReply(message="Class has been removed", status_code=200)
-            else:
-                raise ValueError("That class does not exist")
-        except ValueError as v:
-            return admin_pb2.RemoveUserReply(error=str(v), status_code=404)
-        except Exception as error:
-            return admin_pb2.RemoveUserReply(error=str(error), status_code=400)
-
-
+            return user_pb2.RemoveUserReply(error=str(e), status_code=400)
 
 def serve():
     # General service setup
     port = '1'
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    admin_pb2_grpc.add_AdminCallServicer_to_server(AdminCall(), server)
+    user_pb2_grpc.add_UserCallServicer_to_server(UserCall(), server)
     server.add_insecure_port(os.getenv("IP") + ':' + port)
     server.start()
     print("Server started, listening on " + port)

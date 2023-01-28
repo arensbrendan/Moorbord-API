@@ -1,7 +1,8 @@
 from flask import Flask, request, Response
 from flask_cors import cross_origin, CORS
 from login_client import login
-from admin_client import add_user, remove_user, add_class, remove_class
+from user_client import add_user, remove_user
+from class_client import add_class, remove_class
 from python.schemas.LoginSchema import LoginSchema
 from python.schemas.AddUserSchema import AddUserSchema
 import json
