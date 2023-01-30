@@ -14,6 +14,7 @@ class UserCall(user_pb2_grpc.UserCallServicer):
     def AddUser(self, db, request, context):
         # Populate values sent in the request
         username, firstname, lastname, password, email, role_id = request.username, request.first_name, request.last_name, request.user_password, request.email, request.role_id
+        grade = None if role_id != 0 else request.grade
         try:
             # Insert all relevant data into the user table
             sql = "INSERT INTO new.user(username, first_name, last_name, email, role_id) VALUES('%s', '%s', '%s', " \
@@ -26,6 +27,20 @@ class UserCall(user_pb2_grpc.UserCallServicer):
             # Now populate the login table with the id and password attached
             sql = "INSERT INTO login VALUES('%s', '%s')" % (uid, password)
             db.execute(sql)
+
+            match role_id:
+                case 0:
+                    sql = "INSERT INTO student(user_id, grade) VALUES(%s, %s)" % (uid, grade)
+                    db.execute(sql)
+                case 1:
+                    sql = "INSERT INTO guardian(user_id) VALUES (%s)" % uid
+                    db.execute(sql)
+                case 2:
+                    sql = "INSERT INTO teacher(user_id) VALUES (%s)" % uid
+                    db.execute(sql)
+                case 3:
+                    sql = "INSERT INTO admin(user_id) VALUES (%s)" % uid
+                    db.execute(sql)
             # 200 is a successful error code
             return user_pb2.AddUserReply(message="User Added", status_code=200)
         except Exception as e:
@@ -38,9 +53,11 @@ class UserCall(user_pb2_grpc.UserCallServicer):
         user_id = request.user_id
         try:
             # Verifying that the user_id exists
-            sql = "SELECT * FROM user WHERE user_id = '%s'" % user_id
+            sql = "SELECT role_id FROM user WHERE user_id = '%s'" % user_id
             db.execute(sql)
-            if db.fetchall():
+            role = db.fetchall()
+            if role:
+                role = role[0]["role_id"]
                 '''
                 If the user_id exists, we will first drop it from the login table
                 This is because of foreign key constraints.  Before deleting the root primary key, we must remove it from
@@ -48,6 +65,19 @@ class UserCall(user_pb2_grpc.UserCallServicer):
                 '''
                 sql = "DELETE FROM login WHERE user_id = '%s'" % user_id
                 db.execute(sql)
+                match role:
+                    case 0:
+                        sql = "DELETE FROM student WHERE user_id = %s" % user_id
+                        db.execute(sql)
+                    case 1:
+                        sql = "DELETE FROM parent WHERE user_id = %s" % user_id
+                        db.execute(sql)
+                    case 2:
+                        sql = "DELETE FROM teacher WHERE user_id = %s" % user_id
+                        db.execute(sql)
+                    case 3:
+                        sql = "DELETE FROM admin WHERE user_id = %s" % user_id
+                        db.execute(sql)
                 # After that, we delete the user from the user table
                 sql = "DELETE FROM user WHERE user_id = '%s'" % user_id
                 db.execute(sql)

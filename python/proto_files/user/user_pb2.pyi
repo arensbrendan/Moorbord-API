@@ -15,20 +15,22 @@ class AddUserReply(_message.Message):
     def __init__(self, message: _Optional[str] = ..., error: _Optional[str] = ..., status_code: _Optional[int] = ...) -> None: ...
 
 class AddUserRequest(_message.Message):
-    __slots__ = ["email", "first_name", "last_name", "role_id", "user_password", "username"]
+    __slots__ = ["email", "first_name", "grade", "last_name", "role_id", "user_password", "username"]
     EMAIL_FIELD_NUMBER: _ClassVar[int]
     FIRST_NAME_FIELD_NUMBER: _ClassVar[int]
+    GRADE_FIELD_NUMBER: _ClassVar[int]
     LAST_NAME_FIELD_NUMBER: _ClassVar[int]
     ROLE_ID_FIELD_NUMBER: _ClassVar[int]
     USERNAME_FIELD_NUMBER: _ClassVar[int]
     USER_PASSWORD_FIELD_NUMBER: _ClassVar[int]
     email: str
     first_name: str
+    grade: int
     last_name: str
     role_id: int
     user_password: str
     username: str
-    def __init__(self, username: _Optional[str] = ..., first_name: _Optional[str] = ..., last_name: _Optional[str] = ..., user_password: _Optional[str] = ..., email: _Optional[str] = ..., role_id: _Optional[int] = ...) -> None: ...
+    def __init__(self, username: _Optional[str] = ..., first_name: _Optional[str] = ..., last_name: _Optional[str] = ..., user_password: _Optional[str] = ..., email: _Optional[str] = ..., role_id: _Optional[int] = ..., grade: _Optional[int] = ...) -> None: ...
 
 class RemoveUserReply(_message.Message):
     __slots__ = ["error", "message", "status_code"]

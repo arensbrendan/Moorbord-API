@@ -8,6 +8,7 @@ from python.working_files.decorators import database_connect
 
 load_dotenv()
 
+
 class ClassCall(class_pb2_grpc.ClassCallServicer):
     @database_connect
     def AddClass(self, db, request, context):
@@ -17,14 +18,22 @@ class ClassCall(class_pb2_grpc.ClassCallServicer):
             db.execute(sql)
             user_id = db.fetchall()[0]
             if user_id:
-                sql = "SELECT * FROM class WHERE hour = '%s' AND teacher_id = '%s'" % (hour, user_id["user_id"])
+                sql = "SELECT teacher_id FROM teacher WHERE user_id = %s" % user_id["user_id"]
                 db.execute(sql)
-                if db.fetchall():
-                    raise ValueError("That teacher is already teaching a class at that hour!")
+                teacher_id = db.fetchall()
+                if not teacher_id:
+                    raise ValueError("That user is not a teacher")
                 else:
-                    sql = "INSERT INTO class(teacher_id, class_name, hour) VALUES('%s', '%s', '%s')" % (user_id["user_id"], class_name, hour)
+                    teacher_id = teacher_id[0]["teacher_id"]
+                    sql = "SELECT * FROM class WHERE hour = '%s' AND teacher_id = '%s'" % (hour, teacher_id)
                     db.execute(sql)
-                    return class_pb2.RemoveClassReply(message="Class Created", status_code=200)
+                    if db.fetchall():
+                        raise ValueError("That teacher is already teaching a class at that hour!")
+                    else:
+                        sql = "INSERT INTO class(teacher_id, class_name, hour) VALUES(%s, '%s', %s)" % (
+                        teacher_id, class_name, hour)
+                        db.execute(sql)
+                        return class_pb2.RemoveClassReply(message="Class Created", status_code=200)
             else:
                 raise ValueError("The username provided for the teacher does not exist")
         except ValueError as error:
@@ -48,6 +57,7 @@ class ClassCall(class_pb2_grpc.ClassCallServicer):
             return class_pb2.RemoveClassReply(error=str(v), status_code=404)
         except Exception as error:
             return class_pb2.RemoveClassReply(error=str(error), status_code=400)
+
 
 def serve():
     # General service setup

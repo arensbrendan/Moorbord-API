@@ -3,6 +3,7 @@ from flask_cors import cross_origin, CORS
 from login_client import login
 from user_client import add_user, remove_user
 from class_client import add_class, remove_class
+from email_client import email_user
 from python.schemas.LoginSchema import LoginSchema
 from python.schemas.AddUserSchema import AddUserSchema
 import json
@@ -53,7 +54,7 @@ def login_api():
     return response
 
 
-@app.route("/api/admin/add_user", methods=["POST"])
+@app.route("/api/user/add_user", methods=["POST"])
 @cross_origin(**admin_cors)
 def add_user_api():
     info = request.get_json()
@@ -78,7 +79,7 @@ def add_user_api():
         status=result.status_code)
 
 
-@app.route("/api/admin/remove_user", methods=["DELETE"])
+@app.route("/api/user/remove_user", methods=["DELETE"])
 @cross_origin(**admin_cors)
 def remove_user_api():
     info = request.get_json()
@@ -90,7 +91,7 @@ def remove_user_api():
         status=result.status_code)
 
 
-@app.route("/api/admin/add_class", methods=["POST"])
+@app.route("/api/class/add_class", methods=["POST"])
 @cross_origin(**admin_cors)
 def add_class_api():
     info = request.get_json()
@@ -104,12 +105,26 @@ def add_class_api():
         return Response(json.dumps({"error": str(e)}), status=500)
 
 
-@app.route("/api/admin/remove_class", methods=["DELETE"])
+@app.route("/api/class/remove_class", methods=["DELETE"])
 @cross_origin(**admin_cors)
 def remove_class_api():
     info = request.get_json()
     try:
         result = remove_class(info)
+        return Response(
+            json.dumps({"message" if result.message else "error": result.message if result.message else result.error}),
+            status=result.status_code
+        )
+    except Exception as error:
+        return Response(json.dumps({"error": str(error)}), status=500)
+
+
+@app.route("/api/generic/email_user", methods=["POST"])
+@cross_origin(**generic_cors)
+def email_user_api():
+    info = request.get_json()
+    try:
+        result = email_user(info)
         return Response(
             json.dumps({"message" if result.message else "error": result.message if result.message else result.error}),
             status=result.status_code

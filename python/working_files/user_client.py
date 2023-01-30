@@ -29,8 +29,8 @@ def add_user(request, db):
         # Send in request with appropriate data
         response = stub.AddUser(
             user_pb2.AddUserRequest(username=username, first_name=request["firstname"], last_name=request["lastname"],
-                                     user_password=request["user_password"], email=request["email"],
-                                     role_id=request["role"]))
+                                    user_password=request["user_password"], email=request["email"],
+                                    role_id=request["role"], grade=None if request["role"] != 0 else request["grade"]))
     return response
 
 

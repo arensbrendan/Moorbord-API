@@ -12,6 +12,7 @@ message AddUserRequest {
   string user_password = 4;
   string email = 5;
   int32 role_id = 6;
+  optional int32 grade = 7;
 }
 
 message AddUserReply {
