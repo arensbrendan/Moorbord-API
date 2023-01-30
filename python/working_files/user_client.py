@@ -1,13 +1,14 @@
 from __future__ import print_function
 import grpc
-from python.proto_files.admin import admin_pb2
-from python.proto_files.admin import admin_pb2_grpc
+from python.proto_files.user import user_pb2
+from python.proto_files.user import user_pb2_grpc
 from dotenv import load_dotenv
 import os
 from decorators import database_connect
 
 load_dotenv()
 
+ip = os.getenv("IP") + ":1"
 
 
 @database_connect
@@ -23,21 +24,19 @@ def add_user(request, db):
         ids.append(int(i["username"][2::]))
     # Now we'll generate a username for the new user based off of their initials, and the next sequential 6 digit number
     username = request["firstname"][0] + request["lastname"][0] + str(max(ids) + 1)
-    with grpc.insecure_channel(os.getenv("IP") + ':1') as channel:
-        stub = admin_pb2_grpc.AdminCallStub(channel)
+    with grpc.insecure_channel(ip) as channel:
+        stub = user_pb2_grpc.UserCallStub(channel)
         # Send in request with appropriate data
         response = stub.AddUser(
-            admin_pb2.AddRequest(username=username, first_name=request["firstname"], last_name=request["lastname"],
-                                 user_password=request["user_password"], email=request["email"],
-                                 role_id=request["role"]))
+            user_pb2.AddUserRequest(username=username, first_name=request["firstname"], last_name=request["lastname"],
+                                     user_password=request["user_password"], email=request["email"],
+                                     role_id=request["role"]))
     return response
 
 
-
-@database_connect
-def remove_user(request, db):
-    with grpc.insecure_channel(os.getenv("IP") + ':1') as channel:
-        stub = admin_pb2_grpc.AdminCallStub(channel)
+def remove_user(request):
+    with grpc.insecure_channel(ip) as channel:
+        stub = user_pb2_grpc.UserCallStub(channel)
         # Send remove user request
-        response = stub.RemoveUser(admin_pb2.RemoveRequest(user_id=request["user_id"]))
+        response = stub.RemoveUser(user_pb2.RemoveUserRequest(user_id=request["user_id"]))
     return response

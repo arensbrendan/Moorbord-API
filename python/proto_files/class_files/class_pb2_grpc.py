@@ -2,10 +2,10 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import python.proto_files.admin.admin_pb2 as admin__pb2
+import python.proto_files.class_files.class_pb2 as class__pb2
 
 
-class AdminCallStub(object):
+class ClassCallStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -14,58 +14,58 @@ class AdminCallStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.AddUser = channel.unary_unary(
-                '/AdminCall/AddUser',
-                request_serializer=admin__pb2.AddRequest.SerializeToString,
-                response_deserializer=admin__pb2.AddReply.FromString,
+        self.AddClass = channel.unary_unary(
+                '/ClassCall/AddClass',
+                request_serializer=class__pb2.AddClassRequest.SerializeToString,
+                response_deserializer=class__pb2.AddClassReply.FromString,
                 )
-        self.RemoveUser = channel.unary_unary(
-                '/AdminCall/RemoveUser',
-                request_serializer=admin__pb2.RemoveRequest.SerializeToString,
-                response_deserializer=admin__pb2.RemoveReply.FromString,
+        self.RemoveClass = channel.unary_unary(
+                '/ClassCall/RemoveClass',
+                request_serializer=class__pb2.RemoveClassRequest.SerializeToString,
+                response_deserializer=class__pb2.RemoveClassReply.FromString,
                 )
 
 
-class AdminCallServicer(object):
+class ClassCallServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def AddUser(self, request, context):
+    def AddClass(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def RemoveUser(self, request, context):
+    def RemoveClass(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_AdminCallServicer_to_server(servicer, server):
+def add_ClassCallServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'AddUser': grpc.unary_unary_rpc_method_handler(
-                    servicer.AddUser,
-                    request_deserializer=admin__pb2.AddRequest.FromString,
-                    response_serializer=admin__pb2.AddReply.SerializeToString,
+            'AddClass': grpc.unary_unary_rpc_method_handler(
+                    servicer.AddClass,
+                    request_deserializer=class__pb2.AddClassRequest.FromString,
+                    response_serializer=class__pb2.AddClassReply.SerializeToString,
             ),
-            'RemoveUser': grpc.unary_unary_rpc_method_handler(
-                    servicer.RemoveUser,
-                    request_deserializer=admin__pb2.RemoveRequest.FromString,
-                    response_serializer=admin__pb2.RemoveReply.SerializeToString,
+            'RemoveClass': grpc.unary_unary_rpc_method_handler(
+                    servicer.RemoveClass,
+                    request_deserializer=class__pb2.RemoveClassRequest.FromString,
+                    response_serializer=class__pb2.RemoveClassReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'AdminCall', rpc_method_handlers)
+            'ClassCall', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
- # This class is part of an EXPERIMENTAL API.
-class AdminCall(object):
+ # This class_files is part of an EXPERIMENTAL API.
+class ClassCall(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def AddUser(request,
+    def AddClass(request,
             target,
             options=(),
             channel_credentials=None,
@@ -75,14 +75,14 @@ class AdminCall(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/AdminCall/AddUser',
-            admin__pb2.AddRequest.SerializeToString,
-            admin__pb2.AddReply.FromString,
+        return grpc.experimental.unary_unary(request, target, '/ClassCall/AddClass',
+            class__pb2.AddClassRequest.SerializeToString,
+            class__pb2.AddClassReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def RemoveUser(request,
+    def RemoveClass(request,
             target,
             options=(),
             channel_credentials=None,
@@ -92,8 +92,8 @@ class AdminCall(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/AdminCall/RemoveUser',
-            admin__pb2.RemoveRequest.SerializeToString,
-            admin__pb2.RemoveReply.FromString,
+        return grpc.experimental.unary_unary(request, target, '/ClassCall/RemoveClass',
+            class__pb2.RemoveClassRequest.SerializeToString,
+            class__pb2.RemoveClassReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

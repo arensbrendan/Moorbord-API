@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+service ClassCall {
+  rpc AddClass(AddClassRequest) returns (AddClassReply){}
+  rpc RemoveClass(RemoveClassRequest) returns (RemoveClassReply){}
+}
+
+message AddClassRequest {
+  string teacher_username = 1;
+  string class_name = 2;
+  int32 hour = 3;
+}
+
+message AddClassReply {
+  optional string message = 1;
+  optional string error = 2;
+  int32 status_code = 3;
+}
+
+message RemoveClassRequest {
+  int32 class_id = 1;
+}
+
+message RemoveClassReply {
+  optional string message = 1;
+  optional string error = 2;
+  int32 status_code = 3;
+}
+

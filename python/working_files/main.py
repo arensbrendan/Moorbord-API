@@ -1,7 +1,8 @@
 from flask import Flask, request, Response
 from flask_cors import cross_origin, CORS
 from login_client import login
-from admin_client import add_user, remove_user
+from user_client import add_user, remove_user
+from class_client import add_class, remove_class
 from python.schemas.LoginSchema import LoginSchema
 from python.schemas.AddUserSchema import AddUserSchema
 import json
@@ -37,12 +38,15 @@ def login_api():
     except Exception as e:
         # If it isn't valid, return why and a 400 code
         return Response(json.dumps({"error": str(e)}, status=400))
-    result = login(data)
+    try:
+        result = login(data)
+    except Exception as e:
+        return Response(json.dumps({"error": str(e)}), status=500)
     # Message will return "valid": True or "valid": False if it's good, but if it threw an error
     # It will return "error": error_message
     object = ""
     if result.object != "":
-        json.loads(result.object)
+        object = json.loads(result.object)
     response = Response(
         json.dumps({"user" if result.object else "error": result.error if result.error else object}),
         status=result.status_code)
@@ -84,6 +88,34 @@ def remove_user_api():
     return Response(
         json.dumps({"message" if result.message else "error": result.message if result.message else result.error}),
         status=result.status_code)
+
+
+@app.route("/api/admin/add_class", methods=["POST"])
+@cross_origin(**admin_cors)
+def add_class_api():
+    info = request.get_json()
+    try:
+        result = add_class(info)
+        return Response(
+            json.dumps({"message" if result.message else "error": result.message if result.message else result.error}),
+            status=result.status_code
+        )
+    except Exception as e:
+        return Response(json.dumps({"error": str(e)}), status=500)
+
+
+@app.route("/api/admin/remove_class", methods=["DELETE"])
+@cross_origin(**admin_cors)
+def remove_class_api():
+    info = request.get_json()
+    try:
+        result = remove_class(info)
+        return Response(
+            json.dumps({"message" if result.message else "error": result.message if result.message else result.error}),
+            status=result.status_code
+        )
+    except Exception as error:
+        return Response(json.dumps({"error": str(error)}), status=500)
 
 
 @app.route("/api/generic/check", methods=["GET"])
