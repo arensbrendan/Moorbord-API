@@ -2,7 +2,7 @@ from flask import Flask, request, Response
 from flask_cors import cross_origin, CORS
 from login_client import login
 from user_client import add_user, remove_user
-from class_client import add_class, remove_class
+from class_client import add_class, remove_class, add_user_to_class, remove_user_from_class
 from email_client import email_user
 from python.schemas.LoginSchema import LoginSchema
 from python.schemas.AddUserSchema import AddUserSchema
@@ -125,6 +125,34 @@ def email_user_api():
     info = request.get_json()
     try:
         result = email_user(info)
+        return Response(
+            json.dumps({"message" if result.message else "error": result.message if result.message else result.error}),
+            status=result.status_code
+        )
+    except Exception as error:
+        return Response(json.dumps({"error": str(error)}), status=500)
+
+
+@app.route("/api/generic/add_user_to_class", methods=["POST"])
+@cross_origin(**generic_cors)
+def add_user_to_class_api():
+    info = request.get_json()
+    try:
+        result = add_user_to_class(info)
+        return Response(
+            json.dumps({"message" if result.message else "error": result.message if result.message else result.error}),
+            status=result.status_code
+        )
+    except Exception as error:
+        return Response(json.dumps({"error": str(error)}), status=500)
+
+
+@app.route("/api/generic/remove_user_from_class", methods=["DELETE"])
+@cross_origin(**generic_cors)
+def remove_user_from_class_api():
+    info = request.get_json()
+    try:
+        result = remove_user_from_class(info)
         return Response(
             json.dumps({"message" if result.message else "error": result.message if result.message else result.error}),
             status=result.status_code

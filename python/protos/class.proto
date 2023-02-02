@@ -3,6 +3,8 @@ syntax = "proto3";
 service ClassCall {
   rpc AddClass(AddClassRequest) returns (AddClassReply){}
   rpc RemoveClass(RemoveClassRequest) returns (RemoveClassReply){}
+  rpc AddUserToClass(AddUserToClassRequest) returns (AddUserToClassReply){}
+  rpc RemoveUserFromClass(RemoveUserFromClassRequest) returns (RemoveUserFromClassReply){}
 }
 
 message AddClassRequest {
@@ -27,3 +29,24 @@ message RemoveClassReply {
   int32 status_code = 3;
 }
 
+message AddUserToClassRequest {
+  int32 class_id = 1;
+  string username = 2;
+}
+
+message AddUserToClassReply {
+  optional string message = 1;
+  optional string error = 2;
+  int32 status_code = 3;
+}
+
+message RemoveUserFromClassRequest {
+  int32 class_id = 1;
+  string username = 2;
+}
+
+message RemoveUserFromClassReply {
+  optional string message = 1;
+  optional string error = 2;
+  int32 status_code = 3;
+}

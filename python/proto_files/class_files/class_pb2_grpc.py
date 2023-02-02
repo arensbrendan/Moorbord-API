@@ -24,6 +24,16 @@ class ClassCallStub(object):
                 request_serializer=class__pb2.RemoveClassRequest.SerializeToString,
                 response_deserializer=class__pb2.RemoveClassReply.FromString,
                 )
+        self.AddUserToClass = channel.unary_unary(
+                '/ClassCall/AddUserToClass',
+                request_serializer=class__pb2.AddUserToClassRequest.SerializeToString,
+                response_deserializer=class__pb2.AddUserToClassReply.FromString,
+                )
+        self.RemoveUserFromClass = channel.unary_unary(
+                '/ClassCall/RemoveUserFromClass',
+                request_serializer=class__pb2.RemoveUserFromClassRequest.SerializeToString,
+                response_deserializer=class__pb2.RemoveUserFromClassReply.FromString,
+                )
 
 
 class ClassCallServicer(object):
@@ -36,6 +46,18 @@ class ClassCallServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def RemoveClass(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def AddUserToClass(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RemoveUserFromClass(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -54,13 +76,23 @@ def add_ClassCallServicer_to_server(servicer, server):
                     request_deserializer=class__pb2.RemoveClassRequest.FromString,
                     response_serializer=class__pb2.RemoveClassReply.SerializeToString,
             ),
+            'AddUserToClass': grpc.unary_unary_rpc_method_handler(
+                    servicer.AddUserToClass,
+                    request_deserializer=class__pb2.AddUserToClassRequest.FromString,
+                    response_serializer=class__pb2.AddUserToClassReply.SerializeToString,
+            ),
+            'RemoveUserFromClass': grpc.unary_unary_rpc_method_handler(
+                    servicer.RemoveUserFromClass,
+                    request_deserializer=class__pb2.RemoveUserFromClassRequest.FromString,
+                    response_serializer=class__pb2.RemoveUserFromClassReply.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
             'ClassCall', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
- # This class_files is part of an EXPERIMENTAL API.
+ # This class is part of an EXPERIMENTAL API.
 class ClassCall(object):
     """Missing associated documentation comment in .proto file."""
 
@@ -95,5 +127,39 @@ class ClassCall(object):
         return grpc.experimental.unary_unary(request, target, '/ClassCall/RemoveClass',
             class__pb2.RemoveClassRequest.SerializeToString,
             class__pb2.RemoveClassReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def AddUserToClass(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/ClassCall/AddUserToClass',
+            class__pb2.AddUserToClassRequest.SerializeToString,
+            class__pb2.AddUserToClassReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def RemoveUserFromClass(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/ClassCall/RemoveUserFromClass',
+            class__pb2.RemoveUserFromClassRequest.SerializeToString,
+            class__pb2.RemoveUserFromClassReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

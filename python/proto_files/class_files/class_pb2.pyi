@@ -24,6 +24,24 @@ class AddClassRequest(_message.Message):
     teacher_username: str
     def __init__(self, teacher_username: _Optional[str] = ..., class_name: _Optional[str] = ..., hour: _Optional[int] = ...) -> None: ...
 
+class AddUserToClassReply(_message.Message):
+    __slots__ = ["error", "message", "status_code"]
+    ERROR_FIELD_NUMBER: _ClassVar[int]
+    MESSAGE_FIELD_NUMBER: _ClassVar[int]
+    STATUS_CODE_FIELD_NUMBER: _ClassVar[int]
+    error: str
+    message: str
+    status_code: int
+    def __init__(self, message: _Optional[str] = ..., error: _Optional[str] = ..., status_code: _Optional[int] = ...) -> None: ...
+
+class AddUserToClassRequest(_message.Message):
+    __slots__ = ["class_id", "username"]
+    CLASS_ID_FIELD_NUMBER: _ClassVar[int]
+    USERNAME_FIELD_NUMBER: _ClassVar[int]
+    class_id: int
+    username: str
+    def __init__(self, class_id: _Optional[int] = ..., username: _Optional[str] = ...) -> None: ...
+
 class RemoveClassReply(_message.Message):
     __slots__ = ["error", "message", "status_code"]
     ERROR_FIELD_NUMBER: _ClassVar[int]
@@ -39,3 +57,21 @@ class RemoveClassRequest(_message.Message):
     CLASS_ID_FIELD_NUMBER: _ClassVar[int]
     class_id: int
     def __init__(self, class_id: _Optional[int] = ...) -> None: ...
+
+class RemoveUserFromClassReply(_message.Message):
+    __slots__ = ["error", "message", "status_code"]
+    ERROR_FIELD_NUMBER: _ClassVar[int]
+    MESSAGE_FIELD_NUMBER: _ClassVar[int]
+    STATUS_CODE_FIELD_NUMBER: _ClassVar[int]
+    error: str
+    message: str
+    status_code: int
+    def __init__(self, message: _Optional[str] = ..., error: _Optional[str] = ..., status_code: _Optional[int] = ...) -> None: ...
+
+class RemoveUserFromClassRequest(_message.Message):
+    __slots__ = ["class_id", "username"]
+    CLASS_ID_FIELD_NUMBER: _ClassVar[int]
+    USERNAME_FIELD_NUMBER: _ClassVar[int]
+    class_id: int
+    username: str
+    def __init__(self, class_id: _Optional[int] = ..., username: _Optional[str] = ...) -> None: ...
