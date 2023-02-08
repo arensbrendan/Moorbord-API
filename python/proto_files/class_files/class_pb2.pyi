@@ -42,6 +42,22 @@ class AddUserToClassRequest(_message.Message):
     username: str
     def __init__(self, class_id: _Optional[int] = ..., username: _Optional[str] = ...) -> None: ...
 
+class GetAllUsersFromClassReply(_message.Message):
+    __slots__ = ["error", "message", "status_code"]
+    ERROR_FIELD_NUMBER: _ClassVar[int]
+    MESSAGE_FIELD_NUMBER: _ClassVar[int]
+    STATUS_CODE_FIELD_NUMBER: _ClassVar[int]
+    error: str
+    message: str
+    status_code: int
+    def __init__(self, message: _Optional[str] = ..., error: _Optional[str] = ..., status_code: _Optional[int] = ...) -> None: ...
+
+class GetAllUsersFromClassRequest(_message.Message):
+    __slots__ = ["class_id"]
+    CLASS_ID_FIELD_NUMBER: _ClassVar[int]
+    class_id: int
+    def __init__(self, class_id: _Optional[int] = ...) -> None: ...
+
 class RemoveClassReply(_message.Message):
     __slots__ = ["error", "message", "status_code"]
     ERROR_FIELD_NUMBER: _ClassVar[int]

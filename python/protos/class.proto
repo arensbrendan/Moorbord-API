@@ -5,6 +5,7 @@ service ClassCall {
   rpc RemoveClass(RemoveClassRequest) returns (RemoveClassReply){}
   rpc AddUserToClass(AddUserToClassRequest) returns (AddUserToClassReply){}
   rpc RemoveUserFromClass(RemoveUserFromClassRequest) returns (RemoveUserFromClassReply){}
+  rpc GetAllUsersFromClass(GetAllUsersFromClassRequest) returns (GetAllUsersFromClassReply) {}
 }
 
 message AddClassRequest {
@@ -46,6 +47,16 @@ message RemoveUserFromClassRequest {
 }
 
 message RemoveUserFromClassReply {
+  optional string message = 1;
+  optional string error = 2;
+  int32 status_code = 3;
+}
+
+message GetAllUsersFromClassRequest {
+  int32 class_id = 1;
+}
+
+message GetAllUsersFromClassReply {
   optional string message = 1;
   optional string error = 2;
   int32 status_code = 3;

@@ -2,7 +2,7 @@ from flask import Flask, request, Response
 from flask_cors import cross_origin, CORS
 from login_client import login
 from user_client import add_user, remove_user
-from class_client import add_class, remove_class, add_user_to_class, remove_user_from_class
+from class_client import *
 from email_client import email_user
 from python.schemas.LoginSchema import LoginSchema
 from python.schemas.AddUserSchema import AddUserSchema
@@ -155,6 +155,24 @@ def remove_user_from_class_api():
         result = remove_user_from_class(info)
         return Response(
             json.dumps({"message" if result.message else "error": result.message if result.message else result.error}),
+            status=result.status_code
+        )
+    except Exception as error:
+        return Response(json.dumps({"error": str(error)}), status=500)
+
+
+@app.route("/api/generic/get_all_users_from_class", methods=["GET"])
+@cross_origin(**generic_cors)
+def get_all_users_from_class_api():
+    info = {
+        "class_id": int(request.args.get('class_id'))
+    }
+    try:
+        result = get_all_users_from_class(info)
+        if result.message:
+            result_message = json.loads(result.message)
+        return Response(
+            json.dumps({"message" if result.message else "error": result_message if result.message else result.error}),
             status=result.status_code
         )
     except Exception as error:

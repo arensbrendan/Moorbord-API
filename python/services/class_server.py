@@ -5,6 +5,7 @@ from concurrent import futures
 from dotenv import load_dotenv
 import os
 from python.working_files.decorators import database_connect
+import json
 
 load_dotenv()
 
@@ -42,7 +43,7 @@ class ClassCall(class_pb2_grpc.ClassCallServicer):
                     else:
                         # Add class for that teacher
                         sql = "INSERT INTO class(teacher_id, class_name, hour) VALUES(%s, '%s', %s)" % (
-                        teacher_id, class_name, hour)
+                            teacher_id, class_name, hour)
                         db.execute(sql)
                         return class_pb2.RemoveClassReply(message="Class Created", status_code=200)
             else:
@@ -131,7 +132,8 @@ class ClassCall(class_pb2_grpc.ClassCallServicer):
                         raise ValueError("That student already has a class at that hour!")
                     else:
                         # Finally run query
-                        put_student_in_student_classes_table = "INSERT INTO student_classes VALUES(%s, %s)" % (student_id, class_id)
+                        put_student_in_student_classes_table = "INSERT INTO student_classes VALUES(%s, %s)" % (
+                        student_id, class_id)
                         db.execute(put_student_in_student_classes_table)
                         return class_pb2.AddUserToClassReply(message="User has been added to class", status_code=200)
             else:
@@ -174,12 +176,45 @@ class ClassCall(class_pb2_grpc.ClassCallServicer):
                     # If valid, remove user from that class
                     remove_user_from_table = "DELETE FROM student_classes WHERE student_id = %s" % student_id
                     db.execute(remove_user_from_table)
-                    return class_pb2.AddUserToClassReply(message="User has been removed from the class", status_code=200)
+                    return class_pb2.AddUserToClassReply(message="User has been removed from the class",
+                                                         status_code=200)
         except ValueError as v:
             return class_pb2.AddUserToClassReply(error=str(v), status_code=404)
         except Exception as error:
             return class_pb2.AddUserToClassReply(error=str(error), status_code=400)
 
+    @database_connect
+    def GetAllUsersFromClass(self, db, request, context):
+        class_id = request.class_id
+        try:
+            sql = "SELECT * FROM class WHERE class_id = %s" % class_id
+            db.execute(sql)
+            if db.fetchall():
+                sql = "SELECT student_id FROM student_classes WHERE class_id = '%s'" % class_id
+                db.execute(sql)
+                student_ids = db.fetchall()
+                if student_ids:
+                    user_ids = []
+                    for student in student_ids:
+                        sql = "SELECT user_id FROM student WHERE student_id = %s" % student["student_id"]
+                        db.execute(sql)
+                        user_ids.append(db.fetchall()[0]["user_id"])
+                    users = []
+                    for user in user_ids:
+                        sql = "SELECT user_id, first_name, last_name FROM user WHERE user_id = %s" % user
+                        db.execute(sql)
+                        users.append(db.fetchall()[0])
+                    users = sorted(users, key=lambda d: d["last_name"])
+                    users = json.dumps(users)
+                    return class_pb2.GetAllUsersFromClassReply(message=users, status_code=200)
+                else:
+                    raise ValueError("That class is empty")
+            else:
+                raise ValueError("That class does not exist")
+        except ValueError as v:
+            return class_pb2.GetAllUsersFromClassReply(error=str(v), status_code=404)
+        except Exception as error:
+            return class_pb2.GetAllUsersFromClassReply(error=str(error), status_code=400)
 
 
 def serve():
