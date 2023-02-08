@@ -5,6 +5,7 @@ from concurrent import futures
 from dotenv import load_dotenv
 import os
 from python.working_files.decorators import database_connect
+import json
 
 load_dotenv()
 
@@ -91,6 +92,34 @@ class UserCall(user_pb2_grpc.UserCallServicer):
         except Exception as e:
             # Generic error returns a 400
             return user_pb2.RemoveUserReply(error=str(e), status_code=400)
+
+    @database_connect
+    def GetAllClassesOfTeacher(self, db, request, context):
+        # Grab user id from request data
+        user_id = request.user_id
+        try:
+            sql = "SELECT teacher_id FROM teacher WHERE user_id = %s" % user_id
+            db.execute(sql)
+            teacher_id = db.fetchall()
+            if teacher_id:
+                sql = "SELECT class_id, class_name, hour FROM class WHERE teacher_id = %s ORDER BY hour ASC" % teacher_id[0]["teacher_id"]
+                db.execute(sql)
+                classes = db.fetchall()
+                if classes:
+                    classes = json.dumps(classes)
+                    classes = classes.replace("\'", '\"')
+                    return user_pb2.GetAllClassesOfTeacherReply(message=classes, status_code=200)
+                else:
+                    raise ValueError("That teacher has no classes")
+            else:
+                raise ValueError("That user is not a teacher")
+        except ValueError as v:
+            # If the user doesn't exist, return 404 for not found
+            return user_pb2.GetAllClassesOfTeacherReply(error=str(v), status_code=404)
+        except Exception as e:
+            # Generic error returns a 400
+            return user_pb2.GetAllClassesOfTeacherReply(error=str(e), status_code=400)
+
 
 def serve():
     # General service setup

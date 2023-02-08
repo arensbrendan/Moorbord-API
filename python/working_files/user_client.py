@@ -40,3 +40,10 @@ def remove_user(request):
         # Send remove user request
         response = stub.RemoveUser(user_pb2.RemoveUserRequest(user_id=request["user_id"]))
     return response
+
+
+def get_all_classes_from_teacher(request):
+    with grpc.insecure_channel(ip) as channel:
+        stub = user_pb2_grpc.UserCallStub(channel)
+        response = stub.GetAllClassesOfTeacher(user_pb2.GetAllClassesOfTeacherRequest(user_id=request["user_id"]))
+    return response
