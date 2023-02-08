@@ -5,8 +5,9 @@ service EmailCall {
 }
 
 message EmailUserRequest {
-  string username = 1;
-  string email_body = 2;
+  string email_to = 1;
+  string email_subject = 2;
+  string email_body = 3;
 }
 
 message EmailUserReply {

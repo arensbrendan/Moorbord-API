@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0b\x65mail.proto\"8\n\x10\x45mailUserRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x12\n\nemail_body\x18\x02 \x01(\t\"e\n\x0e\x45mailUserReply\x12\x14\n\x07message\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x13\n\x0bstatus_code\x18\x03 \x01(\x05\x42\n\n\x08_messageB\x08\n\x06_error2>\n\tEmailCall\x12\x31\n\tEmailUser\x12\x11.EmailUserRequest\x1a\x0f.EmailUserReply\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0b\x65mail.proto\"O\n\x10\x45mailUserRequest\x12\x10\n\x08\x65mail_to\x18\x01 \x01(\t\x12\x15\n\remail_subject\x18\x02 \x01(\t\x12\x12\n\nemail_body\x18\x03 \x01(\t\"e\n\x0e\x45mailUserReply\x12\x14\n\x07message\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x13\n\x0bstatus_code\x18\x03 \x01(\x05\x42\n\n\x08_messageB\x08\n\x06_error2>\n\tEmailCall\x12\x31\n\tEmailUser\x12\x11.EmailUserRequest\x1a\x0f.EmailUserReply\"\x00\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'email_pb2', globals())
@@ -21,9 +21,9 @@ if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   _EMAILUSERREQUEST._serialized_start=15
-  _EMAILUSERREQUEST._serialized_end=71
-  _EMAILUSERREPLY._serialized_start=73
-  _EMAILUSERREPLY._serialized_end=174
-  _EMAILCALL._serialized_start=176
-  _EMAILCALL._serialized_end=238
+  _EMAILUSERREQUEST._serialized_end=94
+  _EMAILUSERREPLY._serialized_start=96
+  _EMAILUSERREPLY._serialized_end=197
+  _EMAILCALL._serialized_start=199
+  _EMAILCALL._serialized_end=261
 # @@protoc_insertion_point(module_scope)

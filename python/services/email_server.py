@@ -11,6 +11,8 @@ from python.proto_files.email import email_pb2
 from python.proto_files.email import email_pb2_grpc
 from python.working_files.decorators import database_connect
 
+import json
+
 load_dotenv()
 password = os.getenv("EMAIL_PASSWORD")
 context = ssl.create_default_context()
@@ -26,24 +28,30 @@ def send_email(email, message):
 class EmailCall(email_pb2_grpc.EmailCallServicer):
     @database_connect
     def EmailUser(self, db, request, context):
-        username, email_body = request.username, request.email_body
+        email_to, email_subject, email_body = request.email_to, request.email_subject, request.email_body
         try:
-            sql = "SELECT email FROM user WHERE username = '%s'" % username
-            db.execute(sql)
-            email = db.fetchall()
-            if email:
-                email = email[0]["email"]
-                message = MIMEText(email_body)
-                message['Subject'] = "Moreboard Notification"
-                message['From'] = os.getenv("MOREBOARD_EMAIL")
-                message['To'] = email
-                try:
-                    send_email(email, message)
-                    return email_pb2.EmailUserReply(message="Email Sent", status_code=200)
-                except Exception as e:
-                    raise e
-            else:
-                raise ValueError("That username is invalid")
+            emails = []
+            email_to = json.loads(email_to)
+            for user in email_to:
+                sql = "SELECT email FROM user WHERE user_id = '%s'" % user
+                db.execute(sql)
+                email = db.fetchall()
+
+                if email:
+                    email = email[0]["email"]
+                    emails.append(email)
+                else:
+                    raise ValueError("That username is invalid")
+
+            message = MIMEText(email_body)
+            message['Subject'] = email_subject
+            message['From'] = os.getenv("MOREBOARD_EMAIL")
+            message['To'] = ", ".join(emails)
+            try:
+                send_email(emails, message)
+                return email_pb2.EmailUserReply(message="Email Sent", status_code=200)
+            except Exception as e:
+                raise e
         except ValueError as v:
             return email_pb2.EmailUserReply(error=str(v), status_code=404)
         except Exception as e:
