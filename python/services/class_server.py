@@ -187,23 +187,30 @@ class ClassCall(class_pb2_grpc.ClassCallServicer):
     def GetAllUsersFromClass(self, db, request, context):
         class_id = request.class_id
         try:
+            # Just checking to see if a class exists
             sql = "SELECT * FROM class WHERE class_id = %s" % class_id
             db.execute(sql)
+            # If class exists
             if db.fetchall():
+                # Grabbing student ids in that class
                 sql = "SELECT student_id FROM student_classes WHERE class_id = '%s'" % class_id
                 db.execute(sql)
                 student_ids = db.fetchall()
+                # If it returns students
                 if student_ids:
                     user_ids = []
+                    # One by one grab their user ids
                     for student in student_ids:
                         sql = "SELECT user_id FROM student WHERE student_id = %s" % student["student_id"]
                         db.execute(sql)
                         user_ids.append(db.fetchall()[0]["user_id"])
                     users = []
+                    # One by one grab personal information
                     for user in user_ids:
                         sql = "SELECT user_id, first_name, last_name FROM user WHERE user_id = %s" % user
                         db.execute(sql)
                         users.append(db.fetchall()[0])
+                    # Sort by last name
                     users = sorted(users, key=lambda d: d["last_name"])
                     users = json.dumps(users)
                     return class_pb2.GetAllUsersFromClassReply(message=users, status_code=200)

@@ -98,14 +98,19 @@ class UserCall(user_pb2_grpc.UserCallServicer):
         # Grab user id from request data
         user_id = request.user_id
         try:
+            # Grabbing teacher id from user id
             sql = "SELECT teacher_id FROM teacher WHERE user_id = %s" % user_id
             db.execute(sql)
             teacher_id = db.fetchall()
+            # If that teacher exists
             if teacher_id:
+                # Grabbing relevant information
                 sql = "SELECT class_id, class_name, hour FROM class WHERE teacher_id = %s ORDER BY hour ASC" % teacher_id[0]["teacher_id"]
                 db.execute(sql)
                 classes = db.fetchall()
+                # If the teacher has classes
                 if classes:
+                    # Convert to string
                     classes = json.dumps(classes)
                     classes = classes.replace("\'", '\"')
                     return user_pb2.GetAllClassesOfTeacherReply(message=classes, status_code=200)
