@@ -6,13 +6,14 @@ from dotenv import load_dotenv
 import os
 from python.working_files.decorators import database_connect
 import json
+import asyncio
 
 load_dotenv()
 
 
 class UserCall(user_pb2_grpc.UserCallServicer):
     @database_connect
-    def AddUser(self, db, request, context):
+    async def AddUser(self, db, request, context):
         # Populate values sent in the request
         username, firstname, lastname, password, email, role_id = request.username, request.first_name, request.last_name, request.user_password, request.email, request.role_id
         grade = None if role_id != 0 else request.grade
@@ -49,7 +50,7 @@ class UserCall(user_pb2_grpc.UserCallServicer):
             return user_pb2.AddUserReply(error=str(e), status_code=400)
 
     @database_connect
-    def RemoveUser(self, db, request, context):
+    async def RemoveUser(self, db, request, context):
         # Grab user id from request data
         user_id = request.user_id
         try:
@@ -94,7 +95,7 @@ class UserCall(user_pb2_grpc.UserCallServicer):
             return user_pb2.RemoveUserReply(error=str(e), status_code=400)
 
     @database_connect
-    def GetAllClassesOfTeacher(self, db, request, context):
+    async def GetAllClassesOfTeacher(self, db, request, context):
         # Grab user id from request data
         user_id = request.user_id
         try:
@@ -121,15 +122,15 @@ class UserCall(user_pb2_grpc.UserCallServicer):
             return user_pb2.GetAllClassesOfTeacherReply(error=str(e), status_code=400)
 
 
-def serve():
+def:
     # General service setup
     port = '1'
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    server = grpc.aio.server(futures.ThreadPoolExecutor(max_workers=10))
     user_pb2_grpc.add_UserCallServicer_to_server(UserCall(), server)
     server.add_insecure_port(os.getenv("IP") + ':' + port)
-    server.start()
+    await server.start()
     print("Server started, listening on " + port)
-    server.wait_for_termination()
+    await server.wait_for_termination()
 
 
 if __name__ == "__main__":

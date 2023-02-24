@@ -6,13 +6,14 @@ from dotenv import load_dotenv
 import os
 from python.working_files.decorators import database_connect
 import json
+import asyncio
 
 load_dotenv()
 
 
 class LoginCall(login_pb2_grpc.LoginCallServicer):
     @database_connect
-    def Login(self, db, request, context):
+    async def Login(self, db, request, context):
         # Grab username and password from the request
         user_input, password_input = request.username, request.password
         try:
@@ -43,15 +44,15 @@ class LoginCall(login_pb2_grpc.LoginCallServicer):
             return login_pb2.LoginReply(error=str(e), status_code=400)
 
 
-def serve():
+async def serve() -> None:
     # Generic Service Stuff
     port = '2'
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    server = grpc.aio.server(futures.ThreadPoolExecutor(max_workers=10))
     login_pb2_grpc.add_LoginCallServicer_to_server(LoginCall(), server)
     server.add_insecure_port(os.getenv("IP") + ':' + port)
-    server.start()
+    await server.start()
     print("Server started, listening on " + port)
-    server.wait_for_termination()
+    await server.wait_for_termination()
 
 
 if __name__ == "__main__":

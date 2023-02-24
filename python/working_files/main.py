@@ -211,4 +211,4 @@ def main():
 if __name__ == "__main__":
     main()
 # This is what everyone else sees
-# http://136.34.239.66:8001/check
+# http://136.34.239.66:8001/api/generic/check
