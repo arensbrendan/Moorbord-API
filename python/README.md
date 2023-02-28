@@ -84,6 +84,65 @@
 }
 ```
 
+### /api/class/add_class
+### Expected Request<br><br>
+```json
+{
+    "teacher_username": "teacher username",
+    "class_name": "class name",
+    "hour": "hour"
+}
+```
+### <br>
+
+| Variable         | Data Type | Required | Additional Validation                          |
+|------------------|-----------|----------|------------------------------------------------|
+| teacher_username | string    | True     | Must be a username ascribed to a teacher       |
+| class_name       | string    | True     | No                                             |
+| hour             | integer   | True     | Teacher must not have other class at this hour |
+
+
+### <br>Expected Response:<br>
+#### Healthy Call
+```json 
+{
+    "message": "Class added"
+}
+```
+#### Unhealthy Call
+```json 
+{
+    "error": "error message"
+}
+```
+
+### /api/class/remove_class
+### Expected Request<br><br>
+```json
+{
+    "class_id": "class id"
+}
+```
+### <br>
+
+| Variable | Data Type | Required | Additional Validation                                              |
+|----------|-----------|----------|--------------------------------------------------------------------|
+| class_id | integer   | True     | No                                                                 |
+
+### <br>Expected Response:<br>
+#### Healthy Call
+```json 
+{
+    "message": "Class Removed"
+}
+```
+#### Unhealthy Call
+```json 
+{
+    "error": "error message"
+}
+```
+
 ### /api/generic/email_user
 ### Expected Request<br><br>
 ```json
