@@ -4,6 +4,7 @@ from login_client import *
 from user_client import *
 from class_client import *
 from email_client import *
+from room_client import *
 from python.schemas.LoginSchema import LoginSchema
 from python.schemas.AddUserSchema import AddUserSchema
 import json
@@ -111,6 +112,34 @@ def remove_class_api():
     info = request.get_json()
     try:
         result = remove_class(info)
+        return Response(
+            json.dumps({"message" if result.message else "error": result.message if result.message else result.error}),
+            status=result.status_code
+        )
+    except Exception as error:
+        return Response(json.dumps({"error": str(error)}), status=500)
+
+
+@app.route("/api/room/add_room", methods=["POST"])
+@cross_origin(**generic_cors)
+def add_room_api():
+    info = request.get_json()
+    try:
+        result = add_room(info)
+        return Response(
+            json.dumps({"message" if result.message else "error": result.message if result.message else result.error}),
+            status=result.status_code
+        )
+    except Exception as error:
+        return Response(json.dumps({"error": str(error)}), status=500)
+
+
+@app.route("/api/room/remove_room", methods=["DELETE"])
+@cross_origin(**generic_cors)
+def remove_room_api():
+    info = request.get_json()
+    try:
+        result = remove_room(info)
         return Response(
             json.dumps({"message" if result.message else "error": result.message if result.message else result.error}),
             status=result.status_code

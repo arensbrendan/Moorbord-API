@@ -12,6 +12,7 @@ message AddClassRequest {
   string teacher_username = 1;
   string class_name = 2;
   int32 hour = 3;
+  int32 room_id = 4;
 }
 
 message AddClassReply {

@@ -15,14 +15,16 @@ class AddClassReply(_message.Message):
     def __init__(self, message: _Optional[str] = ..., error: _Optional[str] = ..., status_code: _Optional[int] = ...) -> None: ...
 
 class AddClassRequest(_message.Message):
-    __slots__ = ["class_name", "hour", "teacher_username"]
+    __slots__ = ["class_name", "hour", "room_id", "teacher_username"]
     CLASS_NAME_FIELD_NUMBER: _ClassVar[int]
     HOUR_FIELD_NUMBER: _ClassVar[int]
+    ROOM_ID_FIELD_NUMBER: _ClassVar[int]
     TEACHER_USERNAME_FIELD_NUMBER: _ClassVar[int]
     class_name: str
     hour: int
+    room_id: int
     teacher_username: str
-    def __init__(self, teacher_username: _Optional[str] = ..., class_name: _Optional[str] = ..., hour: _Optional[int] = ...) -> None: ...
+    def __init__(self, teacher_username: _Optional[str] = ..., class_name: _Optional[str] = ..., hour: _Optional[int] = ..., room_id: _Optional[int] = ...) -> None: ...
 
 class AddUserToClassReply(_message.Message):
     __slots__ = ["error", "message", "status_code"]

@@ -63,7 +63,7 @@ def serve():
     port = '4'
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     email_pb2_grpc.add_EmailCallServicer_to_server(EmailCall(), server)
-    server.add_insecure_port(os.getenv("IP") + ':' + port)
+    server.add_insecure_port(os.getenv("PRIVATE_IP") + ':' + port)
     server.start()
     print("Server started, listening on " + port)
     server.wait_for_termination()

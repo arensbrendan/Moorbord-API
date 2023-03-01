@@ -13,7 +13,7 @@ load_dotenv()
 class ClassCall(class_pb2_grpc.ClassCallServicer):
     @database_connect
     def AddClass(self, db, request, context):
-        teacher_username, class_name, hour = request.teacher_username, request.class_name, request.hour
+        teacher_username, class_name, hour, room_id = request.teacher_username, request.class_name, request.hour, request.room_id
         try:
             # Grab user_id from username
             sql = "SELECT user_id FROM user WHERE username = '%s'" % teacher_username
@@ -229,7 +229,7 @@ def serve():
     port = '3'
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     class_pb2_grpc.add_ClassCallServicer_to_server(ClassCall(), server)
-    server.add_insecure_port(os.getenv("IP") + ':' + port)
+    server.add_insecure_port(os.getenv("PRIVATE_IP") + ':' + port)
     server.start()
     print("Server started, listening on " + port)
     server.wait_for_termination()

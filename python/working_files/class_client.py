@@ -7,7 +7,7 @@ import os
 
 load_dotenv()
 
-ip = os.getenv("IP") + ":3"
+ip = os.getenv("PRIVATE_IP") + ":3"
 
 
 def add_class(request):
@@ -15,7 +15,7 @@ def add_class(request):
         stub = class_pb2_grpc.ClassCallStub(channel)
         response = stub.AddClass(
             class_pb2.AddClassRequest(teacher_username=request["teacher_username"], class_name=request["class_name"],
-                                      hour=request["hour"]))
+                                      hour=request["hour"], room_id=request["room_id"]))
     return response
 
 

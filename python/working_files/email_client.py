@@ -8,7 +8,7 @@ import json
 
 load_dotenv()
 
-ip = os.getenv("IP") + ":4"
+ip = os.getenv("PRIVATE_IP") + ":4"
 
 
 def email_user(request):

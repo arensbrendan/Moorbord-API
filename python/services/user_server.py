@@ -131,7 +131,7 @@ def serve():
     port = '1'
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     user_pb2_grpc.add_UserCallServicer_to_server(UserCall(), server)
-    server.add_insecure_port(os.getenv("IP") + ':' + port)
+    server.add_insecure_port(os.getenv("PRIVATE_IP") + ':' + port)
     server.start()
     print("Server started, listening on " + port)
     server.wait_for_termination()

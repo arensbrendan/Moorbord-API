@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0b\x63lass.proto\"M\n\x0f\x41\x64\x64\x43lassRequest\x12\x18\n\x10teacher_username\x18\x01 \x01(\t\x12\x12\n\nclass_name\x18\x02 \x01(\t\x12\x0c\n\x04hour\x18\x03 \x01(\x05\"d\n\rAddClassReply\x12\x14\n\x07message\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x13\n\x0bstatus_code\x18\x03 \x01(\x05\x42\n\n\x08_messageB\x08\n\x06_error\"&\n\x12RemoveClassRequest\x12\x10\n\x08\x63lass_id\x18\x01 \x01(\x05\"g\n\x10RemoveClassReply\x12\x14\n\x07message\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x13\n\x0bstatus_code\x18\x03 \x01(\x05\x42\n\n\x08_messageB\x08\n\x06_error\";\n\x15\x41\x64\x64UserToClassRequest\x12\x10\n\x08\x63lass_id\x18\x01 \x01(\x05\x12\x10\n\x08username\x18\x02 \x01(\t\"j\n\x13\x41\x64\x64UserToClassReply\x12\x14\n\x07message\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x13\n\x0bstatus_code\x18\x03 \x01(\x05\x42\n\n\x08_messageB\x08\n\x06_error\"@\n\x1aRemoveUserFromClassRequest\x12\x10\n\x08\x63lass_id\x18\x01 \x01(\x05\x12\x10\n\x08username\x18\x02 \x01(\t\"o\n\x18RemoveUserFromClassReply\x12\x14\n\x07message\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x13\n\x0bstatus_code\x18\x03 \x01(\x05\x42\n\n\x08_messageB\x08\n\x06_error\"/\n\x1bGetAllUsersFromClassRequest\x12\x10\n\x08\x63lass_id\x18\x01 \x01(\x05\"p\n\x19GetAllUsersFromClassReply\x12\x14\n\x07message\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x13\n\x0bstatus_code\x18\x03 \x01(\x05\x42\n\n\x08_messageB\x08\n\x06_error2\xdb\x02\n\tClassCall\x12.\n\x08\x41\x64\x64\x43lass\x12\x10.AddClassRequest\x1a\x0e.AddClassReply\"\x00\x12\x37\n\x0bRemoveClass\x12\x13.RemoveClassRequest\x1a\x11.RemoveClassReply\"\x00\x12@\n\x0e\x41\x64\x64UserToClass\x12\x16.AddUserToClassRequest\x1a\x14.AddUserToClassReply\"\x00\x12O\n\x13RemoveUserFromClass\x12\x1b.RemoveUserFromClassRequest\x1a\x19.RemoveUserFromClassReply\"\x00\x12R\n\x14GetAllUsersFromClass\x12\x1c.GetAllUsersFromClassRequest\x1a\x1a.GetAllUsersFromClassReply\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0b\x63lass.proto\"^\n\x0f\x41\x64\x64\x43lassRequest\x12\x18\n\x10teacher_username\x18\x01 \x01(\t\x12\x12\n\nclass_name\x18\x02 \x01(\t\x12\x0c\n\x04hour\x18\x03 \x01(\x05\x12\x0f\n\x07room_id\x18\x04 \x01(\x05\"d\n\rAddClassReply\x12\x14\n\x07message\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x13\n\x0bstatus_code\x18\x03 \x01(\x05\x42\n\n\x08_messageB\x08\n\x06_error\"&\n\x12RemoveClassRequest\x12\x10\n\x08\x63lass_id\x18\x01 \x01(\x05\"g\n\x10RemoveClassReply\x12\x14\n\x07message\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x13\n\x0bstatus_code\x18\x03 \x01(\x05\x42\n\n\x08_messageB\x08\n\x06_error\";\n\x15\x41\x64\x64UserToClassRequest\x12\x10\n\x08\x63lass_id\x18\x01 \x01(\x05\x12\x10\n\x08username\x18\x02 \x01(\t\"j\n\x13\x41\x64\x64UserToClassReply\x12\x14\n\x07message\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x13\n\x0bstatus_code\x18\x03 \x01(\x05\x42\n\n\x08_messageB\x08\n\x06_error\"@\n\x1aRemoveUserFromClassRequest\x12\x10\n\x08\x63lass_id\x18\x01 \x01(\x05\x12\x10\n\x08username\x18\x02 \x01(\t\"o\n\x18RemoveUserFromClassReply\x12\x14\n\x07message\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x13\n\x0bstatus_code\x18\x03 \x01(\x05\x42\n\n\x08_messageB\x08\n\x06_error\"/\n\x1bGetAllUsersFromClassRequest\x12\x10\n\x08\x63lass_id\x18\x01 \x01(\x05\"p\n\x19GetAllUsersFromClassReply\x12\x14\n\x07message\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x13\n\x0bstatus_code\x18\x03 \x01(\x05\x42\n\n\x08_messageB\x08\n\x06_error2\xdb\x02\n\tClassCall\x12.\n\x08\x41\x64\x64\x43lass\x12\x10.AddClassRequest\x1a\x0e.AddClassReply\"\x00\x12\x37\n\x0bRemoveClass\x12\x13.RemoveClassRequest\x1a\x11.RemoveClassReply\"\x00\x12@\n\x0e\x41\x64\x64UserToClass\x12\x16.AddUserToClassRequest\x1a\x14.AddUserToClassReply\"\x00\x12O\n\x13RemoveUserFromClass\x12\x1b.RemoveUserFromClassRequest\x1a\x19.RemoveUserFromClassReply\"\x00\x12R\n\x14GetAllUsersFromClass\x12\x1c.GetAllUsersFromClassRequest\x1a\x1a.GetAllUsersFromClassReply\"\x00\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'class_pb2', globals())
@@ -21,25 +21,25 @@ if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   _ADDCLASSREQUEST._serialized_start=15
-  _ADDCLASSREQUEST._serialized_end=92
-  _ADDCLASSREPLY._serialized_start=94
-  _ADDCLASSREPLY._serialized_end=194
-  _REMOVECLASSREQUEST._serialized_start=196
-  _REMOVECLASSREQUEST._serialized_end=234
-  _REMOVECLASSREPLY._serialized_start=236
-  _REMOVECLASSREPLY._serialized_end=339
-  _ADDUSERTOCLASSREQUEST._serialized_start=341
-  _ADDUSERTOCLASSREQUEST._serialized_end=400
-  _ADDUSERTOCLASSREPLY._serialized_start=402
-  _ADDUSERTOCLASSREPLY._serialized_end=508
-  _REMOVEUSERFROMCLASSREQUEST._serialized_start=510
-  _REMOVEUSERFROMCLASSREQUEST._serialized_end=574
-  _REMOVEUSERFROMCLASSREPLY._serialized_start=576
-  _REMOVEUSERFROMCLASSREPLY._serialized_end=687
-  _GETALLUSERSFROMCLASSREQUEST._serialized_start=689
-  _GETALLUSERSFROMCLASSREQUEST._serialized_end=736
-  _GETALLUSERSFROMCLASSREPLY._serialized_start=738
-  _GETALLUSERSFROMCLASSREPLY._serialized_end=850
-  _CLASSCALL._serialized_start=853
-  _CLASSCALL._serialized_end=1200
+  _ADDCLASSREQUEST._serialized_end=109
+  _ADDCLASSREPLY._serialized_start=111
+  _ADDCLASSREPLY._serialized_end=211
+  _REMOVECLASSREQUEST._serialized_start=213
+  _REMOVECLASSREQUEST._serialized_end=251
+  _REMOVECLASSREPLY._serialized_start=253
+  _REMOVECLASSREPLY._serialized_end=356
+  _ADDUSERTOCLASSREQUEST._serialized_start=358
+  _ADDUSERTOCLASSREQUEST._serialized_end=417
+  _ADDUSERTOCLASSREPLY._serialized_start=419
+  _ADDUSERTOCLASSREPLY._serialized_end=525
+  _REMOVEUSERFROMCLASSREQUEST._serialized_start=527
+  _REMOVEUSERFROMCLASSREQUEST._serialized_end=591
+  _REMOVEUSERFROMCLASSREPLY._serialized_start=593
+  _REMOVEUSERFROMCLASSREPLY._serialized_end=704
+  _GETALLUSERSFROMCLASSREQUEST._serialized_start=706
+  _GETALLUSERSFROMCLASSREQUEST._serialized_end=753
+  _GETALLUSERSFROMCLASSREPLY._serialized_start=755
+  _GETALLUSERSFROMCLASSREPLY._serialized_end=867
+  _CLASSCALL._serialized_start=870
+  _CLASSCALL._serialized_end=1217
 # @@protoc_insertion_point(module_scope)

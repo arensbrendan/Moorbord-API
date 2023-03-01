@@ -8,7 +8,7 @@ from decorators import database_connect
 
 load_dotenv()
 
-ip = os.getenv("IP") + ":1"
+ip = os.getenv("PRIVATE_IP") + ":1"
 
 
 @database_connect
