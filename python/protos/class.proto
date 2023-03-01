@@ -1,11 +1,12 @@
 syntax = "proto3";
 
 service ClassCall {
-  rpc AddClass(AddClassRequest) returns (AddClassReply){}
-  rpc RemoveClass(RemoveClassRequest) returns (RemoveClassReply){}
-  rpc AddUserToClass(AddUserToClassRequest) returns (AddUserToClassReply){}
-  rpc RemoveUserFromClass(RemoveUserFromClassRequest) returns (RemoveUserFromClassReply){}
-  rpc GetAllUsersFromClass(GetAllUsersFromClassRequest) returns (GetAllUsersFromClassReply) {}
+  rpc AddClass(AddClassRequest) returns (Reply){}
+  rpc RemoveClass(RemoveClassRequest) returns (Reply){}
+  rpc AddUserToClass(AddUserToClassRequest) returns (Reply){}
+  rpc RemoveUserFromClass(RemoveUserFromClassRequest) returns (Reply){}
+  rpc GetAllUsersFromClass(GetAllUsersFromClassRequest) returns (Reply){}
+  rpc GetAllChairsFromClass(GetAllChairsFromClassRequest) returns (Reply){}
 }
 
 message AddClassRequest {
@@ -15,20 +16,9 @@ message AddClassRequest {
   int32 room_id = 4;
 }
 
-message AddClassReply {
-  optional string message = 1;
-  optional string error = 2;
-  int32 status_code = 3;
-}
 
 message RemoveClassRequest {
   int32 class_id = 1;
-}
-
-message RemoveClassReply {
-  optional string message = 1;
-  optional string error = 2;
-  int32 status_code = 3;
 }
 
 message AddUserToClassRequest {
@@ -36,28 +26,20 @@ message AddUserToClassRequest {
   string username = 2;
 }
 
-message AddUserToClassReply {
-  optional string message = 1;
-  optional string error = 2;
-  int32 status_code = 3;
-}
-
 message RemoveUserFromClassRequest {
   int32 class_id = 1;
   string username = 2;
-}
-
-message RemoveUserFromClassReply {
-  optional string message = 1;
-  optional string error = 2;
-  int32 status_code = 3;
 }
 
 message GetAllUsersFromClassRequest {
   int32 class_id = 1;
 }
 
-message GetAllUsersFromClassReply {
+message GetAllChairsFromClassRequest {
+  int32 class_id = 1;
+}
+
+message Reply {
   optional string message = 1;
   optional string error = 2;
   int32 status_code = 3;

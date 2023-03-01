@@ -12,7 +12,7 @@ load_dotenv()
 
 class SeatingCall(seating_pb2_grpc.SeatingCallServicer):
     @database_connect
-    def AddSeatingArrangement(self, db, request, context):
+    def AddChairToSeatingArrangement(self, db, request, context):
         class_id, arrangement = request.class_id, json.loads(request.arrangement)
         try:
             for i in arrangement:

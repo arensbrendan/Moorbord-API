@@ -11,7 +11,7 @@ load_dotenv()
 ip = os.getenv("PRIVATE_IP") + ":6"
 
 
-def add_seating_arrangement(request):
+def add_chairs_to_class(request):
     with grpc.insecure_channel(ip) as channel:
         stub = seating_pb2_grpc.SeatingCallStub(channel)
         response = stub.AddChairToSeatingArrangement(

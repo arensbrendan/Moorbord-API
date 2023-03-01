@@ -53,3 +53,12 @@ def get_all_users_from_class(request):
             class_pb2.GetAllUsersFromClassRequest(class_id=request["class_id"])
         )
     return response
+
+
+def get_all_chairs_from_class(request):
+    with grpc.insecure_channel(ip) as channel:
+        stub = class_pb2_grpc.ClassCallStub(channel)
+        response = stub.GetAllChairsFromClass(
+            class_pb2.GetAllChairsFromClassRequest(class_id=request["class_id"])
+        )
+    return response
