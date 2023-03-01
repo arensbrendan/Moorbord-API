@@ -14,17 +14,28 @@ class SeatingCallStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.AddSeatingArrangement = channel.unary_unary(
-                '/SeatingCall/AddSeatingArrangement',
-                request_serializer=seating__pb2.AddSeatingArrangementRequest.SerializeToString,
-                response_deserializer=seating__pb2.AddSeatingArrangementReply.FromString,
+        self.AddChairToSeatingArrangement = channel.unary_unary(
+                '/SeatingCall/AddChairToSeatingArrangement',
+                request_serializer=seating__pb2.AddChairToSeatingArrangementRequest.SerializeToString,
+                response_deserializer=seating__pb2.AddChairToSeatingArrangementReply.FromString,
+                )
+        self.RemoveChairFromSeatingArrangement = channel.unary_unary(
+                '/SeatingCall/RemoveChairFromSeatingArrangement',
+                request_serializer=seating__pb2.RemoveChairFromSeatingArrangementRequest.SerializeToString,
+                response_deserializer=seating__pb2.RemoveChairFromSeatingArrangementReply.FromString,
                 )
 
 
 class SeatingCallServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def AddSeatingArrangement(self, request, context):
+    def AddChairToSeatingArrangement(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RemoveChairFromSeatingArrangement(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -33,10 +44,15 @@ class SeatingCallServicer(object):
 
 def add_SeatingCallServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'AddSeatingArrangement': grpc.unary_unary_rpc_method_handler(
-                    servicer.AddSeatingArrangement,
-                    request_deserializer=seating__pb2.AddSeatingArrangementRequest.FromString,
-                    response_serializer=seating__pb2.AddSeatingArrangementReply.SerializeToString,
+            'AddChairToSeatingArrangement': grpc.unary_unary_rpc_method_handler(
+                    servicer.AddChairToSeatingArrangement,
+                    request_deserializer=seating__pb2.AddChairToSeatingArrangementRequest.FromString,
+                    response_serializer=seating__pb2.AddChairToSeatingArrangementReply.SerializeToString,
+            ),
+            'RemoveChairFromSeatingArrangement': grpc.unary_unary_rpc_method_handler(
+                    servicer.RemoveChairFromSeatingArrangement,
+                    request_deserializer=seating__pb2.RemoveChairFromSeatingArrangementRequest.FromString,
+                    response_serializer=seating__pb2.RemoveChairFromSeatingArrangementReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -49,7 +65,7 @@ class SeatingCall(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def AddSeatingArrangement(request,
+    def AddChairToSeatingArrangement(request,
             target,
             options=(),
             channel_credentials=None,
@@ -59,8 +75,25 @@ class SeatingCall(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/SeatingCall/AddSeatingArrangement',
-            seating__pb2.AddSeatingArrangementRequest.SerializeToString,
-            seating__pb2.AddSeatingArrangementReply.FromString,
+        return grpc.experimental.unary_unary(request, target, '/SeatingCall/AddChairToSeatingArrangement',
+            seating__pb2.AddChairToSeatingArrangementRequest.SerializeToString,
+            seating__pb2.AddChairToSeatingArrangementReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def RemoveChairFromSeatingArrangement(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/SeatingCall/RemoveChairFromSeatingArrangement',
+            seating__pb2.RemoveChairFromSeatingArrangementRequest.SerializeToString,
+            seating__pb2.RemoveChairFromSeatingArrangementReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

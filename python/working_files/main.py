@@ -205,6 +205,20 @@ def add_seating_arrangement_api():
         return Response(json.dumps({"error": str(error)}), status=500)
 
 
+@app.route("/api/seating/remove_chair_from_seating_arrangement", methods=["DELETE"])
+@cross_origin(**generic_cors)
+def remove_chair_from_seating_arrangement_api():
+    info = request.get_json()
+    try:
+        result = remove_chair_from_seating_arrangement(info)
+        return Response(
+            json.dumps({"message" if result.message else "error": result.message if result.message else result.error}),
+            status=result.status_code
+        )
+    except Exception as error:
+        return Response(json.dumps({"error": str(error)}), status=500)
+
+
 @app.route("/api/generic/get_all_users_from_class", methods=["GET"])
 @cross_origin(**generic_cors)
 def get_all_users_from_class_api():

@@ -16,13 +16,27 @@ class SeatingCall(seating_pb2_grpc.SeatingCallServicer):
         class_id, arrangement = request.class_id, json.loads(request.arrangement)
         try:
             for i in arrangement:
-                sql = "INSERT INTO chair(chair_x, chair_y, student_id, class_id) VALUES(%s, %s, %s, %s)" % (i["x"], i["y"], i["student_id"], class_id)
+                sql = "INSERT INTO chair(chair_x, chair_y, student_id, class_id) VALUES(%s, %s, %s, %s)" % (
+                i["x"], i["y"], i["student_id"], class_id)
                 db.execute(sql)
             # 200 for successful.  Even if they don't match, the code ran successfully
-            return seating_pb2.AddSeatingArrangementReply(message="The seating arrangement has been added", status_code=200)
+            return seating_pb2.AddChairToSeatingArrangementReply(message="The chairs have been added to that class",
+                                                                 status_code=200)
         except Exception as e:
             # Generic answer returns a 400
-            return seating_pb2.AddSeatingArrangementReply(error=str(e), status_code=400)
+            return seating_pb2.AddChairToSeatingArrangementReply(error=str(e), status_code=400)
+
+    @database_connect
+    def RemoveChairFromSeatingArrangement(self, db, request, context):
+        chair_ids = json.loads(request.chair_ids)
+        try:
+            for i in chair_ids:
+                sql = "DELETE FROM chair WHERE chair_id = %s" % i
+                db.execute(sql)
+            return seating_pb2.RemoveChairFromSeatingArrangementReply(message="The chairs have been deleted from that class",
+                                                                      status_code=200)
+        except Exception as e:
+            return seating_pb2.RemoveChairFromSeatingArrangementReply(error=str(e), status_code=400)
 
 
 def serve():
