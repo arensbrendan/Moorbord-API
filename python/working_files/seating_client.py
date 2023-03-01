@@ -28,3 +28,12 @@ def remove_chair_from_seating_arrangement(request):
             seating_pb2.RemoveChairFromSeatingArrangementRequest(chair_ids=json.dumps(request["chair_ids"]))
         )
     return response
+
+
+def get_student_from_chair(request):
+    with grpc.insecure_channel(ip) as channel:
+        stub = seating_pb2_grpc.SeatingCallStub(channel)
+        response = stub.GetStudentFromChair(
+            seating_pb2.GetStudentFromChairRequest(chair_id=request["chair_id"])
+        )
+    return response

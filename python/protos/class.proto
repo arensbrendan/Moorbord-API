@@ -1,12 +1,12 @@
 syntax = "proto3";
 
 service ClassCall {
-  rpc AddClass(AddClassRequest) returns (Reply){}
-  rpc RemoveClass(RemoveClassRequest) returns (Reply){}
-  rpc AddUserToClass(AddUserToClassRequest) returns (Reply){}
-  rpc RemoveUserFromClass(RemoveUserFromClassRequest) returns (Reply){}
-  rpc GetAllUsersFromClass(GetAllUsersFromClassRequest) returns (Reply){}
-  rpc GetAllChairsFromClass(GetAllChairsFromClassRequest) returns (Reply){}
+  rpc AddClass(AddClassRequest) returns (ClassReply){}
+  rpc RemoveClass(RemoveClassRequest) returns (ClassReply){}
+  rpc AddUserToClass(AddUserToClassRequest) returns (ClassReply){}
+  rpc RemoveUserFromClass(RemoveUserFromClassRequest) returns (ClassReply){}
+  rpc GetAllUsersFromClass(GetAllUsersFromClassRequest) returns (ClassReply){}
+  rpc GetAllChairsFromClass(GetAllChairsFromClassRequest) returns (ClassReply){}
 }
 
 message AddClassRequest {
@@ -39,7 +39,7 @@ message GetAllChairsFromClassRequest {
   int32 class_id = 1;
 }
 
-message Reply {
+message ClassReply {
   optional string message = 1;
   optional string error = 2;
   int32 status_code = 3;

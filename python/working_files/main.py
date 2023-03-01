@@ -273,6 +273,24 @@ def get_all_classes_from_teacher_api():
         return Response(json.dumps({"error": str(error)}), status=500)
 
 
+@app.route("/api/generic/get_student_from_chair", methods=["GET"])
+@cross_origin(**generic_cors)
+def get_user_from_chair_api():
+    info = {
+        "chair_id": int(request.args.get('chair_id'))
+    }
+    try:
+        result = get_student_from_chair(info)
+        if result.message:
+            result_message = json.loads(result.message)
+        return Response(
+            json.dumps({"message" if result.message else "error": result_message if result.message else result.error}),
+            status=result.status_code
+        )
+    except Exception as error:
+        return Response(json.dumps({"error": str(error)}), status=500)
+
+
 @app.route("/api/generic/check", methods=["GET"])
 @cross_origin(**generic_cors)
 def check():

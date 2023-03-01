@@ -17,32 +17,32 @@ class ClassCallStub(object):
         self.AddClass = channel.unary_unary(
                 '/ClassCall/AddClass',
                 request_serializer=class__pb2.AddClassRequest.SerializeToString,
-                response_deserializer=class__pb2.Reply.FromString,
+                response_deserializer=class__pb2.ClassReply.FromString,
                 )
         self.RemoveClass = channel.unary_unary(
                 '/ClassCall/RemoveClass',
                 request_serializer=class__pb2.RemoveClassRequest.SerializeToString,
-                response_deserializer=class__pb2.Reply.FromString,
+                response_deserializer=class__pb2.ClassReply.FromString,
                 )
         self.AddUserToClass = channel.unary_unary(
                 '/ClassCall/AddUserToClass',
                 request_serializer=class__pb2.AddUserToClassRequest.SerializeToString,
-                response_deserializer=class__pb2.Reply.FromString,
+                response_deserializer=class__pb2.ClassReply.FromString,
                 )
         self.RemoveUserFromClass = channel.unary_unary(
                 '/ClassCall/RemoveUserFromClass',
                 request_serializer=class__pb2.RemoveUserFromClassRequest.SerializeToString,
-                response_deserializer=class__pb2.Reply.FromString,
+                response_deserializer=class__pb2.ClassReply.FromString,
                 )
         self.GetAllUsersFromClass = channel.unary_unary(
                 '/ClassCall/GetAllUsersFromClass',
                 request_serializer=class__pb2.GetAllUsersFromClassRequest.SerializeToString,
-                response_deserializer=class__pb2.Reply.FromString,
+                response_deserializer=class__pb2.ClassReply.FromString,
                 )
         self.GetAllChairsFromClass = channel.unary_unary(
                 '/ClassCall/GetAllChairsFromClass',
                 request_serializer=class__pb2.GetAllChairsFromClassRequest.SerializeToString,
-                response_deserializer=class__pb2.Reply.FromString,
+                response_deserializer=class__pb2.ClassReply.FromString,
                 )
 
 
@@ -91,32 +91,32 @@ def add_ClassCallServicer_to_server(servicer, server):
             'AddClass': grpc.unary_unary_rpc_method_handler(
                     servicer.AddClass,
                     request_deserializer=class__pb2.AddClassRequest.FromString,
-                    response_serializer=class__pb2.Reply.SerializeToString,
+                    response_serializer=class__pb2.ClassReply.SerializeToString,
             ),
             'RemoveClass': grpc.unary_unary_rpc_method_handler(
                     servicer.RemoveClass,
                     request_deserializer=class__pb2.RemoveClassRequest.FromString,
-                    response_serializer=class__pb2.Reply.SerializeToString,
+                    response_serializer=class__pb2.ClassReply.SerializeToString,
             ),
             'AddUserToClass': grpc.unary_unary_rpc_method_handler(
                     servicer.AddUserToClass,
                     request_deserializer=class__pb2.AddUserToClassRequest.FromString,
-                    response_serializer=class__pb2.Reply.SerializeToString,
+                    response_serializer=class__pb2.ClassReply.SerializeToString,
             ),
             'RemoveUserFromClass': grpc.unary_unary_rpc_method_handler(
                     servicer.RemoveUserFromClass,
                     request_deserializer=class__pb2.RemoveUserFromClassRequest.FromString,
-                    response_serializer=class__pb2.Reply.SerializeToString,
+                    response_serializer=class__pb2.ClassReply.SerializeToString,
             ),
             'GetAllUsersFromClass': grpc.unary_unary_rpc_method_handler(
                     servicer.GetAllUsersFromClass,
                     request_deserializer=class__pb2.GetAllUsersFromClassRequest.FromString,
-                    response_serializer=class__pb2.Reply.SerializeToString,
+                    response_serializer=class__pb2.ClassReply.SerializeToString,
             ),
             'GetAllChairsFromClass': grpc.unary_unary_rpc_method_handler(
                     servicer.GetAllChairsFromClass,
                     request_deserializer=class__pb2.GetAllChairsFromClassRequest.FromString,
-                    response_serializer=class__pb2.Reply.SerializeToString,
+                    response_serializer=class__pb2.ClassReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -141,7 +141,7 @@ class ClassCall(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ClassCall/AddClass',
             class__pb2.AddClassRequest.SerializeToString,
-            class__pb2.Reply.FromString,
+            class__pb2.ClassReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -158,7 +158,7 @@ class ClassCall(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ClassCall/RemoveClass',
             class__pb2.RemoveClassRequest.SerializeToString,
-            class__pb2.Reply.FromString,
+            class__pb2.ClassReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -175,7 +175,7 @@ class ClassCall(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ClassCall/AddUserToClass',
             class__pb2.AddUserToClassRequest.SerializeToString,
-            class__pb2.Reply.FromString,
+            class__pb2.ClassReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -192,7 +192,7 @@ class ClassCall(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ClassCall/RemoveUserFromClass',
             class__pb2.RemoveUserFromClassRequest.SerializeToString,
-            class__pb2.Reply.FromString,
+            class__pb2.ClassReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -209,7 +209,7 @@ class ClassCall(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ClassCall/GetAllUsersFromClass',
             class__pb2.GetAllUsersFromClassRequest.SerializeToString,
-            class__pb2.Reply.FromString,
+            class__pb2.ClassReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -226,6 +226,6 @@ class ClassCall(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ClassCall/GetAllChairsFromClass',
             class__pb2.GetAllChairsFromClassRequest.SerializeToString,
-            class__pb2.Reply.FromString,
+            class__pb2.ClassReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -20,11 +20,11 @@ class SeatingCall(seating_pb2_grpc.SeatingCallServicer):
                 i["x"], i["y"], i["student_id"], class_id)
                 db.execute(sql)
             # 200 for successful.  Even if they don't match, the code ran successfully
-            return seating_pb2.AddChairToSeatingArrangementReply(message="The chairs have been added to that class",
+            return seating_pb2.SeatingReply(message="The chairs have been added to that class",
                                                                  status_code=200)
         except Exception as e:
             # Generic answer returns a 400
-            return seating_pb2.AddChairToSeatingArrangementReply(error=str(e), status_code=400)
+            return seating_pb2.SeatingReply(error=str(e), status_code=400)
 
     @database_connect
     def RemoveChairFromSeatingArrangement(self, db, request, context):
@@ -33,10 +33,40 @@ class SeatingCall(seating_pb2_grpc.SeatingCallServicer):
             for i in chair_ids:
                 sql = "DELETE FROM chair WHERE chair_id = %s" % i
                 db.execute(sql)
-            return seating_pb2.RemoveChairFromSeatingArrangementReply(message="The chairs have been deleted from that class",
+            return seating_pb2.SeatingReply(message="The chairs have been deleted from that class",
                                                                       status_code=200)
         except Exception as e:
-            return seating_pb2.RemoveChairFromSeatingArrangementReply(error=str(e), status_code=400)
+            return seating_pb2.SeatingReply(error=str(e), status_code=400)
+
+    @database_connect
+    def GetStudentFromChair(self, db, request, context):
+        chair_id = request.chair_id
+        try:
+            sql = "SELECT chair_id FROM chair WHERE chair_id = %s" % chair_id
+            db.execute(sql)
+            chair_exists = db.fetchall()
+            if not chair_exists:
+                raise ValueError("That chair does not exist")
+
+            sql = "SELECT student_id FROM chair WHERE chair_id = %s" % chair_id
+            db.execute(sql)
+            student_id = db.fetchall()[0]["student_id"]
+
+            sql = "SELECT user_id FROM student WHERE student_id = %s" % student_id
+            db.execute(sql)
+            user_id = db.fetchall()
+            if user_id:
+                user_id = user_id[0]["user_id"]
+                sql = "SELECT * FROM user WHERE user_id = %s" % user_id
+                db.execute(sql)
+                user_data = db.fetchall()[0]
+                return seating_pb2.SeatingReply(message=json.dumps(user_data), status_code=200)
+            else:
+                raise ValueError("That student id is not assigned to a user")
+        except ValueError as v:
+            return seating_pb2.SeatingReply(error=str(v), status_code=404)
+        except Exception as e:
+            return seating_pb2.SeatingReply(error=str(e), status_code=400)
 
 
 def serve():

@@ -1,8 +1,9 @@
 syntax = "proto3";
 
 service SeatingCall {
-  rpc AddChairToSeatingArrangement(AddChairToSeatingArrangementRequest) returns (AddChairToSeatingArrangementReply){}
-  rpc RemoveChairFromSeatingArrangement(RemoveChairFromSeatingArrangementRequest) returns (RemoveChairFromSeatingArrangementReply){}
+  rpc AddChairToSeatingArrangement(AddChairToSeatingArrangementRequest) returns (SeatingReply){}
+  rpc RemoveChairFromSeatingArrangement(RemoveChairFromSeatingArrangementRequest) returns (SeatingReply){}
+  rpc GetStudentFromChair(GetStudentFromChairRequest) returns (SeatingReply) {}
 }
 
 message AddChairToSeatingArrangementRequest {
@@ -10,17 +11,15 @@ message AddChairToSeatingArrangementRequest {
   string arrangement = 2;
 }
 
-message AddChairToSeatingArrangementReply {
-  optional string message = 1;
-  optional string error = 2;
-  int32 status_code = 3;
-}
-
 message RemoveChairFromSeatingArrangementRequest {
   string chair_ids = 1;
 }
 
-message RemoveChairFromSeatingArrangementReply {
+message GetStudentFromChairRequest {
+  int32 chair_id = 1;
+}
+
+message SeatingReply {
   optional string message = 1;
   optional string error = 2;
   int32 status_code = 3;

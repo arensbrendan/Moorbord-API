@@ -57,13 +57,13 @@ class ClassCall(class_pb2_grpc.ClassCallServicer):
                         sql = "INSERT INTO class(teacher_id, class_name, hour, room_id) VALUES(%s, '%s', %s, %s)" % (
                             teacher_id, class_name, hour, room_id)
                         db.execute(sql)
-                        return class_pb2.Reply(message="Class Created", status_code=200)
+                        return class_pb2.ClassReply(message="Class Created", status_code=200)
             else:
                 raise ValueError("The username provided for the teacher does not exist")
         except ValueError as error:
-            return class_pb2.Reply(error=str(error), status_code=404)
+            return class_pb2.ClassReply(error=str(error), status_code=404)
         except Exception as error:
-            return class_pb2.Reply(error=str(error), status_code=400)
+            return class_pb2.ClassReply(error=str(error), status_code=400)
 
     @database_connect
     def RemoveClass(self, db, request, context):
@@ -82,13 +82,13 @@ class ClassCall(class_pb2_grpc.ClassCallServicer):
                 # Delete class from class table
                 sql = "DELETE FROM class WHERE class_id = '%s'" % class_id
                 db.execute(sql)
-                return class_pb2.Reply(message="Class has been removed", status_code=200)
+                return class_pb2.ClassReply(message="Class has been removed", status_code=200)
             else:
                 raise ValueError("That class does not exist")
         except ValueError as v:
-            return class_pb2.Reply(error=str(v), status_code=404)
+            return class_pb2.ClassReply(error=str(v), status_code=404)
         except Exception as error:
-            return class_pb2.Reply(error=str(error), status_code=400)
+            return class_pb2.ClassReply(error=str(error), status_code=400)
 
     @database_connect
     def AddUserToClass(self, db, request, context):
@@ -147,13 +147,13 @@ class ClassCall(class_pb2_grpc.ClassCallServicer):
                         put_student_in_student_classes_table = "INSERT INTO student_classes VALUES(%s, %s)" % (
                         student_id, class_id)
                         db.execute(put_student_in_student_classes_table)
-                        return class_pb2.Reply(message="User has been added to class", status_code=200)
+                        return class_pb2.ClassReply(message="User has been added to class", status_code=200)
             else:
                 raise ValueError("That username is not attached to a valid user")
         except ValueError as v:
-            return class_pb2.Reply(error=str(v), status_code=404)
+            return class_pb2.ClassReply(error=str(v), status_code=404)
         except Exception as error:
-            return class_pb2.Reply(error=str(error), status_code=400)
+            return class_pb2.ClassReply(error=str(error), status_code=400)
 
     @database_connect
     def RemoveUserFromClass(self, db, request, context):
@@ -188,12 +188,12 @@ class ClassCall(class_pb2_grpc.ClassCallServicer):
                     # If valid, remove user from that class
                     remove_user_from_table = "DELETE FROM student_classes WHERE student_id = %s" % student_id
                     db.execute(remove_user_from_table)
-                    return class_pb2.Reply(message="User has been removed from the class",
+                    return class_pb2.ClassReply(message="User has been removed from the class",
                                                          status_code=200)
         except ValueError as v:
-            return class_pb2.Reply(error=str(v), status_code=404)
+            return class_pb2.ClassReply(error=str(v), status_code=404)
         except Exception as error:
-            return class_pb2.Reply(error=str(error), status_code=400)
+            return class_pb2.ClassReply(error=str(error), status_code=400)
 
     @database_connect
     def GetAllUsersFromClass(self, db, request, context):
@@ -225,15 +225,15 @@ class ClassCall(class_pb2_grpc.ClassCallServicer):
                     # Sort by last name
                     users = sorted(users, key=lambda d: d["last_name"])
                     users = json.dumps(users)
-                    return class_pb2.Reply(message=users, status_code=200)
+                    return class_pb2.ClassReply(message=users, status_code=200)
                 else:
                     raise ValueError("That class is empty")
             else:
                 raise ValueError("That class does not exist")
         except ValueError as v:
-            return class_pb2.Reply(error=str(v), status_code=404)
+            return class_pb2.ClassReply(error=str(v), status_code=404)
         except Exception as error:
-            return class_pb2.Reply(error=str(error), status_code=400)
+            return class_pb2.ClassReply(error=str(error), status_code=400)
 
     @database_connect
     def GetAllChairsFromClass(self, db, request, context):
@@ -242,9 +242,9 @@ class ClassCall(class_pb2_grpc.ClassCallServicer):
             sql = "SELECT chair_id, chair_x, chair_y, student_id FROM chair WHERE class_id = %s" % class_id
             db.execute(sql)
             chairs = json.dumps(db.fetchall())
-            return class_pb2.Reply(message=chairs, status_code=200)
+            return class_pb2.ClassReply(message=chairs, status_code=200)
         except Exception as e:
-            return class_pb2.Reply(error=str(e), status_code=400)
+            return class_pb2.ClassReply(error=str(e), status_code=400)
 
 
 def serve():

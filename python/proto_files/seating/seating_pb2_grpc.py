@@ -17,12 +17,17 @@ class SeatingCallStub(object):
         self.AddChairToSeatingArrangement = channel.unary_unary(
                 '/SeatingCall/AddChairToSeatingArrangement',
                 request_serializer=seating__pb2.AddChairToSeatingArrangementRequest.SerializeToString,
-                response_deserializer=seating__pb2.AddChairToSeatingArrangementReply.FromString,
+                response_deserializer=seating__pb2.SeatingReply.FromString,
                 )
         self.RemoveChairFromSeatingArrangement = channel.unary_unary(
                 '/SeatingCall/RemoveChairFromSeatingArrangement',
                 request_serializer=seating__pb2.RemoveChairFromSeatingArrangementRequest.SerializeToString,
-                response_deserializer=seating__pb2.RemoveChairFromSeatingArrangementReply.FromString,
+                response_deserializer=seating__pb2.SeatingReply.FromString,
+                )
+        self.GetStudentFromChair = channel.unary_unary(
+                '/SeatingCall/GetStudentFromChair',
+                request_serializer=seating__pb2.GetStudentFromChairRequest.SerializeToString,
+                response_deserializer=seating__pb2.SeatingReply.FromString,
                 )
 
 
@@ -41,18 +46,29 @@ class SeatingCallServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetStudentFromChair(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_SeatingCallServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'AddChairToSeatingArrangement': grpc.unary_unary_rpc_method_handler(
                     servicer.AddChairToSeatingArrangement,
                     request_deserializer=seating__pb2.AddChairToSeatingArrangementRequest.FromString,
-                    response_serializer=seating__pb2.AddChairToSeatingArrangementReply.SerializeToString,
+                    response_serializer=seating__pb2.SeatingReply.SerializeToString,
             ),
             'RemoveChairFromSeatingArrangement': grpc.unary_unary_rpc_method_handler(
                     servicer.RemoveChairFromSeatingArrangement,
                     request_deserializer=seating__pb2.RemoveChairFromSeatingArrangementRequest.FromString,
-                    response_serializer=seating__pb2.RemoveChairFromSeatingArrangementReply.SerializeToString,
+                    response_serializer=seating__pb2.SeatingReply.SerializeToString,
+            ),
+            'GetStudentFromChair': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetStudentFromChair,
+                    request_deserializer=seating__pb2.GetStudentFromChairRequest.FromString,
+                    response_serializer=seating__pb2.SeatingReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -77,7 +93,7 @@ class SeatingCall(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/SeatingCall/AddChairToSeatingArrangement',
             seating__pb2.AddChairToSeatingArrangementRequest.SerializeToString,
-            seating__pb2.AddChairToSeatingArrangementReply.FromString,
+            seating__pb2.SeatingReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -94,6 +110,23 @@ class SeatingCall(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/SeatingCall/RemoveChairFromSeatingArrangement',
             seating__pb2.RemoveChairFromSeatingArrangementRequest.SerializeToString,
-            seating__pb2.RemoveChairFromSeatingArrangementReply.FromString,
+            seating__pb2.SeatingReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetStudentFromChair(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/SeatingCall/GetStudentFromChair',
+            seating__pb2.GetStudentFromChairRequest.SerializeToString,
+            seating__pb2.SeatingReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
