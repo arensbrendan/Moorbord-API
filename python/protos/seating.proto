@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+service SeatingCall {
+  rpc AddSeatingArrangement(AddSeatingArrangementRequest) returns (AddSeatingArrangementReply){}
+}
+
+message AddSeatingArrangementRequest {
+  int32 class_id = 1;
+  string arrangement = 2;
+}
+
+message AddSeatingArrangementReply {
+  optional string message = 1;
+  optional string error = 2;
+  int32 status_code = 3;
+}
