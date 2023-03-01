@@ -39,11 +39,23 @@ class ClassCall(class_pb2_grpc.ClassCallServicer):
                     if db.fetchall():
                         raise ValueError("That teacher is already teaching a class at that hour!")
 
+                    # Make sure the room exists
+                    sql = "SELECT * FROM room WHERE room_id = %s" % room_id
+                    db.execute(sql)
+                    if not db.fetchall():
+                        raise ValueError("That room does not exist")
+
+                    # Make sure that class doesn't exist in a room at that hour
+                    sql = "SELECT * FROM CLASS WHERE hour = '%s' and room_id = '%s'" % (hour, room_id)
+                    db.execute(sql)
+                    if db.fetchall():
+                        raise ValueError("That room already has a class in it at that hour")
+
                     # If they have that hour free
                     else:
                         # Add class for that teacher
-                        sql = "INSERT INTO class(teacher_id, class_name, hour) VALUES(%s, '%s', %s)" % (
-                            teacher_id, class_name, hour)
+                        sql = "INSERT INTO class(teacher_id, class_name, hour, room_id) VALUES(%s, '%s', %s, %s)" % (
+                            teacher_id, class_name, hour, room_id)
                         db.execute(sql)
                         return class_pb2.RemoveClassReply(message="Class Created", status_code=200)
             else:
