@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+service UserCall {
+  rpc AddUser(AddUserRequest) returns (AddUserReply){}
+  rpc RemoveUser(RemoveUserRequest) returns (RemoveUserReply){}
+  rpc GetAllClassesOfTeacher(GetAllClassesOfTeacherRequest) returns (GetAllClassesOfTeacherReply){}
+}
+
+message AddUserRequest {
+  string username = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string user_password = 4;
+  string email = 5;
+  int32 role_id = 6;
+  optional int32 grade = 7;
+}
+
+message AddUserReply {
+  optional string message = 1;
+  optional string error = 2;
+  int32 status_code = 3;
+}
+
+message RemoveUserRequest {
+  int32 user_id = 1;
+}
+
+message RemoveUserReply {
+  optional string message = 1;
+  optional string error = 2;
+  int32 status_code = 3;
+}
+
+message GetAllClassesOfTeacherRequest {
+  int32 user_id = 1;
+}
+
+message GetAllClassesOfTeacherReply {
+  optional string message = 1;
+  optional string error = 2;
+  int32 status_code = 3;
+}

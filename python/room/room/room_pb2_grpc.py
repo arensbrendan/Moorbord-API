@@ -2,10 +2,10 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import python.proto_files.admin.admin_pb2 as admin__pb2
+import python.room.room.room_pb2 as room__pb2
 
 
-class AdminCallStub(object):
+class RoomCallStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -14,58 +14,58 @@ class AdminCallStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.AddUser = channel.unary_unary(
-                '/AdminCall/AddUser',
-                request_serializer=admin__pb2.AddRequest.SerializeToString,
-                response_deserializer=admin__pb2.AddReply.FromString,
+        self.AddRoom = channel.unary_unary(
+                '/RoomCall/AddRoom',
+                request_serializer=room__pb2.AddRoomRequest.SerializeToString,
+                response_deserializer=room__pb2.AddRoomReply.FromString,
                 )
-        self.RemoveUser = channel.unary_unary(
-                '/AdminCall/RemoveUser',
-                request_serializer=admin__pb2.RemoveRequest.SerializeToString,
-                response_deserializer=admin__pb2.RemoveReply.FromString,
+        self.RemoveRoom = channel.unary_unary(
+                '/RoomCall/RemoveRoom',
+                request_serializer=room__pb2.RemoveRoomRequest.SerializeToString,
+                response_deserializer=room__pb2.RemoveRoomReply.FromString,
                 )
 
 
-class AdminCallServicer(object):
+class RoomCallServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def AddUser(self, request, context):
+    def AddRoom(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def RemoveUser(self, request, context):
+    def RemoveRoom(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_AdminCallServicer_to_server(servicer, server):
+def add_RoomCallServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'AddUser': grpc.unary_unary_rpc_method_handler(
-                    servicer.AddUser,
-                    request_deserializer=admin__pb2.AddRequest.FromString,
-                    response_serializer=admin__pb2.AddReply.SerializeToString,
+            'AddRoom': grpc.unary_unary_rpc_method_handler(
+                    servicer.AddRoom,
+                    request_deserializer=room__pb2.AddRoomRequest.FromString,
+                    response_serializer=room__pb2.AddRoomReply.SerializeToString,
             ),
-            'RemoveUser': grpc.unary_unary_rpc_method_handler(
-                    servicer.RemoveUser,
-                    request_deserializer=admin__pb2.RemoveRequest.FromString,
-                    response_serializer=admin__pb2.RemoveReply.SerializeToString,
+            'RemoveRoom': grpc.unary_unary_rpc_method_handler(
+                    servicer.RemoveRoom,
+                    request_deserializer=room__pb2.RemoveRoomRequest.FromString,
+                    response_serializer=room__pb2.RemoveRoomReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'AdminCall', rpc_method_handlers)
+            'RoomCall', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class AdminCall(object):
+class RoomCall(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def AddUser(request,
+    def AddRoom(request,
             target,
             options=(),
             channel_credentials=None,
@@ -75,14 +75,14 @@ class AdminCall(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/AdminCall/AddUser',
-            admin__pb2.AddRequest.SerializeToString,
-            admin__pb2.AddReply.FromString,
+        return grpc.experimental.unary_unary(request, target, '/RoomCall/AddRoom',
+            room__pb2.AddRoomRequest.SerializeToString,
+            room__pb2.AddRoomReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def RemoveUser(request,
+    def RemoveRoom(request,
             target,
             options=(),
             channel_credentials=None,
@@ -92,8 +92,8 @@ class AdminCall(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/AdminCall/RemoveUser',
-            admin__pb2.RemoveRequest.SerializeToString,
-            admin__pb2.RemoveReply.FromString,
+        return grpc.experimental.unary_unary(request, target, '/RoomCall/RemoveRoom',
+            room__pb2.RemoveRoomRequest.SerializeToString,
+            room__pb2.RemoveRoomReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

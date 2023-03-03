@@ -4,7 +4,7 @@ from typing import ClassVar as _ClassVar, Optional as _Optional
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
-class AddReply(_message.Message):
+class AddUserReply(_message.Message):
     __slots__ = ["error", "message", "status_code"]
     ERROR_FIELD_NUMBER: _ClassVar[int]
     MESSAGE_FIELD_NUMBER: _ClassVar[int]
@@ -14,23 +14,25 @@ class AddReply(_message.Message):
     status_code: int
     def __init__(self, message: _Optional[str] = ..., error: _Optional[str] = ..., status_code: _Optional[int] = ...) -> None: ...
 
-class AddRequest(_message.Message):
-    __slots__ = ["email", "first_name", "last_name", "role_id", "user_password", "username"]
+class AddUserRequest(_message.Message):
+    __slots__ = ["email", "first_name", "grade", "last_name", "role_id", "user_password", "username"]
     EMAIL_FIELD_NUMBER: _ClassVar[int]
     FIRST_NAME_FIELD_NUMBER: _ClassVar[int]
+    GRADE_FIELD_NUMBER: _ClassVar[int]
     LAST_NAME_FIELD_NUMBER: _ClassVar[int]
     ROLE_ID_FIELD_NUMBER: _ClassVar[int]
     USERNAME_FIELD_NUMBER: _ClassVar[int]
     USER_PASSWORD_FIELD_NUMBER: _ClassVar[int]
     email: str
     first_name: str
+    grade: int
     last_name: str
     role_id: int
     user_password: str
     username: str
-    def __init__(self, username: _Optional[str] = ..., first_name: _Optional[str] = ..., last_name: _Optional[str] = ..., user_password: _Optional[str] = ..., email: _Optional[str] = ..., role_id: _Optional[int] = ...) -> None: ...
+    def __init__(self, username: _Optional[str] = ..., first_name: _Optional[str] = ..., last_name: _Optional[str] = ..., user_password: _Optional[str] = ..., email: _Optional[str] = ..., role_id: _Optional[int] = ..., grade: _Optional[int] = ...) -> None: ...
 
-class RemoveReply(_message.Message):
+class GetAllClassesOfTeacherReply(_message.Message):
     __slots__ = ["error", "message", "status_code"]
     ERROR_FIELD_NUMBER: _ClassVar[int]
     MESSAGE_FIELD_NUMBER: _ClassVar[int]
@@ -40,7 +42,23 @@ class RemoveReply(_message.Message):
     status_code: int
     def __init__(self, message: _Optional[str] = ..., error: _Optional[str] = ..., status_code: _Optional[int] = ...) -> None: ...
 
-class RemoveRequest(_message.Message):
+class GetAllClassesOfTeacherRequest(_message.Message):
+    __slots__ = ["user_id"]
+    USER_ID_FIELD_NUMBER: _ClassVar[int]
+    user_id: int
+    def __init__(self, user_id: _Optional[int] = ...) -> None: ...
+
+class RemoveUserReply(_message.Message):
+    __slots__ = ["error", "message", "status_code"]
+    ERROR_FIELD_NUMBER: _ClassVar[int]
+    MESSAGE_FIELD_NUMBER: _ClassVar[int]
+    STATUS_CODE_FIELD_NUMBER: _ClassVar[int]
+    error: str
+    message: str
+    status_code: int
+    def __init__(self, message: _Optional[str] = ..., error: _Optional[str] = ..., status_code: _Optional[int] = ...) -> None: ...
+
+class RemoveUserRequest(_message.Message):
     __slots__ = ["user_id"]
     USER_ID_FIELD_NUMBER: _ClassVar[int]
     user_id: int
