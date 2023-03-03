@@ -9,6 +9,7 @@ from room_client import *
 from seating_client import *
 sys.path.append("/python")
 sys.path.append("/python/schema")
+print(sys.path)
 from python.schemas.LoginSchema import LoginSchema
 from python.schemas.AddUserSchema import AddUserSchema
 import json
