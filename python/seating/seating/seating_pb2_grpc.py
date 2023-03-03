@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import python.proto_files.seating.seating_pb2 as seating__pb2
+import python.seating.seating.seating_pb2 as seating__pb2
 
 
 class SeatingCallStub(object):

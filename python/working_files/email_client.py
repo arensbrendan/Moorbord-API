@@ -1,7 +1,7 @@
 from __future__ import print_function
 import grpc
-from python.proto_files.email import email_pb2
-from python.proto_files.email import email_pb2_grpc
+from python.email.email import email_pb2
+from python.email.email import email_pb2_grpc
 from dotenv import load_dotenv
 import os
 import json

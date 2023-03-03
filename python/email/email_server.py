@@ -7,8 +7,8 @@ from email.mime.text import MIMEText
 import grpc
 from dotenv import load_dotenv
 
-from python.proto_files.email import email_pb2
-from python.proto_files.email import email_pb2_grpc
+from python.email.email import email_pb2
+from python.email.email import email_pb2_grpc
 from python.working_files.decorators import database_connect
 
 import json

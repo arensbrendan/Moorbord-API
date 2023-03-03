@@ -1,6 +1,6 @@
 import grpc
-from python.proto_files.seating import seating_pb2
-from python.proto_files.seating import seating_pb2_grpc
+from python.seating.seating import seating_pb2
+from python.seating.seating import seating_pb2_grpc
 from concurrent import futures
 from dotenv import load_dotenv
 import os

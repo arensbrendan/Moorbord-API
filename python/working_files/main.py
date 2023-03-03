@@ -1,11 +1,14 @@
 from flask import Flask, request, Response
-from flask_cors import cross_origin, CORS
+from flask_cors import cross_origin
+import sys
 from login_client import *
 from user_client import *
 from class_client import *
 from email_client import *
 from room_client import *
 from seating_client import *
+sys.path.append(0, "/python")
+sys.path.append(0, "/python/schema")
 from python.schemas.LoginSchema import LoginSchema
 from python.schemas.AddUserSchema import AddUserSchema
 import json

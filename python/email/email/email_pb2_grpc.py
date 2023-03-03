@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import python.proto_files.email.email_pb2 as email__pb2
+import python.email.email.email_pb2 as email__pb2
 
 
 class EmailCallStub(object):

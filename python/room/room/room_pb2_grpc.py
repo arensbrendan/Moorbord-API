@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import python.proto_files.room.room_pb2 as room__pb2
+import python.room.room.room_pb2 as room__pb2
 
 
 class RoomCallStub(object):

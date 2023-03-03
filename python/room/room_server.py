@@ -1,6 +1,6 @@
 import grpc
-from python.proto_files.room import room_pb2
-from python.proto_files.room import room_pb2_grpc
+from python.room.room import room_pb2
+from python.room.room import room_pb2_grpc
 from concurrent import futures
 from dotenv import load_dotenv
 import os

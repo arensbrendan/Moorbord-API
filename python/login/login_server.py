@@ -1,12 +1,11 @@
 import grpc
-from python.proto_files.login import login_pb2
-from python.proto_files.login import login_pb2_grpc
+from python.login.login import login_pb2
+from python.login.login import login_pb2_grpc
 from concurrent import futures
 from dotenv import load_dotenv
 import os
 from python.working_files.decorators import database_connect
 import json
-import asyncio
 
 load_dotenv()
 

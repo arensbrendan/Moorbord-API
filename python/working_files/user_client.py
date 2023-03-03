@@ -1,7 +1,7 @@
 from __future__ import print_function
 import grpc
-from python.proto_files.user import user_pb2
-from python.proto_files.user import user_pb2_grpc
+from python.user.user import user_pb2
+from python.user.user import user_pb2_grpc
 from dotenv import load_dotenv
 import os
 from decorators import database_connect

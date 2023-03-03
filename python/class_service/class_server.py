@@ -1,6 +1,6 @@
 import grpc
-from python.proto_files.class_files import class_pb2
-from python.proto_files.class_files import class_pb2_grpc
+from python.class_service.class_files import class_pb2
+from python.class_service.class_files import class_pb2_grpc
 from concurrent import futures
 from dotenv import load_dotenv
 import os
