@@ -7,8 +7,8 @@ from class_client import *
 from email_client import *
 from room_client import *
 from seating_client import *
-sys.path.append(0, "/python")
-sys.path.append(0, "/python/schema")
+sys.path.append("/python")
+sys.path.append("/python/schema")
 from python.schemas.LoginSchema import LoginSchema
 from python.schemas.AddUserSchema import AddUserSchema
 import json

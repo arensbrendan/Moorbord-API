@@ -1,8 +1,8 @@
 from __future__ import print_function
 import grpc
 import sys
-sys.path.append(0, "/python")
-sys.path.append(0, "/python/class_service")
+sys.path.append("/python")
+sys.path.append("/python/class_service")
 from python.class_service.class_files import class_pb2
 from python.class_service.class_files import class_pb2_grpc
 from dotenv import load_dotenv
