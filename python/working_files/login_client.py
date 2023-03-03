@@ -3,8 +3,8 @@ import grpc
 import sys
 sys.path.append("/python")
 sys.path.append("/python/login")
-from python.login.login import login_pb2
-from python.login.login import login_pb2_grpc
+from login import login_pb2
+from login import login_pb2_grpc
 from dotenv import load_dotenv
 import os
 from json import dumps
