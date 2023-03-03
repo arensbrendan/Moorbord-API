@@ -1,10 +1,10 @@
 import grpc
-from python.class_service.class_files import class_pb2
-from python.class_service.class_files import class_pb2_grpc
+from class_files import class_pb2
+from class_files import class_pb2_grpc
 from concurrent import futures
 from dotenv import load_dotenv
 import os
-from python.working_files.decorators import database_connect
+from decorators import database_connect
 import json
 
 load_dotenv()

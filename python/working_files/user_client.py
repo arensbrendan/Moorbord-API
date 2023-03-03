@@ -4,7 +4,7 @@ from python.user.user import user_pb2
 from python.user.user import user_pb2_grpc
 from dotenv import load_dotenv
 import os
-from decorators import database_connect
+from class_service.decorators import database_connect
 
 load_dotenv()
 

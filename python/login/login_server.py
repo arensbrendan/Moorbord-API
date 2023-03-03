@@ -4,7 +4,7 @@ from python.login.login import login_pb2_grpc
 from concurrent import futures
 from dotenv import load_dotenv
 import os
-from python.working_files.decorators import database_connect
+from class_service.decorators import database_connect
 import json
 
 load_dotenv()

@@ -3,7 +3,6 @@ import grpc
 import os
 import sys
 os.chdir("../..")
-sys.path.append("../../python")
 from python.login.login import login_pb2
 from python.login.login import login_pb2_grpc
 from dotenv import load_dotenv
