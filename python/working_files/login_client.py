@@ -1,9 +1,10 @@
 from __future__ import print_function
 import grpc
+import os
+os.chdir("../..")
 from python.login.login import login_pb2
 from python.login.login import login_pb2_grpc
 from dotenv import load_dotenv
-import os
 from json import dumps
 
 load_dotenv()
