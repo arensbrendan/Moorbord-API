@@ -22,7 +22,7 @@ class AddUserRequest(_message.Message):
     username: str
     def __init__(self, username: _Optional[str] = ..., first_name: _Optional[str] = ..., last_name: _Optional[str] = ..., user_password: _Optional[str] = ..., email: _Optional[str] = ..., role_id: _Optional[int] = ..., grade: _Optional[int] = ...) -> None: ...
 
-class GetAllClassesOfTeacherRequest(_message.Message):
+class GetAllClassesOfUserRequest(_message.Message):
     __slots__ = ["user_id"]
     USER_ID_FIELD_NUMBER: _ClassVar[int]
     user_id: int

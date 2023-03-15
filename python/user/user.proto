@@ -3,7 +3,7 @@ syntax = "proto3";
 service UserCall {
   rpc AddUser(AddUserRequest) returns (UserReply){}
   rpc RemoveUser(RemoveUserRequest) returns (UserReply){}
-  rpc GetAllClassesOfTeacher(GetAllClassesOfTeacherRequest) returns (UserReply){}
+  rpc GetAllClassesOfUser(GetAllClassesOfUserRequest) returns (UserReply){}
   rpc GetAllTeachers(GetAllTeachersRequest) returns (UserReply){}
 }
 
@@ -21,7 +21,7 @@ message RemoveUserRequest {
   int32 user_id = 1;
 }
 
-message GetAllClassesOfTeacherRequest {
+message GetAllClassesOfUserRequest {
   int32 user_id = 1;
 }
 

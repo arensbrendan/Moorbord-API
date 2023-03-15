@@ -24,12 +24,12 @@ message RemoveClassRequest {
 
 message AddUserToClassRequest {
   int32 class_id = 1;
-  string username = 2;
+  int32 user_id = 2;
 }
 
 message RemoveUserFromClassRequest {
   int32 class_id = 1;
-  string username = 2;
+  int32 user_id = 2;
 }
 
 message GetAllUsersFromClassRequest {

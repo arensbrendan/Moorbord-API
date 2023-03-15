@@ -31,7 +31,7 @@ def add_user_to_class(request):
     with grpc.insecure_channel(ip) as channel:
         stub = class_pb2_grpc.ClassCallStub(channel)
         response = stub.AddUserToClass(
-            class_pb2.AddUserToClassRequest(class_id=request["class_id"], username=request["username"])
+            class_pb2.AddUserToClassRequest(class_id=request["class_id"], user_id=request["user_id"])
         )
     return response
 
@@ -40,7 +40,7 @@ def remove_user_from_class(request):
     with grpc.insecure_channel(ip) as channel:
         stub = class_pb2_grpc.ClassCallStub(channel)
         response = stub.RemoveUserFromClass(
-            class_pb2.RemoveUserFromClassRequest(class_id=request["class_id"], username=request["username"])
+            class_pb2.RemoveUserFromClassRequest(class_id=request["class_id"], user_id=request["user_id"])
         )
     return response
 

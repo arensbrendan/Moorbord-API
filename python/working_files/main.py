@@ -255,14 +255,14 @@ def get_all_chairs_from_class_api():
         return Response(json.dumps({"error": str(error)}), status=500)
 
 
-@app.route("/api/generic/get_all_classes_from_teacher", methods=["GET"])
+@app.route("/api/generic/get_all_classes_from_user", methods=["GET"])
 @cross_origin(**generic_cors)
-def get_all_classes_from_teacher_api():
+def get_all_classes_from_user_api():
     info = {
         "user_id": int(request.args.get('user_id'))
     }
     try:
-        result = get_all_classes_from_teacher(info)
+        result = get_all_classes_from_user(info)
         if result.message:
             result_message = json.loads(result.message)
         return Response(

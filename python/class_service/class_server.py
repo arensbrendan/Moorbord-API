@@ -92,64 +92,52 @@ class ClassCall(class_pb2_grpc.ClassCallServicer):
 
     @database_connect
     def AddUserToClass(self, db, request, context):
-        class_id, username = request.class_id, request.username
+        class_id, user_id = request.class_id, request.user_id
         try:
-            # Getting user id from username
-            sql = "SELECT user_id FROM user WHERE username = '%s'" % username
+            # Get student_id from user_id
+            sql = "SELECT student_id FROM student WHERE user_id = %s" % user_id
             db.execute(sql)
-            user_id = db.fetchall()
-
-            # If it's valid
-            if user_id:
-                user_id = user_id[0]["user_id"]
-
-                # Get student_id from user_id
-                sql = "SELECT student_id FROM student WHERE user_id = %s" % user_id
-                db.execute(sql)
-                student_id = db.fetchall()
-                if not student_id:
-                    raise ValueError("That user is not a student")
-
-                # If valid
-                else:
-                    # Check class validity
-                    sql = "SELECT class_id FROM class WHERE class_id = %s" % class_id
-                    db.execute(sql)
-                    if not db.fetchall():
-                        raise ValueError("That class does not exist")
-
-                    # If valid, check to make sure hour isn't occupied by another class
-                    # Start by getting hour for class provided
-                    student_id = student_id[0]["student_id"]
-                    grab_hour_for_class_id = "SELECT hour FROM class WHERE class_id = %s" % class_id
-                    db.execute(grab_hour_for_class_id)
-                    hour = db.fetchall()[0]["hour"]
-
-                    # Now we grab all classes for that user
-                    grab_all_classes_for_the_student = "SELECT * FROM student_classes WHERE student_id = %s" % student_id
-                    db.execute(grab_all_classes_for_the_student)
-                    classes = db.fetchall()
-                    has_hour = False
-
-                    # For each of those classes, we will check the hour against hour for class provided
-                    for clas in classes:
-                        grab_hour_for_class_id = "SELECT hour FROM class WHERE class_id = %s" % clas["class_id"]
-                        db.execute(grab_hour_for_class_id)
-                        class_hour = db.fetchall()[0]["hour"]
-                        if class_hour == hour:
-                            has_hour = True
-
-                    # If hour occupied
-                    if has_hour:
-                        raise ValueError("That student already has a class at that hour!")
-                    else:
-                        # Finally run query
-                        put_student_in_student_classes_table = "INSERT INTO student_classes VALUES(%s, %s)" % (
-                        student_id, class_id)
-                        db.execute(put_student_in_student_classes_table)
-                        return class_pb2.ClassReply(message="User has been added to class", status_code=200)
+            student_id = db.fetchall()
+            if not student_id:
+                raise ValueError("That user is not a student")
+            # If valid
             else:
-                raise ValueError("That username is not attached to a valid user")
+                # Check class validity
+                sql = "SELECT class_id FROM class WHERE class_id = %s" % class_id
+                db.execute(sql)
+                if not db.fetchall():
+                    raise ValueError("That class does not exist")
+
+                # If valid, check to make sure hour isn't occupied by another class
+                # Start by getting hour for class provided
+                student_id = student_id[0]["student_id"]
+                grab_hour_for_class_id = "SELECT hour FROM class WHERE class_id = %s" % class_id
+                db.execute(grab_hour_for_class_id)
+                hour = db.fetchall()[0]["hour"]
+
+                # Now we grab all classes for that user
+                grab_all_classes_for_the_student = "SELECT * FROM student_classes WHERE student_id = %s" % student_id
+                db.execute(grab_all_classes_for_the_student)
+                classes = db.fetchall()
+                has_hour = False
+
+                # For each of those classes, we will check the hour against hour for class provided
+                for clas in classes:
+                    grab_hour_for_class_id = "SELECT hour FROM class WHERE class_id = %s" % clas["class_id"]
+                    db.execute(grab_hour_for_class_id)
+                    class_hour = db.fetchall()[0]["hour"]
+                    if class_hour == hour:
+                        has_hour = True
+
+                # If hour occupied
+                if has_hour:
+                    raise ValueError("That student already has a class at that hour!")
+                else:
+                    # Finally run query
+                    put_student_in_student_classes_table = "INSERT INTO student_classes VALUES(%s, %s)" % (
+                        student_id, class_id)
+                    db.execute(put_student_in_student_classes_table)
+                    return class_pb2.ClassReply(message="User has been added to class", status_code=200)
         except ValueError as v:
             return class_pb2.ClassReply(error=str(v), status_code=404)
         except Exception as error:
@@ -157,39 +145,30 @@ class ClassCall(class_pb2_grpc.ClassCallServicer):
 
     @database_connect
     def RemoveUserFromClass(self, db, request, context):
-        class_id, username = request.class_id, request.username
+        class_id, user_id = request.class_id, request.user_id
         try:
-            # Grab user id from username
-            sql = "SELECT user_id FROM user WHERE username = '%s'" % username
+            # Grab student_id from user_id
+            sql = "SELECT student_id FROM student WHERE user_id = %s" % user_id
             db.execute(sql)
-            user_id = db.fetchall()
+            student_id = db.fetchall()
+            if not student_id:
+                raise ValueError("That user is not a student")
 
-            # If user_id exists
-            if user_id:
-                user_id = user_id[0]["user_id"]
+            # If user is a student
+            else:
+                student_id = student_id[0]["student_id"]
 
-                # Grab student_id from user_id
-                sql = "SELECT student_id FROM student WHERE user_id = %s" % user_id
+                # Make sure class is valid
+                sql = "SELECT class_id FROM class WHERE class_id = %s" % class_id
                 db.execute(sql)
-                student_id = db.fetchall()
-                if not student_id:
-                    raise ValueError("That user is not a student")
+                if not db.fetchall():
+                    raise ValueError("That class does not exist")
 
-                # If user is a student
-                else:
-                    student_id = student_id[0]["student_id"]
-
-                    # Make sure class is valid
-                    sql = "SELECT class_id FROM class WHERE class_id = %s" % class_id
-                    db.execute(sql)
-                    if not db.fetchall():
-                        raise ValueError("That class does not exist")
-
-                    # If valid, remove user from that class
-                    remove_user_from_table = "DELETE FROM student_classes WHERE student_id = %s" % student_id
-                    db.execute(remove_user_from_table)
-                    return class_pb2.ClassReply(message="User has been removed from the class",
-                                                         status_code=200)
+                # If valid, remove user from that class
+                remove_user_from_table = "DELETE FROM student_classes WHERE student_id = %s" % student_id
+                db.execute(remove_user_from_table)
+                return class_pb2.ClassReply(message="User has been removed from the class",
+                                            status_code=200)
         except ValueError as v:
             return class_pb2.ClassReply(error=str(v), status_code=404)
         except Exception as error:

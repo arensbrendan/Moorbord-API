@@ -24,9 +24,9 @@ class UserCallStub(object):
                 request_serializer=user__pb2.RemoveUserRequest.SerializeToString,
                 response_deserializer=user__pb2.UserReply.FromString,
                 )
-        self.GetAllClassesOfTeacher = channel.unary_unary(
-                '/UserCall/GetAllClassesOfTeacher',
-                request_serializer=user__pb2.GetAllClassesOfTeacherRequest.SerializeToString,
+        self.GetAllClassesOfUser = channel.unary_unary(
+                '/UserCall/GetAllClassesOfUser',
+                request_serializer=user__pb2.GetAllClassesOfUserRequest.SerializeToString,
                 response_deserializer=user__pb2.UserReply.FromString,
                 )
         self.GetAllTeachers = channel.unary_unary(
@@ -51,7 +51,7 @@ class UserCallServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def GetAllClassesOfTeacher(self, request, context):
+    def GetAllClassesOfUser(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -76,9 +76,9 @@ def add_UserCallServicer_to_server(servicer, server):
                     request_deserializer=user__pb2.RemoveUserRequest.FromString,
                     response_serializer=user__pb2.UserReply.SerializeToString,
             ),
-            'GetAllClassesOfTeacher': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetAllClassesOfTeacher,
-                    request_deserializer=user__pb2.GetAllClassesOfTeacherRequest.FromString,
+            'GetAllClassesOfUser': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetAllClassesOfUser,
+                    request_deserializer=user__pb2.GetAllClassesOfUserRequest.FromString,
                     response_serializer=user__pb2.UserReply.SerializeToString,
             ),
             'GetAllTeachers': grpc.unary_unary_rpc_method_handler(
@@ -131,7 +131,7 @@ class UserCall(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def GetAllClassesOfTeacher(request,
+    def GetAllClassesOfUser(request,
             target,
             options=(),
             channel_credentials=None,
@@ -141,8 +141,8 @@ class UserCall(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/UserCall/GetAllClassesOfTeacher',
-            user__pb2.GetAllClassesOfTeacherRequest.SerializeToString,
+        return grpc.experimental.unary_unary(request, target, '/UserCall/GetAllClassesOfUser',
+            user__pb2.GetAllClassesOfUserRequest.SerializeToString,
             user__pb2.UserReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

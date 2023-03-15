@@ -94,30 +94,51 @@ class UserCall(user_pb2_grpc.UserCallServicer):
             return user_pb2.UserReply(error=str(e), status_code=400)
 
     @database_connect
-    def GetAllClassesOfTeacher(self, db, request, context):
+    def GetAllClassesOfUser(self, db, request, context):
         # Grab user id from request data
         user_id = request.user_id
         try:
-            # Grabbing teacher id from user id
-            sql = "SELECT teacher_id FROM teacher WHERE user_id = %s" % user_id
+            # Grabbing role of user
+            sql = "SELECT role_id FROM user WHERE user_id = %s" % user_id
             db.execute(sql)
-            teacher_id = db.fetchall()
-            # If that teacher exists
-            if teacher_id:
-                # Grabbing relevant information
-                sql = "SELECT class_id, class_name, hour FROM class WHERE teacher_id = %s ORDER BY hour ASC" % teacher_id[0]["teacher_id"]
-                db.execute(sql)
-                classes = db.fetchall()
-                # If the teacher has classes
-                if classes:
-                    # Convert to string
-                    classes = json.dumps(classes)
-                    classes = classes.replace("\'", '\"')
-                    return user_pb2.UserReply(message=classes, status_code=200)
-                else:
-                    raise ValueError("That teacher has no classes")
-            else:
-                raise ValueError("That user is not a teacher")
+            role = db.fetchall()[0]["role_id"]
+            match role:
+                case 0:
+                    # Grabbing student id from user id
+                    sql = "SELECT student_id FROM student WHERE user_id = %s" % user_id
+                    db.execute(sql)
+                    student_id = db.fetchall()
+                    if student_id:
+                        sql = "SELECT * FROM student_classes sc INNER JOIN class c ON sc.class_id = c.class_id WHERE student_id = %s" % student_id[0]["student_id"]
+                        db.execute(sql)
+                        classes = db.fetchall()
+                        if classes:
+                            classes = json.dumps(classes)
+                            classes = classes.replace("\'", '\"')
+                            return user_pb2.UserReply(message=classes, status_code=200)
+                        else:
+                            raise ValueError("That student has no classes")
+                case 2:
+                    # Grabbing teacher id from user id
+                    sql = "SELECT teacher_id FROM teacher WHERE user_id = %s" % user_id
+                    db.execute(sql)
+                    teacher_id = db.fetchall()
+                    # If that teacher exists
+                    if teacher_id:
+                        # Grabbing relevant information
+                        sql = "SELECT class_id, class_name, hour FROM class WHERE teacher_id = %s ORDER BY hour ASC" % teacher_id[0]["teacher_id"]
+                        db.execute(sql)
+                        classes = db.fetchall()
+                        # If the teacher has classes
+                        if classes:
+                            # Convert to string
+                            classes = json.dumps(classes)
+                            classes = classes.replace("\'", '\"')
+                            return user_pb2.UserReply(message=classes, status_code=200)
+                        else:
+                            raise ValueError("That teacher has no classes")
+                    else:
+                        raise ValueError("That user is not a teacher")
         except ValueError as v:
             # If the user doesn't exist, return 404 for not found
             return user_pb2.UserReply(error=str(v), status_code=404)
@@ -138,7 +159,7 @@ class UserCall(user_pb2_grpc.UserCallServicer):
 
 def serve():
     # General service setup
-    port = '1'
+    port = '7'
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     user_pb2_grpc.add_UserCallServicer_to_server(UserCall(), server)
     server.add_insecure_port(os.getenv("PRIVATE_IP") + ':' + port)
