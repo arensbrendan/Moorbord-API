@@ -4,7 +4,7 @@ from python.user.user import user_pb2
 from python.user.user import user_pb2_grpc
 from dotenv import load_dotenv
 import os
-from class_service.decorators import database_connect
+from python.class_service.decorators import database_connect
 
 load_dotenv()
 
@@ -46,4 +46,11 @@ def get_all_classes_from_teacher(request):
     with grpc.insecure_channel(ip) as channel:
         stub = user_pb2_grpc.UserCallStub(channel)
         response = stub.GetAllClassesOfTeacher(user_pb2.GetAllClassesOfTeacherRequest(user_id=request["user_id"]))
+    return response
+
+
+def get_all_teachers():
+    with grpc.insecure_channel(ip) as channel:
+        stub = user_pb2_grpc.UserCallStub(channel)
+        response = stub.GetAllTeachers(user_pb2.GetAllTeachersRequest())
     return response

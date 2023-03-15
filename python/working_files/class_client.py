@@ -1,7 +1,6 @@
 from __future__ import print_function
 import grpc
-from python.class_service.class_files import class_pb2
-from class_service.class_files import class_pb2_grpc
+from python.class_service.class_files import class_pb2, class_pb2_grpc
 from dotenv import load_dotenv
 import os
 
