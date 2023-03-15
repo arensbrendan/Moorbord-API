@@ -1,5 +1,15 @@
 ## Class
+[Add Class](#add-class)<br>
+[Remove Class](#remove-class)<br>
+[Add User To Class](#add-user-to-class)<br>
+[Remove User From Class](#remove-user-from-class)<br>
+[Get All Users From Class](#get-all-users-from-class)<br>
+[Get All Chairs From Class](#get-all-chairs-from-class)<br>
+[Get All Classes](#get-all-classes)<br>
+<br><br>
 
+## Add Class
+[Back to the top](#class)
 ### /api/class/add_class
 ### Expected Request<br><br>
 ```json
@@ -32,6 +42,8 @@
 }
 ```
 
+## Remove Class
+[Back to the top](#class)
 ### /api/class/remove_class
 ### Expected Request<br><br>
 ```json
@@ -59,6 +71,8 @@
 }
 ```
 
+## Get All Users From Class
+[Back to the top](#class)
 ### /api/class/get_all_users_from_class
 ### Expected Request<br><br>/api/class/get_all_users_from_class?class_id=5<br>
 
@@ -82,7 +96,8 @@
 }
 ```
 
-
+## Add User To Class
+[Back to the top](#class)
 ### /api/class/add_user_to_class
 ### Expected Request<br><br>
 ```json
@@ -113,6 +128,8 @@
 }
 ```
 
+## Remove User From Class
+[Back to the top](#class)
 ### /api/class/remove_user_from_class
 ### Expected Request<br><br>
 ```json
@@ -143,6 +160,8 @@
 }
 ```
 
+# Get All Chairs From Class
+[Back to the top](#class)
 ### /api/class/get_all_chairs_from_class
 ### Expected Request<br><br>/api/class/get_all_chairs_from_class?class_id=6<br>
 
@@ -165,6 +184,8 @@
 }
 ```
 
+## Get All Classes
+[Back to the top](#class)
 ### /api/class/get_all_classes
 ### Expected Request<br><br>/api/class/get_all_classes?user_id=59
 

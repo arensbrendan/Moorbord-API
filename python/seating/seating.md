@@ -1,4 +1,12 @@
 ## Seating
+
+[Add Chairs To Seating Arrangement](#add-chairs-to-seating-arrangement)<br>
+[Remove Chairs From Seating Arrangement](#remove-chairs-from-seating-arrangement)<br>
+[Get Student From Chair](#get-student-from-chair)<br>
+<br><br>
+
+## Add Chairs To Seating Arrangement
+[Back to the top](#seating)
 ### /api/seating/add_chairs_to_class
 ### Example Request<br><br>
 ```json
@@ -46,6 +54,8 @@
 }
 ```
 
+## Remove Chairs From Seating Arrangement
+[Back to the top](#seating)
 ### /api/seating/remove_chair_from_seating_arrangement
 ### Example Request<br><br>
 ```json
@@ -73,7 +83,8 @@
 }
 ```
 
-
+## Get Student From Chair
+[Back to the top](#seating)
 ### /api/seating/get_student_from_chair
 ### Example Request:<br>
 #### /api/seating/get_student_from_chair?chair_id=3

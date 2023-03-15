@@ -1,4 +1,12 @@
 ## Room
+
+[Add Room](#add-room)<br>
+[Remove Room](#remove-room)<br>
+<br><br>
+
+
+## Add Room
+[Back to the top](#room)
 ### /api/room/add_room
 ### Expected Request<br><br>
 ```json
@@ -30,6 +38,8 @@
 }
 ```
 
+## Remove Room
+[Back to the top](#room)
 ### /api/room/remove_room
 ### Expected Request<br><br>
 ```json

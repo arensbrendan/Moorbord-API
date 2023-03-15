@@ -1,5 +1,11 @@
 ## Generic
 
+[Login](#login)<br>
+[Email User](#email-user)<br>
+<br><br>
+
+## Login
+[Back to the top](#generic)
 ### /api/generic/login
 ### Expected Request <br><br>/api/generic/login?username=USERNAME&password=PASSWORD<br>
 
@@ -22,6 +28,8 @@
 }
 ```
 
+## Email User
+[Back to the top](#generic)
 ### /api/generic/email_user
 ### Expected Request<br><br>
 ```json
