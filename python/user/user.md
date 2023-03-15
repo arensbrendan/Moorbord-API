@@ -2,6 +2,7 @@
 
 ### [Add User](#add-user)<br>
 ### [Remove User](#remove-user)<br>
+### [Get All Classes From Teachers](#get-all-classes-from-teachers)<br>
 ### [Get All Teachers](#get-all-teachers)<br>
 
 <br><br>
@@ -71,6 +72,8 @@
 }
 ```
 
+## Get All Classes From Teachers
+[Back to the top](#user)
 ### /api/generic/get_all_classes_from_teachers
 ### Expected Request<br><br>
 ```json
