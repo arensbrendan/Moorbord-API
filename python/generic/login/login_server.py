@@ -1,6 +1,6 @@
 import grpc
-from python.login.login import login_pb2
-from python.login.login import login_pb2_grpc
+from python.generic.login.login import login_pb2
+from python.generic.login.login import login_pb2_grpc
 from concurrent import futures
 from dotenv import load_dotenv
 import os
