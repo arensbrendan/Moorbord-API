@@ -1,9 +1,9 @@
 # User
 
-### [Add User](#add-user)<br>
-### [Remove User](#remove-user)<br>
-### [Get All Classes From Teachers](#get-all-classes-from-teachers)<br>
-### [Get All Teachers](#get-all-teachers)<br>
+[Add User](#add-user)<br>
+[Remove User](#remove-user)<br>
+[Get All Classes From Teachers](#get-all-classes-from-teachers)<br>
+[Get All Teachers](#get-all-teachers)<br>
 
 <br><br>
 ## Add User
