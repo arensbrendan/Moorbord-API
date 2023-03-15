@@ -1,4 +1,5 @@
-## Class
+[Back to main](../README.md)
+# Class
 [Add Class](#add-class)<br>
 [Remove Class](#remove-class)<br>
 [Add User To Class](#add-user-to-class)<br>

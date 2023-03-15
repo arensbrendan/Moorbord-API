@@ -1,5 +1,5 @@
-## Seating
-
+[Back to main](../README.md)
+# Seating
 [Add Chairs To Seating Arrangement](#add-chairs-to-seating-arrangement)<br>
 [Remove Chairs From Seating Arrangement](#remove-chairs-from-seating-arrangement)<br>
 [Get Student From Chair](#get-student-from-chair)<br>
