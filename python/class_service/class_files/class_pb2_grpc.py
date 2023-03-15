@@ -44,6 +44,11 @@ class ClassCallStub(object):
                 request_serializer=class__pb2.GetAllChairsFromClassRequest.SerializeToString,
                 response_deserializer=class__pb2.ClassReply.FromString,
                 )
+        self.GetAllClasses = channel.unary_unary(
+                '/ClassCall/GetAllClasses',
+                request_serializer=class__pb2.GetAllClassesRequest.SerializeToString,
+                response_deserializer=class__pb2.ClassReply.FromString,
+                )
 
 
 class ClassCallServicer(object):
@@ -85,6 +90,12 @@ class ClassCallServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetAllClasses(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_ClassCallServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -116,6 +127,11 @@ def add_ClassCallServicer_to_server(servicer, server):
             'GetAllChairsFromClass': grpc.unary_unary_rpc_method_handler(
                     servicer.GetAllChairsFromClass,
                     request_deserializer=class__pb2.GetAllChairsFromClassRequest.FromString,
+                    response_serializer=class__pb2.ClassReply.SerializeToString,
+            ),
+            'GetAllClasses': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetAllClasses,
+                    request_deserializer=class__pb2.GetAllClassesRequest.FromString,
                     response_serializer=class__pb2.ClassReply.SerializeToString,
             ),
     }
@@ -226,6 +242,23 @@ class ClassCall(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ClassCall/GetAllChairsFromClass',
             class__pb2.GetAllChairsFromClassRequest.SerializeToString,
+            class__pb2.ClassReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetAllClasses(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/ClassCall/GetAllClasses',
+            class__pb2.GetAllClassesRequest.SerializeToString,
             class__pb2.ClassReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -1,14 +1,11 @@
 from flask import Flask, request, Response
 from flask_cors import cross_origin
-import sys
 from login_client import *
 from user_client import *
 from class_client import *
 from email_client import *
 from room_client import *
 from seating_client import *
-sys.path.append("/python")
-sys.path.append("/python/schema")
 from python.schemas.LoginSchema import LoginSchema
 from python.schemas.AddUserSchema import AddUserSchema
 import json
@@ -258,14 +255,44 @@ def get_all_chairs_from_class_api():
         return Response(json.dumps({"error": str(error)}), status=500)
 
 
-@app.route("/api/generic/get_all_classes_from_teacher", methods=["GET"])
+@app.route("/api/generic/get_all_classes_from_user", methods=["GET"])
 @cross_origin(**generic_cors)
-def get_all_classes_from_teacher_api():
+def get_all_classes_from_user_api():
     info = {
         "user_id": int(request.args.get('user_id'))
     }
     try:
-        result = get_all_classes_from_teacher(info)
+        result = get_all_classes_from_user(info)
+        if result.message:
+            result_message = json.loads(result.message)
+        return Response(
+            json.dumps({"message" if result.message else "error": result_message if result.message else result.error}),
+            status=result.status_code
+        )
+    except Exception as error:
+        return Response(json.dumps({"error": str(error)}), status=500)
+
+
+@app.route("/api/user/get_all_teachers", methods=["GET"])
+@cross_origin(**generic_cors)
+def get_all_teachers_api():
+    try:
+        result = get_all_teachers()
+        if result.message:
+            result_message = json.loads(result.message)
+        return Response(
+            json.dumps({"message" if result.message else "error": result_message if result.message else result.error}),
+            status=result.status_code
+        )
+    except Exception as error:
+        return Response(json.dumps({"error": str(error)}), status=500)
+
+
+@app.route("/api/class/get_all_classes", methods=["GET"])
+@cross_origin(**generic_cors)
+def get_all_classes_api():
+    try:
+        result = get_all_classes()
         if result.message:
             result_message = json.loads(result.message)
         return Response(

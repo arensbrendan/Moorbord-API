@@ -4,7 +4,7 @@ from python.seating.seating import seating_pb2_grpc
 from concurrent import futures
 from dotenv import load_dotenv
 import os
-from python.working_files.decorators import database_connect
+from python.class_service.decorators import database_connect
 import json
 
 load_dotenv()
@@ -17,11 +17,11 @@ class SeatingCall(seating_pb2_grpc.SeatingCallServicer):
         try:
             for i in arrangement:
                 sql = "INSERT INTO chair(chair_x, chair_y, student_id, class_id) VALUES(%s, %s, %s, %s)" % (
-                i["x"], i["y"], i["student_id"], class_id)
+                    i["x"], i["y"], i["student_id"], class_id)
                 db.execute(sql)
             # 200 for successful.  Even if they don't match, the code ran successfully
             return seating_pb2.SeatingReply(message="The chairs have been added to that class",
-                                                                 status_code=200)
+                                            status_code=200)
         except Exception as e:
             # Generic answer returns a 400
             return seating_pb2.SeatingReply(error=str(e), status_code=400)
@@ -34,7 +34,7 @@ class SeatingCall(seating_pb2_grpc.SeatingCallServicer):
                 sql = "DELETE FROM chair WHERE chair_id = %s" % i
                 db.execute(sql)
             return seating_pb2.SeatingReply(message="The chairs have been deleted from that class",
-                                                                      status_code=200)
+                                            status_code=200)
         except Exception as e:
             return seating_pb2.SeatingReply(error=str(e), status_code=400)
 

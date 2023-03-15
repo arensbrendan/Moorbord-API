@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 from python.email.email import email_pb2
 from python.email.email import email_pb2_grpc
-from python.working_files.decorators import database_connect
+from python.class_service.decorators import database_connect
 
 import json
 

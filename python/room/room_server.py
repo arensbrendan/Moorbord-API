@@ -4,7 +4,7 @@ from python.room.room import room_pb2_grpc
 from concurrent import futures
 from dotenv import load_dotenv
 import os
-from python.working_files.decorators import database_connect
+from python.class_service.decorators import database_connect
 
 load_dotenv()
 

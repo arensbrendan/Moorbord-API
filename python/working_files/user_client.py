@@ -1,18 +1,14 @@
 from __future__ import print_function
 import grpc
-import sys
-sys.path.append("/python")
-sys.path.append("/python/user")
 from python.user.user import user_pb2
 from python.user.user import user_pb2_grpc
 from dotenv import load_dotenv
 import os
-from decorators import database_connect
+from python.class_service.decorators import database_connect
 
 load_dotenv()
 
-ip = os.getenv("PRIVATE_IP") + ":1"
-
+ip = os.getenv("PRIVATE_IP") + ":7"
 
 @database_connect
 def add_user(request, db):
@@ -45,8 +41,15 @@ def remove_user(request):
     return response
 
 
-def get_all_classes_from_teacher(request):
+def get_all_classes_from_user(request):
     with grpc.insecure_channel(ip) as channel:
         stub = user_pb2_grpc.UserCallStub(channel)
-        response = stub.GetAllClassesOfTeacher(user_pb2.GetAllClassesOfTeacherRequest(user_id=request["user_id"]))
+        response = stub.GetAllClassesOfUser(user_pb2.GetAllClassesOfUserRequest(user_id=request["user_id"]))
+    return response
+
+
+def get_all_teachers():
+    with grpc.insecure_channel(ip) as channel:
+        stub = user_pb2_grpc.UserCallStub(channel)
+        response = stub.GetAllTeachers(user_pb2.GetAllTeachersRequest())
     return response

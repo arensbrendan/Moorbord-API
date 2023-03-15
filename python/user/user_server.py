@@ -4,7 +4,7 @@ from python.user.user import user_pb2_grpc
 from concurrent import futures
 from dotenv import load_dotenv
 import os
-from python.working_files.decorators import database_connect
+from python.class_service.decorators import database_connect
 import json
 
 load_dotenv()
@@ -43,10 +43,10 @@ class UserCall(user_pb2_grpc.UserCallServicer):
                     sql = "INSERT INTO admin(user_id) VALUES (%s)" % uid
                     db.execute(sql)
             # 200 is a successful error code
-            return user_pb2.AddUserReply(message="User Added", status_code=200)
+            return user_pb2.UserReply(message="User Added", status_code=200)
         except Exception as e:
             # 400 is unsuccessful
-            return user_pb2.AddUserReply(error=str(e), status_code=400)
+            return user_pb2.UserReply(error=str(e), status_code=400)
 
     @database_connect
     def RemoveUser(self, db, request, context):
@@ -83,52 +83,83 @@ class UserCall(user_pb2_grpc.UserCallServicer):
                 sql = "DELETE FROM user WHERE user_id = '%s'" % user_id
                 db.execute(sql)
                 # 200 is successful
-                return user_pb2.RemoveUserReply(message="User removed", status_code=200)
+                return user_pb2.UserReply(message="User removed", status_code=200)
             else:
                 raise ValueError("That user_id does not exist in the login")
         except ValueError as v:
             # If the user doesn't exist, return 404 for not found
-            return user_pb2.RemoveUserReply(error=str(v), status_code=404)
+            return user_pb2.UserReply(error=str(v), status_code=404)
         except Exception as e:
             # Generic error returns a 400
-            return user_pb2.RemoveUserReply(error=str(e), status_code=400)
+            return user_pb2.UserReply(error=str(e), status_code=400)
 
     @database_connect
-    def GetAllClassesOfTeacher(self, db, request, context):
+    def GetAllClassesOfUser(self, db, request, context):
         # Grab user id from request data
         user_id = request.user_id
         try:
-            # Grabbing teacher id from user id
-            sql = "SELECT teacher_id FROM teacher WHERE user_id = %s" % user_id
+            # Grabbing role of user
+            sql = "SELECT role_id FROM user WHERE user_id = %s" % user_id
             db.execute(sql)
-            teacher_id = db.fetchall()
-            # If that teacher exists
-            if teacher_id:
-                # Grabbing relevant information
-                sql = "SELECT class_id, class_name, hour FROM class WHERE teacher_id = %s ORDER BY hour ASC" % teacher_id[0]["teacher_id"]
-                db.execute(sql)
-                classes = db.fetchall()
-                # If the teacher has classes
-                if classes:
-                    # Convert to string
-                    classes = json.dumps(classes)
-                    classes = classes.replace("\'", '\"')
-                    return user_pb2.GetAllClassesOfTeacherReply(message=classes, status_code=200)
-                else:
-                    raise ValueError("That teacher has no classes")
-            else:
-                raise ValueError("That user is not a teacher")
+            role = db.fetchall()[0]["role_id"]
+            match role:
+                case 0:
+                    # Grabbing student id from user id
+                    sql = "SELECT student_id FROM student WHERE user_id = %s" % user_id
+                    db.execute(sql)
+                    student_id = db.fetchall()
+                    if student_id:
+                        sql = "SELECT * FROM student_classes sc INNER JOIN class c ON sc.class_id = c.class_id WHERE student_id = %s" % student_id[0]["student_id"]
+                        db.execute(sql)
+                        classes = db.fetchall()
+                        if classes:
+                            classes = json.dumps(classes)
+                            classes = classes.replace("\'", '\"')
+                            return user_pb2.UserReply(message=classes, status_code=200)
+                        else:
+                            raise ValueError("That student has no classes")
+                case 2:
+                    # Grabbing teacher id from user id
+                    sql = "SELECT teacher_id FROM teacher WHERE user_id = %s" % user_id
+                    db.execute(sql)
+                    teacher_id = db.fetchall()
+                    # If that teacher exists
+                    if teacher_id:
+                        # Grabbing relevant information
+                        sql = "SELECT class_id, class_name, hour FROM class WHERE teacher_id = %s ORDER BY hour ASC" % teacher_id[0]["teacher_id"]
+                        db.execute(sql)
+                        classes = db.fetchall()
+                        # If the teacher has classes
+                        if classes:
+                            # Convert to string
+                            classes = json.dumps(classes)
+                            classes = classes.replace("\'", '\"')
+                            return user_pb2.UserReply(message=classes, status_code=200)
+                        else:
+                            raise ValueError("That teacher has no classes")
+                    else:
+                        raise ValueError("That user is not a teacher")
         except ValueError as v:
             # If the user doesn't exist, return 404 for not found
-            return user_pb2.GetAllClassesOfTeacherReply(error=str(v), status_code=404)
+            return user_pb2.UserReply(error=str(v), status_code=404)
         except Exception as e:
             # Generic error returns a 400
-            return user_pb2.GetAllClassesOfTeacherReply(error=str(e), status_code=400)
+            return user_pb2.UserReply(error=str(e), status_code=400)
+
+    @database_connect
+    def GetAllTeachers(self, db, request, context):
+        try:
+            sql = "SELECT * FROM USER u INNER JOIN TEACHER t ON t.user_id = u.user_id"
+            db.execute(sql)
+            teachers = db.fetchall()
+            return user_pb2.UserReply(message=json.dumps(teachers), status_code=200)
+        except Exception as e:
+            return user_pb2.UserReply(error=str(e), status_code=400)
 
 
 def serve():
     # General service setup
-    port = '1'
+    port = '7'
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     user_pb2_grpc.add_UserCallServicer_to_server(UserCall(), server)
     server.add_insecure_port(os.getenv("PRIVATE_IP") + ':' + port)
