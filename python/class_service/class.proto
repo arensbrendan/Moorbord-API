@@ -7,6 +7,7 @@ service ClassCall {
   rpc RemoveUserFromClass(RemoveUserFromClassRequest) returns (ClassReply){}
   rpc GetAllUsersFromClass(GetAllUsersFromClassRequest) returns (ClassReply){}
   rpc GetAllChairsFromClass(GetAllChairsFromClassRequest) returns (ClassReply){}
+  rpc GetAllClasses(GetAllClassesRequest) returns (ClassReply) {}
 }
 
 message AddClassRequest {
@@ -37,6 +38,10 @@ message GetAllUsersFromClassRequest {
 
 message GetAllChairsFromClassRequest {
   int32 class_id = 1;
+}
+
+message GetAllClassesRequest{
+
 }
 
 message ClassReply {

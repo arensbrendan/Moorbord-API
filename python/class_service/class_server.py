@@ -246,6 +246,16 @@ class ClassCall(class_pb2_grpc.ClassCallServicer):
         except Exception as e:
             return class_pb2.ClassReply(error=str(e), status_code=400)
 
+    @database_connect
+    def GetAllClasses(self, db, request, context):
+        try:
+            sql = "SELECT * FROM class"
+            db.execute(sql)
+            classes = json.dumps(db.fetchall())
+            return class_pb2.ClassReply(message=classes, status_code=200)
+        except Exception as e:
+            return class_pb2.ClassReply(error=str(e), status_code=400)
+
 
 def serve():
     # General service setup

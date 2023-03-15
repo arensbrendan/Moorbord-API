@@ -40,6 +40,10 @@ class GetAllChairsFromClassRequest(_message.Message):
     class_id: int
     def __init__(self, class_id: _Optional[int] = ...) -> None: ...
 
+class GetAllClassesRequest(_message.Message):
+    __slots__ = []
+    def __init__(self) -> None: ...
+
 class GetAllUsersFromClassRequest(_message.Message):
     __slots__ = ["class_id"]
     CLASS_ID_FIELD_NUMBER: _ClassVar[int]
