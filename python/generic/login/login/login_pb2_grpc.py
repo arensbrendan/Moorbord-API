@@ -2,10 +2,10 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import python.email.email.email_pb2 as email__pb2
+import python.generic.login.login.login_pb2 as login__pb2
 
 
-class EmailCallStub(object):
+class LoginCallStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -14,42 +14,42 @@ class EmailCallStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.EmailUser = channel.unary_unary(
-                '/EmailCall/EmailUser',
-                request_serializer=email__pb2.EmailUserRequest.SerializeToString,
-                response_deserializer=email__pb2.EmailUserReply.FromString,
+        self.Login = channel.unary_unary(
+                '/LoginCall/Login',
+                request_serializer=login__pb2.LoginRequest.SerializeToString,
+                response_deserializer=login__pb2.LoginReply.FromString,
                 )
 
 
-class EmailCallServicer(object):
+class LoginCallServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def EmailUser(self, request, context):
+    def Login(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_EmailCallServicer_to_server(servicer, server):
+def add_LoginCallServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'EmailUser': grpc.unary_unary_rpc_method_handler(
-                    servicer.EmailUser,
-                    request_deserializer=email__pb2.EmailUserRequest.FromString,
-                    response_serializer=email__pb2.EmailUserReply.SerializeToString,
+            'Login': grpc.unary_unary_rpc_method_handler(
+                    servicer.Login,
+                    request_deserializer=login__pb2.LoginRequest.FromString,
+                    response_serializer=login__pb2.LoginReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'EmailCall', rpc_method_handlers)
+            'LoginCall', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class EmailCall(object):
+class LoginCall(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def EmailUser(request,
+    def Login(request,
             target,
             options=(),
             channel_credentials=None,
@@ -59,8 +59,8 @@ class EmailCall(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/EmailCall/EmailUser',
-            email__pb2.EmailUserRequest.SerializeToString,
-            email__pb2.EmailUserReply.FromString,
+        return grpc.experimental.unary_unary(request, target, '/LoginCall/Login',
+            login__pb2.LoginRequest.SerializeToString,
+            login__pb2.LoginReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
