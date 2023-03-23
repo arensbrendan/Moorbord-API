@@ -19,6 +19,5 @@ phases:
       - pip install -r requirements.txt
   build:
     commands:
-      - cd ..
       - cd class_service
       - python class_server.py
