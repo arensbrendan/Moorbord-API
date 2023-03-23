@@ -163,7 +163,7 @@ def email_user_api():
         return Response(json.dumps({"error": str(error)}), status=500)
 
 
-@app.route("/api/generic/add_user_to_class", methods=["POST"])
+@app.route("/api/class/add_user_to_class", methods=["POST"])
 @cross_origin(**generic_cors)
 def add_user_to_class_api():
     info = request.get_json()
@@ -177,7 +177,7 @@ def add_user_to_class_api():
         return Response(json.dumps({"error": str(error)}), status=500)
 
 
-@app.route("/api/generic/remove_user_from_class", methods=["DELETE"])
+@app.route("/api/class/remove_user_from_class", methods=["DELETE"])
 @cross_origin(**generic_cors)
 def remove_user_from_class_api():
     info = request.get_json()
@@ -191,7 +191,7 @@ def remove_user_from_class_api():
         return Response(json.dumps({"error": str(error)}), status=500)
 
 
-@app.route("/api/seating/add_chairs_to_class", methods=["POST"])
+@app.route("/api/seating/add_chairs_to_seating_arrangement", methods=["POST"])
 @cross_origin(**generic_cors)
 def add_chairs_to_class_api():
     info = request.get_json()
@@ -219,7 +219,7 @@ def remove_chair_from_seating_arrangement_api():
         return Response(json.dumps({"error": str(error)}), status=500)
 
 
-@app.route("/api/generic/get_all_users_from_class", methods=["GET"])
+@app.route("/api/class/get_all_users_from_class", methods=["GET"])
 @cross_origin(**generic_cors)
 def get_all_users_from_class_api():
     info = {
@@ -237,7 +237,7 @@ def get_all_users_from_class_api():
         return Response(json.dumps({"error": str(error)}), status=500)
 
 
-@app.route("/api/generic/get_all_chairs_from_class", methods=["GET"])
+@app.route("/api/class/get_all_chairs_from_class", methods=["GET"])
 @cross_origin(**generic_cors)
 def get_all_chairs_from_class_api():
     info = {
@@ -255,7 +255,7 @@ def get_all_chairs_from_class_api():
         return Response(json.dumps({"error": str(error)}), status=500)
 
 
-@app.route("/api/generic/get_all_classes_from_user", methods=["GET"])
+@app.route("/api/user/get_all_classes_from_user", methods=["GET"])
 @cross_origin(**generic_cors)
 def get_all_classes_from_user_api():
     info = {
@@ -303,7 +303,7 @@ def get_all_classes_api():
         return Response(json.dumps({"error": str(error)}), status=500)
 
 
-@app.route("/api/generic/get_student_from_chair", methods=["GET"])
+@app.route("/api/seating/get_student_from_chair", methods=["GET"])
 @cross_origin(**generic_cors)
 def get_user_from_chair_api():
     info = {
