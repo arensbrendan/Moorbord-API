@@ -20,4 +20,4 @@ phases:
   build:
     commands:
       - cd class_service
-      - python class_server.py
+      - python -m python.class_service.class_server.py
