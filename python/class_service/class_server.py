@@ -241,7 +241,7 @@ def serve():
     port = '3'
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     class_pb2_grpc.add_ClassCallServicer_to_server(ClassCall(), server)
-    server.add_insecure_port(os.getenv("PRIVATE_IP") + ':' + port)
+    server.add_insecure_port(os.getenv("AWS_IP") + ':' + port)
     server.start()
     print("Server started, listening on " + port)
     server.wait_for_termination()
