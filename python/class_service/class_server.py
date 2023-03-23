@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import os
 from python.class_service.decorators import database_connect
 import json
+import socket
 
 load_dotenv()
 
@@ -244,7 +245,15 @@ def serve():
     server.add_insecure_port(os.getenv("AWS_IP") + ':' + port)
     server.start()
     print("Server started, listening on " + port)
-    #server.wait_for_termination()
+
+    # getting the hostname by socket.gethostname() method
+    hostname = socket.gethostname()
+    # getting the IP address using socket.gethostbyname() method
+    ip_address = socket.gethostbyname(hostname)
+    # printing the hostname and ip_address
+    print(f"Hostname: {hostname}")
+    print(f"IP Address: {ip_address}")
+    # server.wait_for_termination()
 
 
 if __name__ == "__main__":
