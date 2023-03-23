@@ -1,6 +1,6 @@
 from __future__ import print_function
 import grpc
-from python.email.email import email_pb2
+from python.generic.email.email import email_pb2
 from python.generic.email.email import email_pb2_grpc
 from dotenv import load_dotenv
 import os

@@ -3,7 +3,7 @@ import grpc
 import os
 
 os.chdir("../..")
-from python.login.login import login_pb2
+from python.generic.login.login import login_pb2
 from python.generic.login.login import login_pb2_grpc
 from dotenv import load_dotenv
 from json import dumps
