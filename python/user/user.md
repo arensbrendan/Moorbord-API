@@ -8,7 +8,7 @@
 <br><br>
 ## Add User
 [Back to the top](#user)
-### /api/admin/add_user
+### /api/user/add_user
 ### Expected Request<br><br>
 ```json
 {
@@ -45,7 +45,7 @@
 
 ## Remove User
 [Back to the top](#user)
-### /api/admin/remove_user
+### /api/user/remove_user
 ### Expected Request<br><br>
 ```json
 {
@@ -74,7 +74,7 @@
 
 ## Get All Classes From Teachers
 [Back to the top](#user)
-### /api/generic/get_all_classes_from_teachers
+### /api/user/get_all_classes_from_teachers
 ### Expected Request<br><br>
 ```json
 {
@@ -103,7 +103,7 @@
 
 ## Get All Teachers
 [Back to the top](#user)
-### /api/generic/get_all_teachers
+### /api/user/get_all_teachers
 ### Expected Request<br><br>
 ```json
 {
