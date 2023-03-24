@@ -21,5 +21,3 @@ phases:
     commands:
       - cd ..
       - python -m python.class_service.class_server
-artifacts:
-    files: imagedefinitions.json
