@@ -6,7 +6,7 @@ import os
 
 load_dotenv()
 
-ip = os.getenv("PRIVATE_IP") + ":3"
+ip = os.getenv("AWS_IP") + ":3"
 
 
 def add_class(request):
