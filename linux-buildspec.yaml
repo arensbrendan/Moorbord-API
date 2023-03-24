@@ -21,3 +21,9 @@ phases:
     commands:
       - cd ..
       - python -m python.class_service.class_server
+artifacts:
+  files:
+    - '**/*'
+  base-directory: base_dir
+  name: login-server-build
+  discard-paths: no
