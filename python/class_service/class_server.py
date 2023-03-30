@@ -242,7 +242,7 @@ def serve():
     port = '3'
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     class_pb2_grpc.add_ClassCallServicer_to_server(ClassCall(), server)
-    server.add_insecure_port(os.getenv("AWS_IP") + ':' + port)
+    server.add_insecure_port(os.getenv("PRIVATE_IP") + ':' + port)
     server.start()
     print("Server started, listening on " + port)
 
@@ -253,7 +253,7 @@ def serve():
     # printing the hostname and ip_address
     print(f"Hostname: {hostname}")
     print(f"IP Address: {ip_address}")
-    # server.wait_for_termination()
+    server.wait_for_termination()
 
 
 if __name__ == "__main__":

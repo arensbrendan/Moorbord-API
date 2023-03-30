@@ -17,16 +17,19 @@
 {
     "teacher_username": "teacher username",
     "class_name": "class name",
-    "hour": "hour"
+    "hour": "hour",
+    "room_id": "room id"
 }
 ```
 ### <br>
 
-| Variable         | Data Type | Required | Additional Validation                          |
-|------------------|-----------|----------|------------------------------------------------|
-| teacher_username | string    | True     | Must be a username ascribed to a teacher       |
-| class_name       | string    | True     | No                                             |
-| hour             | integer   | True     | Teacher must not have other class at this hour |
+| Variable         | Data Type | Required | Additional Validation                                |
+|------------------|-----------|----------|------------------------------------------------------|
+| teacher_username | string    | True     | Must be a username ascribed to a teacher             |
+| class_name       | string    | True     | No                                                   |
+| hour             | integer   | True     | Teacher must not have other class at this hour       |
+| room_id          | integer   | True     | Room must not have a class taught in it at this hour |
+
 
 
 ### <br>Expected Response:<br>
